@@ -375,10 +375,15 @@ footer {
   main { padding: 0 12px 3rem; }
   .qa-header { padding: 12px; gap: 10px; }
   .q-badge { min-width: 36px; height: 36px; font-size: 10px; }
-  .q-info h3 { font-size: 0.82rem; }
+  .q-info h3 { font-size: 0.97rem; }
   .qa-body { padding: 0 12px 12px; }
-  .qa-body p { font-size: 12px; }
+  .qa-body p { font-size: 15px; }
+  .qa-body table { font-size: 14px; }
+  .qa-body th { font-size: 13px; }
+  .qa-body td { font-size: 14px; }
+  .year-tag, .cat-tag { font-size: 12px; }
   .diagram-wrap { padding: 10px; }
+  #result-info { font-size: 14px; }
 }
 
 @media (min-width: 640px) {
@@ -424,9 +429,9 @@ footer {
 
 <div class="hero">
   <h1>Complete <span>E-Commerce</span><br>Q&amp;A Guide</h1>
-  <p>All exam questions with full answers, diagrams, and tables. Click any card to read.</p>
+  <p>All exam questions with full answers, diagrams, and tables — including Chapter 2: Web Security. Click any card to read.</p>
   <div class="stats-row">
-    <div class="stat-pill"><strong>26</strong>Questions</div>
+    <div class="stat-pill"><strong>35</strong>Questions</div>
     <div class="stat-pill"><strong>2010–2023</strong>Exam Years</div>
     <div class="stat-pill"><strong>5</strong>Topics</div>
   </div>
@@ -437,7 +442,7 @@ footer {
   <div id="list"></div>
 </main>
 
-<footer>E-Commerce Study Guide &nbsp;·&nbsp; All questions sourced from past exams 2010–2023</footer>
+<footer>E-Commerce Study Guide &nbsp;·&nbsp; All questions sourced from past exams 2010–2024 · Ch. 1 E-Commerce + Ch. 2 Web Security</footer>
 
 <script>
 const QA = [
@@ -1134,6 +1139,191 @@ body:`<p><strong>E-Commerce marketing</strong> is the process of promoting your 
 <tr><td><strong>3. Choose marketing channels</strong></td><td>Facebook ads, Google SEO, email newsletters, influencer posts, or content blogs.</td></tr>
 <tr><td><strong>4. Set a budget</strong></td><td>Allocate spending per channel and set a total monthly marketing budget.</td></tr>
 <tr><td><strong>5. Measure and improve</strong></td><td>Track KPIs (clicks, conversions, revenue) and adjust what is not working.</td></tr>
+</table>`},
+
+{id:'27', years:'2024', tags:['security','definition'],
+q:'Define Cryptography. What does it ensure?',
+body:`<p><strong>Cryptography</strong> is the technique of protecting information by converting it into a secret code so that only authorized users can read it.</p>
+<p>It ensures three core security properties:</p>
+<table><tr><th>Property</th><th>Meaning</th></tr>
+<tr><td><strong>Confidentiality</strong></td><td>Only the intended recipient can read the data.</td></tr>
+<tr><td><strong>Integrity</strong></td><td>Data has not been altered or tampered with during transmission.</td></tr>
+<tr><td><strong>Authentication</strong></td><td>The identity of the sender or receiver is verified.</td></tr>
+</table>`},
+
+{id:'28', years:'2024', tags:['security'],
+q:'How does Public Key Cryptography solve the problems of Private Key (Symmetric) cryptography?',
+body:`<p><strong>Problem of Private Key (Symmetric) Cryptography:</strong></p>
+<table><tr><th>Issue</th><th>Explanation</th></tr>
+<tr><td>Same key for both sides</td><td>The same key is used for both encryption and decryption.</td></tr>
+<tr><td>Insecure key sharing</td><td>If you share the key with someone, it could be intercepted — exposing all messages.</td></tr>
+</table>
+<p><strong>Solution — Public Key (Asymmetric) Cryptography:</strong></p>
+<p>Public key cryptography uses <strong>two keys</strong> instead of one:</p>
+<table><tr><th>Key</th><th>Who has it</th><th>Purpose</th></tr>
+<tr><td><strong>Public Key</strong></td><td>Shared openly with anyone</td><td>Used to encrypt the message</td></tr>
+<tr><td><strong>Private Key</strong></td><td>Kept secret by the owner</td><td>Used to decrypt the message</td></tr>
+</table>
+<p>Since the private key never leaves the owner, there is no need to share a secret key over the network — making the system far more secure.</p>`},
+
+{id:'29', years:'2024', tags:['security','definition'],
+q:'What is Encryption? Explain the basic concept.',
+body:`<p><strong>Encryption</strong> is the process of converting plain (readable) text into unreadable text called <strong>cipher text</strong>, so that only an authorized party with the correct key can decode it.</p>
+<p><strong>Example:</strong> <code>HELLO</code> → (encrypted) → <code>XZ@#12</code></p>
+<div class="diagram-wrap">
+<svg viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
+  <defs>
+    <marker id="encArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#6c63ff"/>
+    </marker>
+    <marker id="decArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#00d4aa"/>
+    </marker>
+  </defs>
+  <rect x="10" y="25" width="110" height="50" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="65" y="48" text-anchor="middle" fill="#a09aff" font-size="11" font-weight="700">Plain Text</text>
+  <text x="65" y="64" text-anchor="middle" fill="#8888aa" font-size="10">HELLO</text>
+  <path d="M122 50 L168 50" stroke="#6c63ff" stroke-width="1.5" marker-end="url(#encArr)"/>
+  <text x="145" y="43" text-anchor="middle" fill="#6c63ff" font-size="9">+ Key</text>
+  <rect x="170" y="15" width="130" height="70" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
+  <text x="235" y="46" text-anchor="middle" fill="#ffd166" font-size="11" font-weight="700">Encryption</text>
+  <text x="235" y="62" text-anchor="middle" fill="#8888aa" font-size="10">Algorithm + Key</text>
+  <path d="M302 50 L348 50" stroke="#ffd166" stroke-width="1.5" marker-end="url(#encArr)"/>
+  <rect x="350" y="25" width="110" height="50" rx="8" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1.5"/>
+  <text x="405" y="48" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="700">Cipher Text</text>
+  <text x="405" y="64" text-anchor="middle" fill="#8888aa" font-size="10">XZ@#12</text>
+  <path d="M462 50 L490 50" stroke="#00d4aa" stroke-width="1.5" marker-end="url(#decArr)"/>
+  <text x="500" y="43" text-anchor="middle" fill="#00d4aa" font-size="9">Decrypt</text>
+  <rect x="492" y="25" width="100" height="50" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
+  <text x="542" y="48" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Original</text>
+  <text x="542" y="64" text-anchor="middle" fill="#8888aa" font-size="10">HELLO</text>
+</svg>
+<div class="diagram-label">Basic encryption and decryption process</div>
+</div>`},
+
+{id:'30', years:'2024', tags:['security','definition'],
+q:'What is a Digital Signature? How does it work and how does it differ from a Digital Certificate?',
+body:`<p>A <strong>digital signature</strong> is an electronic method used to verify the identity of the sender and ensure the message has not been tampered with.</p>
+<p><strong>How it works:</strong></p>
+<table><tr><th>Step</th><th>Action</th></tr>
+<tr><td>1</td><td>Sender creates a <strong>hash</strong> (unique fingerprint) of the message.</td></tr>
+<tr><td>2</td><td>The hash is <strong>encrypted using the sender's private key</strong> — this creates the signature.</td></tr>
+<tr><td>3</td><td>Receiver <strong>decrypts the signature using the sender's public key</strong>.</td></tr>
+<tr><td>4</td><td>Receiver computes their own hash of the received message and <strong>compares both hashes</strong> — if they match, the message is authentic.</td></tr>
+</table>
+<div class="diagram-wrap">
+<svg viewBox="0 0 600 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
+  <defs>
+    <marker id="dsArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10z" fill="#6c63ff"/>
+    </marker>
+  </defs>
+  <rect x="10" y="40" width="90" height="50" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="55" y="62" text-anchor="middle" fill="#a09aff" font-size="11" font-weight="700">Message</text>
+  <path d="M102 65 L130 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
+  <rect x="132" y="40" width="80" height="50" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
+  <text x="172" y="62" text-anchor="middle" fill="#ffd166" font-size="11" font-weight="700">Hash</text>
+  <text x="172" y="78" text-anchor="middle" fill="#8888aa" font-size="9">fingerprint</text>
+  <path d="M214 65 L242 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
+  <rect x="244" y="25" width="110" height="80" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.5"/>
+  <text x="299" y="55" text-anchor="middle" fill="#fd79a8" font-size="11" font-weight="700">Encrypt</text>
+  <text x="299" y="71" text-anchor="middle" fill="#8888aa" font-size="9">Private Key</text>
+  <text x="299" y="87" text-anchor="middle" fill="#fd79a8" font-size="10">→ Signature</text>
+  <path d="M356 65 L384 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
+  <rect x="386" y="25" width="110" height="80" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
+  <text x="441" y="55" text-anchor="middle" fill="#00d4aa" font-size="11" font-weight="700">Decrypt</text>
+  <text x="441" y="71" text-anchor="middle" fill="#8888aa" font-size="9">Public Key</text>
+  <text x="441" y="87" text-anchor="middle" fill="#00d4aa" font-size="10">→ Verify Hash</text>
+  <path d="M498 65 L526 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
+  <rect x="528" y="40" width="62" height="50" rx="8" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.5"/>
+  <text x="559" y="62" text-anchor="middle" fill="#81ecec" font-size="11" font-weight="700">✓ Auth</text>
+  <text x="559" y="78" text-anchor="middle" fill="#8888aa" font-size="9">verified</text>
+</svg>
+<div class="diagram-label">Digital signature: Message → Hash → Encrypt (Private Key) → Decrypt (Public Key) → Verify</div>
+</div>
+<p><strong>Difference between Digital Signature and Digital Certificate:</strong></p>
+<table><tr><th>Digital Signature</th><th>Digital Certificate</th></tr>
+<tr><td>Verifies the <strong>sender</strong> of a message</td><td>Verifies the <strong>identity</strong> of a person or website</td></tr>
+<tr><td>Created using the sender's <strong>private key</strong></td><td>Issued by a trusted <strong>Certificate Authority (CA)</strong></td></tr>
+<tr><td>Ensures message integrity</td><td>Ensures the public key truly belongs to a person/entity</td></tr>
+</table>`},
+
+{id:'31', years:'2024', tags:['security'],
+q:'What is Public Key and Private Key Encryption? What are the advantages and disadvantages of Public Key Cryptography?',
+body:`<p>Public key cryptography uses a <strong>pair of mathematically linked keys</strong>:</p>
+<table><tr><th>Key</th><th>Role</th><th>Shared?</th></tr>
+<tr><td><strong>Public Key</strong></td><td>Used to <strong>encrypt</strong> the message</td><td>Yes — given to anyone</td></tr>
+<tr><td><strong>Private Key</strong></td><td>Used to <strong>decrypt</strong> the message</td><td>No — kept secret by owner</td></tr>
+</table>
+<p>They work in pairs: what one key encrypts, only the other can decrypt.</p>
+<p><strong>Advantages:</strong></p>
+<table><tr><th>✔ Advantage</th><th>Detail</th></tr>
+<tr><td>Secure key exchange</td><td>No need to send a secret key over the network — the public key can travel freely.</td></tr>
+<tr><td>No shared secret</td><td>Eliminates the risk of the secret key being stolen during transmission.</td></tr>
+<tr><td>Digital signatures</td><td>Supports signing and verifying messages to prove authenticity.</td></tr>
+</table>
+<p><strong>Disadvantages:</strong></p>
+<table><tr><th>✗ Disadvantage</th><th>Detail</th></tr>
+<tr><td>Slower speed</td><td>Asymmetric encryption is computationally heavier than symmetric encryption.</td></tr>
+<tr><td>More complex</td><td>Key management, certificate authorities, and infrastructure add complexity.</td></tr>
+</table>`},
+
+{id:'32', years:'2024', tags:['security','definition'],
+q:'What is a Firewall? Why is it important for e-commerce?',
+body:`<p>A <strong>firewall</strong> is a security system — either hardware, software, or both — that monitors and controls incoming and outgoing network traffic based on pre-defined security rules.</p>
+<p>Think of it as a security guard that checks every packet of data trying to enter or leave your network.</p>
+<table><tr><th>Importance</th><th>Explanation</th></tr>
+<tr><td><strong>Prevents unauthorized access</strong></td><td>Blocks unknown users or IP addresses from reaching internal systems.</td></tr>
+<tr><td><strong>Protects customer data</strong></td><td>Stops attackers from stealing payment details, addresses, and personal information.</td></tr>
+<tr><td><strong>Blocks hackers and malware</strong></td><td>Filters malicious traffic before it reaches the web server.</td></tr>
+<tr><td><strong>Ensures availability</strong></td><td>Helps defend against DDoS (Distributed Denial of Service) attacks that try to crash the site.</td></tr>
+</table>`},
+
+{id:'33', years:'2024', tags:['security'],
+q:'Compare Symmetric and Asymmetric Cryptography.',
+body:`<table><tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr>
+<tr><td><strong>Keys used</strong></td><td>One shared key for both encrypt &amp; decrypt</td><td>Two keys: public (encrypt) + private (decrypt)</td></tr>
+<tr><td><strong>Speed</strong></td><td>Faster — less computation</td><td>Slower — more computation</td></tr>
+<tr><td><strong>Security</strong></td><td>Less secure — key must be shared</td><td>More secure — private key never shared</td></tr>
+<tr><td><strong>Key distribution</strong></td><td>Difficult — sharing secret key is risky</td><td>Easy — public key can be shared freely</td></tr>
+<tr><td><strong>Example algorithms</strong></td><td>AES, DES</td><td>RSA, ECC</td></tr>
+<tr><td><strong>Use case</strong></td><td>Encrypting large data quickly</td><td>Secure key exchange, digital signatures</td></tr>
+</table>`},
+
+{id:'34', years:'2024', tags:['security'],
+q:'What is the RSA Algorithm? What are the security threats in e-commerce?',
+body:`<p><strong>RSA Algorithm:</strong> RSA (Rivest–Shamir–Adleman) is a widely used public key encryption method. It relies on the mathematical difficulty of factoring the product of two very large prime numbers.</p>
+<table><tr><th>Step</th><th>What happens</th></tr>
+<tr><td><strong>Key Generation</strong></td><td>Two large prime numbers are multiplied to form the key base. A public and private key pair is generated from these numbers.</td></tr>
+<tr><td><strong>Encryption</strong></td><td>The message is encrypted using the recipient's <strong>public key</strong>.</td></tr>
+<tr><td><strong>Decryption</strong></td><td>Only the recipient's <strong>private key</strong> can decrypt the message.</td></tr>
+</table>
+<p>RSA is used in HTTPS, email security, and digital signatures.</p>
+<p><strong>Security Threats in E-Commerce:</strong></p>
+<table><tr><th>Threat</th><th>Description</th></tr>
+<tr><td><strong>Hacking</strong></td><td>Unauthorized access to the website or database to steal data.</td></tr>
+<tr><td><strong>Phishing</strong></td><td>Fake websites or emails trick users into revealing passwords or card details.</td></tr>
+<tr><td><strong>Malware</strong></td><td>Malicious software installed on a user's device to steal information.</td></tr>
+<tr><td><strong>Data theft</strong></td><td>Interception of customer data during transmission.</td></tr>
+<tr><td><strong>Identity theft</strong></td><td>Fraudsters steal personal information to make purchases or open accounts.</td></tr>
+</table>`},
+
+{id:'35', years:'2024', tags:['security'],
+q:'What technologies are used for e-commerce security? What are the challenges of web security?',
+body:`<p><strong>Technologies for E-Commerce Security:</strong></p>
+<table><tr><th>Technology</th><th>Purpose</th></tr>
+<tr><td><strong>SSL/TLS</strong></td><td>Encrypts data between the browser and the server (the "HTTPS" padlock).</td></tr>
+<tr><td><strong>Encryption</strong></td><td>Converts sensitive data (like card numbers) into unreadable cipher text.</td></tr>
+<tr><td><strong>Firewalls</strong></td><td>Filter malicious traffic and block unauthorized access attempts.</td></tr>
+<tr><td><strong>Digital Signatures</strong></td><td>Verify the authenticity of transactions and communications.</td></tr>
+<tr><td><strong>Authentication Systems</strong></td><td>Two-factor authentication (2FA) and CAPTCHA prevent unauthorized logins.</td></tr>
+</table>
+<p><strong>Challenges of Web Security:</strong></p>
+<table><tr><th>Challenge</th><th>Explanation</th></tr>
+<tr><td><strong>Increasing cyber attacks</strong></td><td>Attacks are growing in volume and sophistication every year.</td></tr>
+<tr><td><strong>Weak passwords</strong></td><td>Users often choose easy passwords that are simple for hackers to guess.</td></tr>
+<tr><td><strong>Lack of awareness</strong></td><td>Many users and small businesses do not know how to protect themselves.</td></tr>
+<tr><td><strong>System vulnerabilities</strong></td><td>Outdated software and unpatched systems are easy targets for attackers.</td></tr>
 </table>`},
 
 {id:'26', years:'2023', tags:['security','definition'],
