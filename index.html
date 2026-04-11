@@ -6,534 +6,545 @@
 <title>E-Commerce — Complete Q&A</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════ */
 :root {
-  --bg: #0a0a0f;
-  --surface: #13131a;
-  --surface2: #1c1c26;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --accent: #6c63ff;
-  --accent2: #00d4aa;
-  --accent3: #ff6b6b;
-  --accent4: #ffd166;
-  --text: #f0f0f8;
-  --muted: #8888aa;
-  --card-r: 14px;
+  --bg:       #08080f;
+  --surface:  #111118;
+  --surface2: #18181f;
+  --surface3: #202028;
+  --border:   rgba(255,255,255,0.06);
+  --border2:  rgba(255,255,255,0.11);
+  --border3:  rgba(255,255,255,0.18);
+  --accent:   #7c6dfa;
+  --accent2:  #00cba9;
+  --accent3:  #ff6b6b;
+  --accent4:  #ffd166;
+  --text:     #eeeef8;
+  --text2:    #c4c4dc;
+  --muted:    #7878a0;
+  --r:        16px;
+  --r-sm:     10px;
+  --ease:     cubic-bezier(.4,0,.2,1);
+  --shadow:   0 8px 32px rgba(0,0,0,0.4);
 }
+
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: 17px;
+  line-height: 1.75;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ── BACKGROUND GLOW ── */
+/* ════════════════════════════════════════
+   AMBIENT GLOW
+════════════════════════════════════════ */
 body::before {
   content: '';
-  position: fixed;
-  top: -200px; left: 50%;
+  position: fixed; top: -300px; left: 50%;
   transform: translateX(-50%);
-  width: min(800px, 100vw); height: 500px;
-  background: radial-gradient(ellipse, rgba(108,99,255,0.12) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  width: min(900px, 100vw); height: 600px;
+  background: radial-gradient(ellipse, rgba(124,109,250,0.1) 0%, transparent 68%);
+  pointer-events: none; z-index: 0;
 }
 
-/* ── HEADER ── */
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
 .site-header {
-  position: sticky; top: 0; z-index: 100;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(10,10,15,0.92);
-  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 200;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(8,8,15,0.88);
+  border-bottom: 1px solid var(--border2);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03);
 }
 .header-inner {
-  max-width: 1000px; margin: 0 auto;
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px;
+  max-width: 1020px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px;
   flex-wrap: wrap;
 }
 .logo {
   font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 1rem;
-  letter-spacing: -0.02em;
+  font-weight: 800; font-size: 1.05rem;
+  letter-spacing: -0.03em;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
-  white-space: nowrap;
-  flex-shrink: 0;
+  white-space: nowrap; flex-shrink: 0;
 }
-.search-wrap {
-  flex: 1; min-width: 150px;
-  position: relative;
-}
+
+/* Search */
+.search-wrap { flex: 1; min-width: 140px; position: relative; }
 .search-wrap svg {
-  position: absolute; left: 10px; top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.4; flex-shrink: 0;
+  position: absolute; left: 11px; top: 50%;
+  transform: translateY(-50%); opacity: 0.35; pointer-events: none;
 }
 #search {
   width: 100%;
   background: var(--surface2);
   border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 9px 12px 9px 34px;
+  border-radius: var(--r-sm);
+  padding: 10px 14px 10px 36px;
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
   -webkit-appearance: none;
 }
-#search:focus { border-color: var(--accent); }
+#search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124,109,250,0.15);
+}
 #search::placeholder { color: var(--muted); }
 
-/* ── CHAPTER NAV TABS ── */
+/* ── Chapter tabs ── */
 .chapter-tabs {
   width: 100%;
-  display: flex;
-  gap: 4px;
-  margin-bottom: 6px;
+  display: flex; gap: 5px;
+  margin-bottom: 7px;
 }
 .chtab {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px; font-weight: 600;
-  padding: 5px 14px;
+  font-size: 13px; font-weight: 600;
+  padding: 6px 16px;
   border-radius: 8px;
   border: 1px solid var(--border2);
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all .22s var(--ease);
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  letter-spacing: 0.02em;
 }
-.chtab:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
-.chtab.active-ch1 { background: rgba(108,99,255,0.2); border-color: var(--accent); color: #a09aff; }
-.chtab.active-ch2 { background: rgba(255,107,107,0.15); border-color: var(--accent3); color: #ff9898; }
-.chtab.active-all { background: rgba(0,212,170,0.12); border-color: var(--accent2); color: var(--accent2); }
+.chtab:active { transform: scale(0.96); }
+.chtab.active-all  { background: rgba(0,203,169,0.12); border-color: var(--accent2); color: var(--accent2); }
+.chtab.active-ch1  { background: rgba(124,109,250,0.18); border-color: var(--accent); color: #b0a8ff; }
+.chtab.active-ch2  { background: rgba(255,107,107,0.13); border-color: var(--accent3); color: #ff9494; }
 
-/* ── CHAPTER DIVIDER ── */
-.chapter-divider {
-  display: flex; align-items: center; gap: 12px;
-  margin: 1.5rem 0 0.75rem;
-}
-.chapter-divider-line { flex: 1; height: 1px; background: var(--border2); }
-.chapter-divider-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 4px 14px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.chapter-divider.ch1 .chapter-divider-label {
-  background: rgba(108,99,255,0.15);
-  border: 1px solid rgba(108,99,255,0.35);
-  color: #a09aff;
-}
-.chapter-divider.ch2 .chapter-divider-label {
-  background: rgba(255,107,107,0.12);
-  border: 1px solid rgba(255,107,107,0.35);
-  color: #ff9898;
-}
-
-/* Filter row — horizontal scroll on small screens */
+/* ── Topic filter pills ── */
 .filter-row {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 2px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; padding-bottom: 2px;
 }
 .filter-row::-webkit-scrollbar { display: none; }
-.filters {
-  display: flex; gap: 6px;
-  width: max-content;
-}
+.filters { display: flex; gap: 6px; width: max-content; }
 .fbtn {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px; font-weight: 500;
-  padding: 5px 12px;
+  font-size: 13px; font-weight: 500;
+  padding: 6px 14px;
   border: 1px solid var(--border2);
   border-radius: 20px;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all .22s var(--ease);
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.fbtn:hover, .fbtn:active { color: var(--text); border-color: rgba(255,255,255,0.3); }
-.fbtn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+.fbtn:active { transform: scale(0.95); }
+.fbtn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ════════════════════════════════════════
+   CHAPTER DIVIDER
+════════════════════════════════════════ */
+.chapter-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 2rem 0 1rem;
+}
+.chapter-divider-line { flex: 1; height: 1px; background: var(--border2); }
+.chapter-divider-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 16px; border-radius: 20px; white-space: nowrap;
+}
+.chapter-divider.ch1 .chapter-divider-label {
+  background: rgba(124,109,250,0.13);
+  border: 1px solid rgba(124,109,250,0.3);
+  color: #b0a8ff;
+}
+.chapter-divider.ch2 .chapter-divider-label {
+  background: rgba(255,107,107,0.1);
+  border: 1px solid rgba(255,107,107,0.3);
+  color: #ff9494;
 }
 
-/* ── BOOKMARK BUTTON ── */
-.bm-btn {
-  flex-shrink: 0;
-  background: none; border: none;
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 6px;
-  color: var(--muted);
-  font-size: 18px;
-  line-height: 1;
-  transition: color 0.2s, background 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.bm-btn:hover { background: rgba(255,209,102,0.1); }
-.bm-btn.bookmarked { color: var(--accent4); }
-
-/* ── BOOKMARK TOAST ── */
-#bm-toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  color: var(--text);
-  font-size: 14px;
-  padding: 10px 20px;
-  border-radius: 30px;
-  z-index: 999;
-  transition: transform 0.3s ease, opacity 0.3s;
-  opacity: 0;
-  pointer-events: none;
-  white-space: nowrap;
-}
-#bm-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-/* ── LAST READ BANNER ── */
+/* ════════════════════════════════════════
+   LAST READ BANNER
+════════════════════════════════════════ */
 #last-read-banner {
   display: none;
-  max-width: 1000px; margin: 0 auto 0.5rem;
-  padding: 0 16px;
+  max-width: 1020px; margin: 0 auto;
+  padding: 10px 20px 0;
   position: relative; z-index: 1;
 }
 .last-read-inner {
-  background: rgba(108,99,255,0.1);
-  border: 1px solid rgba(108,99,255,0.3);
-  border-radius: 12px;
-  padding: 10px 16px;
-  display: flex; align-items: center; gap: 10px;
+  background: rgba(124,109,250,0.09);
+  border: 1px solid rgba(124,109,250,0.25);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  display: flex; align-items: center; gap: 12px;
   font-size: 14px;
+  animation: fadeSlideDown .35s var(--ease);
 }
-.last-read-inner span { flex: 1; color: #c8c8e0; }
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.last-read-inner span { flex: 1; color: var(--text2); line-height: 1.4; }
 .last-read-inner strong { color: var(--accent); }
 .last-read-btn {
-  background: var(--accent);
-  border: none; color: #fff;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px; font-weight: 600;
-  padding: 6px 14px; border-radius: 8px;
-  cursor: pointer;
+  background: var(--accent); border: none; color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 7px 16px; border-radius: 8px; cursor: pointer;
+  transition: opacity .2s; white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  white-space: nowrap;
 }
+.last-read-btn:active { opacity: 0.8; }
 .last-read-close {
-  background: none; border: none;
-  color: var(--muted); font-size: 18px;
-  cursor: pointer; padding: 0 4px;
+  background: none; border: none; color: var(--muted);
+  font-size: 20px; line-height: 1; cursor: pointer; padding: 0 2px;
   -webkit-tap-highlight-color: transparent;
+  transition: color .2s;
 }
+.last-read-close:hover { color: var(--text); }
 
-/* ── HERO ── */
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+#bm-toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--surface3);
+  border: 1px solid var(--border3);
+  color: var(--text);
+  font-size: 14px; font-weight: 500;
+  padding: 11px 22px; border-radius: 30px;
+  z-index: 9999;
+  transition: transform .35s var(--ease), opacity .35s var(--ease);
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+#bm-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
 .hero {
-  max-width: 1000px; margin: 0 auto;
-  padding: 2rem 16px 1.5rem;
+  max-width: 1020px; margin: 0 auto;
+  padding: 2.25rem 20px 1.75rem;
   position: relative; z-index: 1;
 }
 .hero h1 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.6rem, 6vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 0.6rem;
+  font-size: clamp(1.75rem, 6vw, 3.2rem);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.1;
+  margin-bottom: 0.7rem;
 }
 .hero h1 span {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.hero p { color: var(--muted); font-size: 0.9rem; }
-.stats-row {
-  display: flex; gap: 10px; margin-top: 1.25rem;
-  flex-wrap: wrap;
-}
+.hero p { color: var(--muted); font-size: 1rem; }
+.stats-row { display: flex; gap: 10px; margin-top: 1.4rem; flex-wrap: wrap; }
 .stat-pill {
   background: var(--surface);
   border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-size: 12px;
-  flex: 1; min-width: 80px;
+  border-radius: var(--r-sm);
+  padding: 10px 16px;
+  font-size: 13px; flex: 1; min-width: 80px;
 }
 .stat-pill strong {
   font-family: 'Syne', sans-serif;
-  font-size: 1.2rem; font-weight: 700;
-  display: block;
+  font-size: 1.35rem; font-weight: 700; display: block;
   background: linear-gradient(135deg, var(--accent2), var(--accent));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ── MAIN ── */
+/* ════════════════════════════════════════
+   MAIN / RESULT INFO
+════════════════════════════════════════ */
 main {
-  max-width: 1000px; margin: 0 auto;
-  padding: 0 16px 4rem;
+  max-width: 1020px; margin: 0 auto;
+  padding: 0 20px 5rem;
   position: relative; z-index: 1;
 }
 #result-info {
-  font-size: 12px; color: var(--muted);
+  font-size: 13px; color: var(--muted);
   margin-bottom: 1rem;
 }
 
-/* ── CARDS ── */
+/* ════════════════════════════════════════
+   Q&A CARDS
+════════════════════════════════════════ */
 .qa-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--card-r);
-  margin-bottom: 8px;
+  border-radius: var(--r);
+  margin-bottom: 10px;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color .25s var(--ease), box-shadow .25s var(--ease), transform .15s var(--ease);
+  will-change: transform;
 }
-.qa-card:hover {
-  border-color: var(--border2);
-  box-shadow: 0 4px 24px rgba(108,99,255,0.08);
-}
+.qa-card:hover { border-color: var(--border3); box-shadow: 0 6px 28px rgba(0,0,0,0.35); }
 .qa-card.open {
-  border-color: rgba(108,99,255,0.35);
-  box-shadow: 0 4px 24px rgba(108,99,255,0.12);
+  border-color: rgba(124,109,250,0.38);
+  box-shadow: 0 6px 32px rgba(124,109,250,0.12);
 }
 .qa-header {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 14px;
-  cursor: pointer;
-  user-select: none;
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px;
+  cursor: pointer; user-select: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
+.qa-header:active { background: rgba(255,255,255,0.02); }
+
+/* Q badge */
 .q-badge {
   flex-shrink: 0;
-  min-width: 40px; height: 40px;
-  border-radius: 8px;
+  min-width: 44px; height: 44px;
+  border-radius: 10px;
   background: var(--surface2);
   border: 1px solid var(--border2);
   display: flex; align-items: center; justify-content: center;
   font-family: 'Syne', sans-serif;
-  font-weight: 700; font-size: 11px;
+  font-weight: 700; font-size: 12px;
   color: var(--muted);
+  transition: all .25s var(--ease);
 }
 .qa-card.open .q-badge {
-  background: rgba(108,99,255,0.15);
-  border-color: rgba(108,99,255,0.4);
+  background: rgba(124,109,250,0.18);
+  border-color: rgba(124,109,250,0.45);
   color: var(--accent);
 }
+
+/* Question text */
 .q-info { flex: 1; min-width: 0; }
 .q-info h3 {
   font-family: 'Syne', sans-serif;
-  font-weight: 600; font-size: 1rem;
-  line-height: 1.45; margin-bottom: 5px;
+  font-weight: 600; font-size: 1.05rem;
+  line-height: 1.45; margin-bottom: 7px;
   word-break: break-word;
 }
-.q-meta {
-  display: flex; gap: 5px; flex-wrap: wrap; align-items: center;
-}
+.q-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .year-tag {
-  font-size: 10px;
-  color: var(--muted);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 2px 7px;
+  font-size: 11px; color: var(--muted);
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 2px 8px;
 }
 .cat-tag {
-  font-size: 10px;
-  border-radius: 5px;
-  padding: 2px 7px;
-  font-weight: 500;
+  font-size: 11px; border-radius: 6px;
+  padding: 2px 8px; font-weight: 600;
 }
-.cat-tag.definition { background: rgba(0,212,170,0.12); color: var(--accent2); }
-.cat-tag.models { background: rgba(108,99,255,0.12); color: #a09aff; }
-.cat-tag.security { background: rgba(255,107,107,0.12); color: var(--accent3); }
-.cat-tag.marketing { background: rgba(255,209,102,0.12); color: var(--accent4); }
+.cat-tag.definition { background: rgba(0,203,169,0.12); color: var(--accent2); }
+.cat-tag.models     { background: rgba(124,109,250,0.12); color: #b0a8ff; }
+.cat-tag.security   { background: rgba(255,107,107,0.12); color: var(--accent3); }
+.cat-tag.marketing  { background: rgba(255,209,102,0.12); color: var(--accent4); }
 .cat-tag.governance { background: rgba(129,236,236,0.12); color: #81ecec; }
-.q-chevron {
+
+/* Bookmark button */
+.bm-btn {
   flex-shrink: 0;
-  font-size: 15px;
+  background: none; border: none; cursor: pointer;
+  padding: 6px 8px; border-radius: 8px;
+  font-size: 20px; line-height: 1;
   color: var(--muted);
-  margin-top: 3px;
-  transition: transform 0.25s;
+  transition: color .2s, background .2s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  opacity: 0.5;
+}
+.bm-btn:hover { background: rgba(255,209,102,0.1); opacity: 1; }
+.bm-btn.bookmarked { color: var(--accent4); opacity: 1; }
+.bm-btn:active { transform: scale(0.88); }
+
+/* Chevron */
+.q-chevron {
+  flex-shrink: 0; font-size: 18px; color: var(--muted);
+  margin-top: 5px;
+  transition: transform .3s var(--ease), color .2s;
 }
 .qa-card.open .q-chevron { transform: rotate(180deg); color: var(--accent); }
 
-/* ── BODY ── */
+/* ════════════════════════════════════════
+   ANSWER BODY
+════════════════════════════════════════ */
 .qa-body {
-  display: none;
-  padding: 0 14px 14px;
-  border-top: 1px solid var(--border);
-  animation: slideDown 0.2s ease;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .45s var(--ease), opacity .35s var(--ease);
+  opacity: 0;
+  border-top: 1px solid transparent;
 }
-.qa-card.open .qa-body { display: block; }
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+.qa-card.open .qa-body {
+  max-height: 9999px;
+  opacity: 1;
+  border-top-color: var(--border);
 }
+.qa-body-inner { padding: 4px 18px 20px; }
+
 .qa-body p {
-  color: #c8c8e0;
-  font-size: 17px;
+  color: var(--text2);
+  font-size: 1.08rem;
   line-height: 1.85;
-  margin: 0.9rem 0 0.4rem;
+  margin: 1rem 0 0.5rem;
   word-break: break-word;
 }
-.qa-body p strong { color: var(--text); font-weight: 500; }
+.qa-body p strong { color: var(--text); font-weight: 600; }
+.qa-body p:first-child { margin-top: 0.75rem; }
 
-/* ── TABLES — scroll on mobile ── */
+/* ════════════════════════════════════════
+   TABLES
+════════════════════════════════════════ */
 .table-scroll {
-  width: 100%;
-  overflow-x: auto;
+  width: 100%; overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 0.9rem 0 0.4rem;
-  border-radius: 10px;
+  margin: 1rem 0 0.5rem;
+  border-radius: var(--r-sm);
   border: 1px solid var(--border2);
 }
 .qa-body table {
-  width: 100%;
-  min-width: 340px;
+  width: 100%; min-width: 320px;
   border-collapse: collapse;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .qa-body th {
   text-align: left;
-  padding: 12px 14px;
+  padding: 12px 16px;
   background: var(--surface2);
   color: var(--muted);
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  font-weight: 600; font-size: 0.88rem;
+  letter-spacing: 0.04em; text-transform: uppercase;
   border-bottom: 1px solid var(--border2);
   white-space: nowrap;
 }
 .qa-body td {
-  padding: 11px 14px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--border);
-  color: #c8c8e0;
+  color: var(--text2);
   vertical-align: top;
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 1rem; line-height: 1.65;
 }
 .qa-body tr:last-child td { border-bottom: none; }
-.qa-body td strong { color: #e0e0f0; }
+.qa-body td strong { color: var(--text); font-weight: 600; }
+.qa-body tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
 
-/* ── SVG DIAGRAMS — always scrollable ── */
+/* ════════════════════════════════════════
+   DIAGRAMS  — scroll horizontally, text fits
+════════════════════════════════════════ */
 .diagram-wrap {
-  margin: 0.9rem 0 0.4rem;
+  margin: 1rem 0 0.5rem;
   background: var(--surface2);
   border: 1px solid var(--border2);
-  border-radius: 12px;
-  padding: 20px 16px 14px;
+  border-radius: var(--r);
+  padding: 18px 16px 14px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border3) transparent;
 }
+.diagram-wrap::-webkit-scrollbar { height: 4px; }
+.diagram-wrap::-webkit-scrollbar-track { background: transparent; }
+.diagram-wrap::-webkit-scrollbar-thumb { background: var(--border3); border-radius: 4px; }
+
+/* SVGs keep their natural viewBox size; we just let them scroll */
 .diagram-wrap svg {
   display: block;
-  min-width: 640px;
-  width: 100%;
+  /* Never shrink below viewBox width — so text doesn't squash */
+  min-width: max-content;
+  width: max-content;
   height: auto;
-  font-size: 15px;
 }
 .diagram-label {
-  font-size: 14px;
-  color: var(--muted);
-  text-align: center;
-  margin-top: 10px;
+  font-size: 13px; color: var(--muted);
+  text-align: center; margin-top: 10px;
+  font-style: italic;
 }
 
-/* ── HIGHLIGHT ── */
+/* ════════════════════════════════════════
+   SEARCH HIGHLIGHT
+════════════════════════════════════════ */
 mark {
-  background: rgba(255,209,102,0.28);
-  color: inherit;
-  border-radius: 2px;
-  padding: 0 2px;
+  background: rgba(255,209,102,0.25);
+  color: inherit; border-radius: 3px; padding: 1px 3px;
 }
 
-/* ── NO RESULTS ── */
+/* ════════════════════════════════════════
+   NO RESULTS
+════════════════════════════════════════ */
 .no-results {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--muted);
+  text-align: center; padding: 4rem 1rem; color: var(--muted);
 }
-.no-results svg { margin-bottom: 1rem; opacity: 0.3; }
+.no-results svg { margin-bottom: 1rem; opacity: 0.25; }
 
-/* ── FOOTER ── */
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
 footer {
-  text-align: center;
-  padding: 1.5rem 1rem;
-  color: var(--muted);
-  font-size: 12px;
+  text-align: center; padding: 1.75rem 1rem;
+  color: var(--muted); font-size: 13px;
   border-top: 1px solid var(--border);
 }
 
-/* ── RESPONSIVE BREAKPOINTS ── */
-@media (max-width: 480px) {
-  .header-inner { gap: 8px; padding: 8px 12px; }
-  .logo { font-size: 1.1rem; }
-  #search { font-size: 16px; /* prevents iOS zoom */ padding: 8px 10px 8px 32px; }
-  .hero { padding: 1.5rem 12px 1rem; }
-  .hero h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
-  .hero p { font-size: 1.1rem; }
-  .stats-row { gap: 8px; }
-  .stat-pill { padding: 8px 12px; font-size: 15px; }
-  .stat-pill strong { font-size: 1.5rem; }
-  main { padding: 0 12px 3rem; }
-  .qa-header { padding: 16px 14px; gap: 12px; }
-  .q-badge { min-width: 48px; height: 48px; font-size: 13px; }
-  .q-info h3 { font-size: 1.15rem; line-height: 1.5; }
-  .q-meta { margin-top: 6px; }
-  .year-tag, .cat-tag { font-size: 14px; padding: 4px 10px; }
-  .qa-body { padding: 0 14px 18px; }
-  .qa-body p { font-size: 1.1rem; line-height: 1.9; }
-  .qa-body table { font-size: 1rem; }
-  .qa-body th { font-size: 0.97rem; padding: 12px 14px; }
-  .qa-body td { font-size: 1rem; padding: 12px 14px; line-height: 1.7; }
-  .diagram-wrap { padding: 12px; }
-  .diagram-wrap svg { min-width: 700px; }
-  .diagram-label { font-size: 14px; }
-  #result-info { font-size: 15px; }
-  .q-chevron { font-size: 20px; }
-  footer { font-size: 14px; }
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .header-inner { padding: 10px 14px; gap: 10px; }
+  .logo { font-size: 0.95rem; }
+  #search { font-size: 16px; padding: 10px 12px 10px 34px; }
+  .chtab { font-size: 12px; padding: 5px 12px; }
+  .fbtn  { font-size: 12px; padding: 5px 11px; }
+  .hero  { padding: 1.75rem 14px 1.25rem; }
+  .hero h1 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .hero p  { font-size: 1rem; }
+  .stat-pill { font-size: 14px; padding: 9px 12px; }
+  .stat-pill strong { font-size: 1.4rem; }
+  main { padding: 0 14px 3.5rem; }
+  .qa-header { padding: 14px 14px; gap: 11px; }
+  .q-badge { min-width: 46px; height: 46px; font-size: 12px; }
+  .q-info h3 { font-size: 1.05rem; }
+  .year-tag, .cat-tag { font-size: 12px; }
+  .bm-btn { font-size: 22px; }
+  .qa-body-inner { padding: 4px 14px 18px; }
+  .qa-body p { font-size: 1.05rem; line-height: 1.85; }
+  .qa-body th { font-size: 0.82rem; padding: 10px 12px; }
+  .qa-body td { font-size: 0.97rem; padding: 11px 12px; }
+  #result-info { font-size: 13px; }
+  .chapter-divider-label { font-size: 11px; }
+  .diagram-label { font-size: 12px; }
 }
 
 @media (min-width: 640px) {
-  .header-inner { padding: 10px 24px; gap: 14px; }
-  .hero { padding: 2.5rem 24px 2rem; }
-  main { padding: 0 24px 4rem; }
-  .qa-header { padding: 1rem 1.25rem; }
-  .qa-body { padding: 0 1.25rem 1.25rem; }
-  .q-info h3 { font-size: 0.93rem; }
-  .qa-body p { font-size: 13.5px; }
-  .qa-body th { font-size: 12px; }
-  .qa-body td { font-size: 13px; }
+  .header-inner { padding: 12px 28px; }
+  .hero { padding: 2.75rem 28px 2rem; }
+  main { padding: 0 28px 5rem; }
+  .qa-header { padding: 18px 22px; }
+  .qa-body-inner { padding: 4px 22px 22px; }
 }
-
 @media (min-width: 900px) {
-  .header-inner { padding: 12px 32px; }
-  .hero { padding: 3rem 32px 2rem; }
-  main { padding: 0 32px 4rem; }
+  .header-inner { padding: 12px 36px; }
+  .hero { padding: 3rem 36px 2.25rem; }
+  main { padding: 0 36px 5rem; }
 }
 </style>
 </head>
@@ -602,26 +613,26 @@ body:`<p>E-Commerce means buying and selling things using the internet. Instead 
 <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- Buyer -->
   <rect x="10" y="40" width="120" height="80" rx="12" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="70" y="68" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">BUYER</text>
-  <text x="70" y="86" text-anchor="middle" fill="#8888aa" font-size="20">Browses online</text>
-  <text x="70" y="102" text-anchor="middle" fill="#8888aa" font-size="20">Places order</text>
+  <text x="70" y="68" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">BUYER</text>
+  <text x="70" y="86" text-anchor="middle" fill="#8888aa" font-size="13">Browses online</text>
+  <text x="70" y="102" text-anchor="middle" fill="#8888aa" font-size="13">Places order</text>
   <!-- Arrow right -->
   <path d="M132 80 L200 80" stroke="#6c63ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr1)"/>
-  <text x="166" y="73" text-anchor="middle" fill="#6c63ff" font-size="20">order</text>
+  <text x="166" y="73" text-anchor="middle" fill="#6c63ff" font-size="13">order</text>
   <!-- Internet -->
   <rect x="202" y="30" width="196" height="100" rx="12" fill="#13131a" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="300" y="62" text-anchor="middle" fill="#00d4aa" font-size="22" font-weight="600">INTERNET</text>
-  <text x="300" y="80" text-anchor="middle" fill="#8888aa" font-size="20">Website / App</text>
-  <text x="300" y="96" text-anchor="middle" fill="#8888aa" font-size="20">Payment Gateway</text>
-  <text x="300" y="112" text-anchor="middle" fill="#8888aa" font-size="20">Order Processing</text>
+  <text x="300" y="62" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">INTERNET</text>
+  <text x="300" y="80" text-anchor="middle" fill="#8888aa" font-size="13">Website / App</text>
+  <text x="300" y="96" text-anchor="middle" fill="#8888aa" font-size="13">Payment Gateway</text>
+  <text x="300" y="112" text-anchor="middle" fill="#8888aa" font-size="13">Order Processing</text>
   <!-- Arrow right -->
   <path d="M400 80 L468 80" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr2)"/>
-  <text x="434" y="73" text-anchor="middle" fill="#00d4aa" font-size="20">deliver</text>
+  <text x="434" y="73" text-anchor="middle" fill="#00d4aa" font-size="13">deliver</text>
   <!-- Seller -->
   <rect x="470" y="40" width="120" height="80" rx="12" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="530" y="68" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">SELLER</text>
-  <text x="530" y="86" text-anchor="middle" fill="#8888aa" font-size="20">Ships product</text>
-  <text x="530" y="102" text-anchor="middle" fill="#8888aa" font-size="20">Receives payment</text>
+  <text x="530" y="68" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">SELLER</text>
+  <text x="530" y="86" text-anchor="middle" fill="#8888aa" font-size="13">Ships product</text>
+  <text x="530" y="102" text-anchor="middle" fill="#8888aa" font-size="13">Receives payment</text>
   <defs>
     <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#6c63ff"/>
@@ -641,36 +652,36 @@ body:`<p>A business model describes <strong>who sells to whom</strong>. The six 
 <svg viewBox="0 0 620 300" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- B2C -->
   <rect x="10" y="10" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="100" y="36" text-anchor="middle" fill="#a09aff" font-size="23" font-weight="700">B2C</text>
-  <text x="100" y="54" text-anchor="middle" fill="#8888aa" font-size="21">Business → Consumer</text>
-  <text x="100" y="72" text-anchor="middle" fill="#6c63ff" font-size="20">Amazon, Daraz, Shajgoj</text>
+  <text x="100" y="36" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">B2C</text>
+  <text x="100" y="54" text-anchor="middle" fill="#8888aa" font-size="13">Business → Consumer</text>
+  <text x="100" y="72" text-anchor="middle" fill="#6c63ff" font-size="13">Amazon, Daraz, Shajgoj</text>
   <!-- B2B -->
   <rect x="220" y="10" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="310" y="36" text-anchor="middle" fill="#00d4aa" font-size="23" font-weight="700">B2B</text>
-  <text x="310" y="54" text-anchor="middle" fill="#8888aa" font-size="21">Business → Business</text>
-  <text x="310" y="72" text-anchor="middle" fill="#00d4aa" font-size="20">Alibaba, wholesale portals</text>
+  <text x="310" y="36" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">B2B</text>
+  <text x="310" y="54" text-anchor="middle" fill="#8888aa" font-size="13">Business → Business</text>
+  <text x="310" y="72" text-anchor="middle" fill="#00d4aa" font-size="13">Alibaba, wholesale portals</text>
   <!-- C2C -->
   <rect x="430" y="10" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="520" y="36" text-anchor="middle" fill="#ff8e8e" font-size="23" font-weight="700">C2C</text>
-  <text x="520" y="54" text-anchor="middle" fill="#8888aa" font-size="21">Consumer → Consumer</text>
-  <text x="520" y="72" text-anchor="middle" fill="#ff6b6b" font-size="20">eBay, OLX, Bikroy</text>
+  <text x="520" y="36" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="700">C2C</text>
+  <text x="520" y="54" text-anchor="middle" fill="#8888aa" font-size="13">Consumer → Consumer</text>
+  <text x="520" y="72" text-anchor="middle" fill="#ff6b6b" font-size="13">eBay, OLX, Bikroy</text>
   <!-- C2B -->
   <rect x="10" y="120" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="100" y="146" text-anchor="middle" fill="#ffd166" font-size="23" font-weight="700">C2B</text>
-  <text x="100" y="164" text-anchor="middle" fill="#8888aa" font-size="21">Consumer → Business</text>
-  <text x="100" y="182" text-anchor="middle" fill="#ffd166" font-size="20">Fiverr, Freelancer</text>
+  <text x="100" y="146" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">C2B</text>
+  <text x="100" y="164" text-anchor="middle" fill="#8888aa" font-size="13">Consumer → Business</text>
+  <text x="100" y="182" text-anchor="middle" fill="#ffd166" font-size="13">Fiverr, Freelancer</text>
   <!-- B2G -->
   <rect x="220" y="120" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.5"/>
-  <text x="310" y="146" text-anchor="middle" fill="#81ecec" font-size="23" font-weight="700">B2G</text>
-  <text x="310" y="164" text-anchor="middle" fill="#8888aa" font-size="21">Business → Government</text>
-  <text x="310" y="182" text-anchor="middle" fill="#81ecec" font-size="20">e-Procurement, tenders</text>
+  <text x="310" y="146" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="700">B2G</text>
+  <text x="310" y="164" text-anchor="middle" fill="#8888aa" font-size="13">Business → Government</text>
+  <text x="310" y="182" text-anchor="middle" fill="#81ecec" font-size="13">e-Procurement, tenders</text>
   <!-- G2C -->
   <rect x="430" y="120" width="180" height="80" rx="10" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.5"/>
-  <text x="520" y="146" text-anchor="middle" fill="#fd79a8" font-size="23" font-weight="700">G2C</text>
-  <text x="520" y="164" text-anchor="middle" fill="#8888aa" font-size="21">Government → Citizen</text>
-  <text x="520" y="182" text-anchor="middle" fill="#fd79a8" font-size="20">Tax, NID, license portals</text>
+  <text x="520" y="146" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="700">G2C</text>
+  <text x="520" y="164" text-anchor="middle" fill="#8888aa" font-size="13">Government → Citizen</text>
+  <text x="520" y="182" text-anchor="middle" fill="#fd79a8" font-size="13">Tax, NID, license portals</text>
   <!-- Legend -->
-  <text x="10" y="240" fill="#5555aa" font-size="21">B = Business &nbsp;&nbsp; C = Consumer &nbsp;&nbsp; G = Government</text>
+  <text x="10" y="240" fill="#5555aa" font-size="13">B = Business &nbsp;&nbsp; C = Consumer &nbsp;&nbsp; G = Government</text>
 </svg>
 <div class="diagram-label">Six e-commerce business models</div>
 </div>
@@ -691,21 +702,21 @@ body:`<p><strong>M-Commerce (Mobile Commerce):</strong> Conducting business usin
 <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- E-Commerce outer -->
   <rect x="10" y="10" width="540" height="160" rx="14" fill="none" stroke="#5555aa" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <text x="290" y="158" text-anchor="middle" fill="#5555aa" font-size="21">E-Commerce (umbrella term)</text>
+  <text x="290" y="158" text-anchor="middle" fill="#5555aa" font-size="13">E-Commerce (umbrella term)</text>
   <!-- M-Commerce -->
   <rect x="30" y="25" width="230" height="110" rx="10" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="145" y="52" text-anchor="middle" fill="#a09aff" font-size="23" font-weight="700">M-Commerce</text>
-  <text x="145" y="72" text-anchor="middle" fill="#8888aa" font-size="21">Uses smartphones &amp; tablets</text>
-  <text x="145" y="90" text-anchor="middle" fill="#8888aa" font-size="21">Works with mobile data</text>
-  <text x="145" y="108" text-anchor="middle" fill="#6c63ff" font-size="20">Pathao, bKash App</text>
-  <text x="145" y="124" text-anchor="middle" fill="#555577" font-size="20">Device-specific</text>
+  <text x="145" y="52" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">M-Commerce</text>
+  <text x="145" y="72" text-anchor="middle" fill="#8888aa" font-size="13">Uses smartphones &amp; tablets</text>
+  <text x="145" y="90" text-anchor="middle" fill="#8888aa" font-size="13">Works with mobile data</text>
+  <text x="145" y="108" text-anchor="middle" fill="#6c63ff" font-size="13">Pathao, bKash App</text>
+  <text x="145" y="124" text-anchor="middle" fill="#555577" font-size="13">Device-specific</text>
   <!-- I-Commerce -->
   <rect x="300" y="25" width="230" height="110" rx="10" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="415" y="52" text-anchor="middle" fill="#00d4aa" font-size="23" font-weight="700">I-Commerce</text>
-  <text x="415" y="72" text-anchor="middle" fill="#8888aa" font-size="21">Uses internet (any device)</text>
-  <text x="415" y="90" text-anchor="middle" fill="#8888aa" font-size="21">Laptop, desktop, phone</text>
-  <text x="415" y="108" text-anchor="middle" fill="#00d4aa" font-size="20">Amazon, Daraz website</text>
-  <text x="415" y="124" text-anchor="middle" fill="#555577" font-size="20">Internet-focused</text>
+  <text x="415" y="52" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">I-Commerce</text>
+  <text x="415" y="72" text-anchor="middle" fill="#8888aa" font-size="13">Uses internet (any device)</text>
+  <text x="415" y="90" text-anchor="middle" fill="#8888aa" font-size="13">Laptop, desktop, phone</text>
+  <text x="415" y="108" text-anchor="middle" fill="#00d4aa" font-size="13">Amazon, Daraz website</text>
+  <text x="415" y="124" text-anchor="middle" fill="#555577" font-size="13">Internet-focused</text>
 </svg>
 <div class="diagram-label">M-Commerce and I-Commerce — both are subsets of E-Commerce</div>
 </div>`},
@@ -739,32 +750,32 @@ body:`<p>Benefits are the same as advantages (see Q03). The <strong>success fact
 <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- Center -->
   <ellipse cx="290" cy="100" rx="60" ry="40" fill="rgba(108,99,255,0.15)" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="290" y="96" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">E-Commerce</text>
-  <text x="290" y="112" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">Success</text>
+  <text x="290" y="96" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">E-Commerce</text>
+  <text x="290" y="112" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">Success</text>
   <!-- Nodes -->
   <rect x="10" y="20" width="120" height="50" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.2"/>
-  <text x="70" y="42" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">Easy Design</text>
-  <text x="70" y="58" text-anchor="middle" fill="#8888aa" font-size="20">Simple, clear UI</text>
+  <text x="70" y="42" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">Easy Design</text>
+  <text x="70" y="58" text-anchor="middle" fill="#8888aa" font-size="13">Simple, clear UI</text>
   <line x1="130" y1="45" x2="232" y2="78" stroke="#00d4aa" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="10" y="130" width="120" height="50" rx="8" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1.2"/>
-  <text x="70" y="152" text-anchor="middle" fill="#ff8e8e" font-size="21" font-weight="600">Safe Payment</text>
-  <text x="70" y="168" text-anchor="middle" fill="#8888aa" font-size="20">SSL, bKash, cards</text>
+  <text x="70" y="152" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="600">Safe Payment</text>
+  <text x="70" y="168" text-anchor="middle" fill="#8888aa" font-size="13">SSL, bKash, cards</text>
   <line x1="130" y1="155" x2="232" y2="118" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="230" y="5" width="120" height="50" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.2"/>
-  <text x="290" y="27" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">Good Products</text>
-  <text x="290" y="43" text-anchor="middle" fill="#8888aa" font-size="20">Quality &amp; accuracy</text>
+  <text x="290" y="27" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">Good Products</text>
+  <text x="290" y="43" text-anchor="middle" fill="#8888aa" font-size="13">Quality &amp; accuracy</text>
   <line x1="290" y1="55" x2="290" y2="62" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="450" y="20" width="120" height="50" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.2"/>
-  <text x="510" y="42" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="600">Fast Delivery</text>
-  <text x="510" y="58" text-anchor="middle" fill="#8888aa" font-size="20">Strong logistics</text>
+  <text x="510" y="42" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="600">Fast Delivery</text>
+  <text x="510" y="58" text-anchor="middle" fill="#8888aa" font-size="13">Strong logistics</text>
   <line x1="450" y1="45" x2="348" y2="78" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="450" y="130" width="120" height="50" rx="8" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.2"/>
-  <text x="510" y="152" text-anchor="middle" fill="#81ecec" font-size="21" font-weight="600">Customer Support</text>
-  <text x="510" y="168" text-anchor="middle" fill="#8888aa" font-size="20">Help &amp; easy returns</text>
+  <text x="510" y="152" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="600">Customer Support</text>
+  <text x="510" y="168" text-anchor="middle" fill="#8888aa" font-size="13">Help &amp; easy returns</text>
   <line x1="450" y1="155" x2="348" y2="118" stroke="#81ecec" stroke-width="1" stroke-dasharray="3,3"/>
 </svg>
 <div class="diagram-label">Five key success factors of e-commerce</div>
@@ -777,26 +788,26 @@ body:`<p>Simple way to remember: <strong>E-Commerce</strong> is just the "buying
 <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- E-Business outer -->
   <rect x="10" y="10" width="540" height="175" rx="14" fill="rgba(0,212,170,0.04)" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="290" y="35" text-anchor="middle" fill="#00d4aa" font-size="23" font-weight="700">E-Business (all digital activities)</text>
+  <text x="290" y="35" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">E-Business (all digital activities)</text>
   <!-- Inside blocks -->
   <rect x="30" y="50" width="150" height="55" rx="8" fill="#1c1c2e" stroke="#5555aa" stroke-width="1"/>
-  <text x="105" y="74" text-anchor="middle" fill="#8888aa" font-size="21">HR &amp; Payroll</text>
-  <text x="105" y="90" text-anchor="middle" fill="#555577" font-size="20">Systems</text>
+  <text x="105" y="74" text-anchor="middle" fill="#8888aa" font-size="13">HR &amp; Payroll</text>
+  <text x="105" y="90" text-anchor="middle" fill="#555577" font-size="13">Systems</text>
 
   <rect x="200" y="50" width="160" height="55" rx="8" fill="rgba(108,99,255,0.15)" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="280" y="70" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">E-Commerce</text>
-  <text x="280" y="86" text-anchor="middle" fill="#7777bb" font-size="20">Buying &amp; Selling</text>
-  <text x="280" y="100" text-anchor="middle" fill="#555577" font-size="20">Online Transactions</text>
+  <text x="280" y="70" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">E-Commerce</text>
+  <text x="280" y="86" text-anchor="middle" fill="#7777bb" font-size="13">Buying &amp; Selling</text>
+  <text x="280" y="100" text-anchor="middle" fill="#555577" font-size="13">Online Transactions</text>
 
   <rect x="380" y="50" width="150" height="55" rx="8" fill="#1c1c2e" stroke="#5555aa" stroke-width="1"/>
-  <text x="455" y="74" text-anchor="middle" fill="#8888aa" font-size="21">Supply Chain</text>
-  <text x="455" y="90" text-anchor="middle" fill="#555577" font-size="20">&amp; ERP/CRM</text>
+  <text x="455" y="74" text-anchor="middle" fill="#8888aa" font-size="13">Supply Chain</text>
+  <text x="455" y="90" text-anchor="middle" fill="#555577" font-size="13">&amp; ERP/CRM</text>
 
   <rect x="30" y="125" width="150" height="45" rx="8" fill="#1c1c2e" stroke="#5555aa" stroke-width="1"/>
-  <text x="105" y="152" text-anchor="middle" fill="#8888aa" font-size="21">Internal Comms</text>
+  <text x="105" y="152" text-anchor="middle" fill="#8888aa" font-size="13">Internal Comms</text>
 
   <rect x="380" y="125" width="150" height="45" rx="8" fill="#1c1c2e" stroke="#5555aa" stroke-width="1"/>
-  <text x="455" y="152" text-anchor="middle" fill="#8888aa" font-size="21">Analytics &amp; BI</text>
+  <text x="455" y="152" text-anchor="middle" fill="#8888aa" font-size="13">Analytics &amp; BI</text>
 </svg>
 <div class="diagram-label">E-Commerce is a part of the broader E-Business</div>
 </div>
@@ -826,28 +837,28 @@ body:`<p>Consumer-oriented applications are websites or apps made specifically f
 <div class="diagram-wrap">
 <svg viewBox="0 0 580 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <rect x="10" y="10" width="130" height="110" rx="10" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="75" y="38" text-anchor="middle" font-size="32">🛒</text>
-  <text x="75" y="62" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">Online Retail</text>
-  <text x="75" y="78" text-anchor="middle" fill="#8888aa" font-size="20">Buy products</text>
-  <text x="75" y="94" text-anchor="middle" fill="#555577" font-size="20">Daraz, Amazon</text>
+  <text x="75" y="38" text-anchor="middle" font-size="13">🛒</text>
+  <text x="75" y="62" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">Online Retail</text>
+  <text x="75" y="78" text-anchor="middle" fill="#8888aa" font-size="13">Buy products</text>
+  <text x="75" y="94" text-anchor="middle" fill="#555577" font-size="13">Daraz, Amazon</text>
 
   <rect x="155" y="10" width="130" height="110" rx="10" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="220" y="38" text-anchor="middle" font-size="32">🏦</text>
-  <text x="220" y="62" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">Online Banking</text>
-  <text x="220" y="78" text-anchor="middle" fill="#8888aa" font-size="20">Send money, pay bills</text>
-  <text x="220" y="94" text-anchor="middle" fill="#555577" font-size="20">bKash, Nagad</text>
+  <text x="220" y="38" text-anchor="middle" font-size="13">🏦</text>
+  <text x="220" y="62" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">Online Banking</text>
+  <text x="220" y="78" text-anchor="middle" fill="#8888aa" font-size="13">Send money, pay bills</text>
+  <text x="220" y="94" text-anchor="middle" fill="#555577" font-size="13">bKash, Nagad</text>
 
   <rect x="300" y="10" width="130" height="110" rx="10" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="365" y="38" text-anchor="middle" font-size="32">🎫</text>
-  <text x="365" y="62" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">Online Ticketing</text>
-  <text x="365" y="78" text-anchor="middle" fill="#8888aa" font-size="20">Book transport tickets</text>
-  <text x="365" y="94" text-anchor="middle" fill="#555577" font-size="20">Shohoz, BD Trains</text>
+  <text x="365" y="38" text-anchor="middle" font-size="13">🎫</text>
+  <text x="365" y="62" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">Online Ticketing</text>
+  <text x="365" y="78" text-anchor="middle" fill="#8888aa" font-size="13">Book transport tickets</text>
+  <text x="365" y="94" text-anchor="middle" fill="#555577" font-size="13">Shohoz, BD Trains</text>
 
   <rect x="445" y="10" width="130" height="110" rx="10" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.5"/>
-  <text x="510" y="38" text-anchor="middle" font-size="32">🎵</text>
-  <text x="510" y="62" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="600">Digital Content</text>
-  <text x="510" y="78" text-anchor="middle" fill="#8888aa" font-size="20">Stream music, movies</text>
-  <text x="510" y="94" text-anchor="middle" fill="#555577" font-size="20">Netflix, Spotify</text>
+  <text x="510" y="38" text-anchor="middle" font-size="13">🎵</text>
+  <text x="510" y="62" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="600">Digital Content</text>
+  <text x="510" y="78" text-anchor="middle" fill="#8888aa" font-size="13">Stream music, movies</text>
+  <text x="510" y="94" text-anchor="middle" fill="#555577" font-size="13">Netflix, Spotify</text>
 </svg>
 <div class="diagram-label">Four consumer-oriented e-commerce applications</div>
 </div>`},
@@ -869,37 +880,37 @@ body:`<div class="diagram-wrap">
 <svg viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <!-- Center shield -->
   <path d="M290 30 L330 50 L330 110 Q330 145 290 165 Q250 145 250 110 L250 50 Z" fill="rgba(255,107,107,0.1)" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="290" y="100" text-anchor="middle" fill="#ff8e8e" font-size="21" font-weight="700">SECURITY</text>
-  <text x="290" y="116" text-anchor="middle" fill="#ff8e8e" font-size="21" font-weight="700">THREATS</text>
+  <text x="290" y="100" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="700">SECURITY</text>
+  <text x="290" y="116" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="700">THREATS</text>
   <!-- Threat nodes -->
   <rect x="10" y="10" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1"/>
-  <text x="85" y="30" text-anchor="middle" fill="#ff8e8e" font-size="21" font-weight="600">Hacking</text>
-  <text x="85" y="45" text-anchor="middle" fill="#8888aa" font-size="20">Unauthorized server access</text>
+  <text x="85" y="30" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="600">Hacking</text>
+  <text x="85" y="45" text-anchor="middle" fill="#8888aa" font-size="13">Unauthorized server access</text>
   <line x1="160" y1="31" x2="252" y2="75" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="10" y="80" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1"/>
-  <text x="85" y="100" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">Phishing</text>
-  <text x="85" y="115" text-anchor="middle" fill="#8888aa" font-size="20">Fake login websites</text>
+  <text x="85" y="100" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">Phishing</text>
+  <text x="85" y="115" text-anchor="middle" fill="#8888aa" font-size="13">Fake login websites</text>
   <line x1="160" y1="101" x2="252" y2="100" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="10" y="155" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1"/>
-  <text x="85" y="175" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="600">Identity Theft</text>
-  <text x="85" y="190" text-anchor="middle" fill="#8888aa" font-size="20">Personal data stolen</text>
+  <text x="85" y="175" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="600">Identity Theft</text>
+  <text x="85" y="190" text-anchor="middle" fill="#8888aa" font-size="13">Personal data stolen</text>
   <line x1="160" y1="176" x2="252" y2="125" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="420" y="10" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1"/>
-  <text x="495" y="30" text-anchor="middle" fill="#ff8e8e" font-size="21" font-weight="600">Virus / Malware</text>
-  <text x="495" y="45" text-anchor="middle" fill="#8888aa" font-size="20">Device compromise</text>
+  <text x="495" y="30" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="600">Virus / Malware</text>
+  <text x="495" y="45" text-anchor="middle" fill="#8888aa" font-size="13">Device compromise</text>
   <line x1="420" y1="31" x2="328" y2="75" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="420" y="80" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1"/>
-  <text x="495" y="100" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">DoS Attack</text>
-  <text x="495" y="115" text-anchor="middle" fill="#8888aa" font-size="20">Site made unavailable</text>
+  <text x="495" y="100" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">DoS Attack</text>
+  <text x="495" y="115" text-anchor="middle" fill="#8888aa" font-size="13">Site made unavailable</text>
   <line x1="420" y1="101" x2="328" y2="100" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,3"/>
 
   <rect x="420" y="155" width="150" height="42" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1"/>
-  <text x="495" y="175" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="600">Payment Fraud</text>
-  <text x="495" y="190" text-anchor="middle" fill="#8888aa" font-size="20">Stolen card misuse</text>
+  <text x="495" y="175" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="600">Payment Fraud</text>
+  <text x="495" y="190" text-anchor="middle" fill="#8888aa" font-size="13">Stolen card misuse</text>
   <line x1="420" y1="176" x2="328" y2="125" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3,3"/>
 </svg>
 <div class="diagram-label">Six major security threats in e-commerce</div>
@@ -917,22 +928,22 @@ body:`<p>A framework shows how e-commerce is built in layers — like floors of 
   </defs>
   <!-- Layer 4 -->
   <rect x="10" y="10" width="540" height="45" rx="8" fill="rgba(108,99,255,0.2)" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="280" y="30" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">Layer 4 — Applications</text>
-  <text x="280" y="47" text-anchor="middle" fill="#8888aa" font-size="21">Online store · Banking portal · Ticket booking · What users see</text>
+  <text x="280" y="30" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">Layer 4 — Applications</text>
+  <text x="280" y="47" text-anchor="middle" fill="#8888aa" font-size="13">Online store · Banking portal · Ticket booking · What users see</text>
   <!-- Layer 3 -->
   <rect x="10" y="63" width="540" height="45" rx="8" fill="rgba(0,212,170,0.1)" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="280" y="83" text-anchor="middle" fill="#00d4aa" font-size="22" font-weight="700">Layer 3 — Business Services</text>
-  <text x="280" y="100" text-anchor="middle" fill="#8888aa" font-size="21">SSL security · Payment gateway · Authentication · Catalogue management</text>
+  <text x="280" y="83" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">Layer 3 — Business Services</text>
+  <text x="280" y="100" text-anchor="middle" fill="#8888aa" font-size="13">SSL security · Payment gateway · Authentication · Catalogue management</text>
   <!-- Layer 2 -->
   <rect x="10" y="116" width="540" height="45" rx="8" fill="rgba(255,209,102,0.08)" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="280" y="136" text-anchor="middle" fill="#ffd166" font-size="22" font-weight="700">Layer 2 — Middleware</text>
-  <text x="280" y="153" text-anchor="middle" fill="#8888aa" font-size="21">Web server · Database · Messaging system · Transaction processing</text>
+  <text x="280" y="136" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">Layer 2 — Middleware</text>
+  <text x="280" y="153" text-anchor="middle" fill="#8888aa" font-size="13">Web server · Database · Messaging system · Transaction processing</text>
   <!-- Layer 1 -->
   <rect x="10" y="169" width="540" height="45" rx="8" fill="rgba(255,107,107,0.08)" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="280" y="189" text-anchor="middle" fill="#ff8e8e" font-size="22" font-weight="700">Layer 1 — Network Infrastructure</text>
-  <text x="280" y="206" text-anchor="middle" fill="#8888aa" font-size="21">Internet · Mobile network · Cable · Satellite · How data travels</text>
+  <text x="280" y="189" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="700">Layer 1 — Network Infrastructure</text>
+  <text x="280" y="206" text-anchor="middle" fill="#8888aa" font-size="13">Internet · Mobile network · Cable · Satellite · How data travels</text>
   <!-- Side label -->
-  <text x="555" y="130" text-anchor="middle" fill="#5555aa" font-size="20" transform="rotate(-90,555,130)">builds on top →</text>
+  <text x="555" y="130" text-anchor="middle" fill="#5555aa" font-size="13" transform="rotate(-90,555,130)">builds on top →</text>
 </svg>
 <div class="diagram-label">Four-layer generic framework of e-commerce</div>
 </div>`},
@@ -952,36 +963,36 @@ body:`<p>In B2B, one company buys from another online. A garments factory in Ban
   </defs>
   <!-- Buyer company -->
   <rect x="10" y="20" width="140" height="130" rx="10" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="80" y="48" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">BUYER CO.</text>
-  <text x="80" y="66" text-anchor="middle" fill="#8888aa" font-size="20">Retailer / Factory</text>
-  <text x="80" y="90" text-anchor="middle" fill="#555577" font-size="20">1. Creates</text>
-  <text x="80" y="104" text-anchor="middle" fill="#555577" font-size="20">purchase order</text>
-  <text x="80" y="120" text-anchor="middle" fill="#555577" font-size="20">2. Sends via</text>
-  <text x="80" y="134" text-anchor="middle" fill="#555577" font-size="20">B2B portal/EDI</text>
+  <text x="80" y="48" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">BUYER CO.</text>
+  <text x="80" y="66" text-anchor="middle" fill="#8888aa" font-size="13">Retailer / Factory</text>
+  <text x="80" y="90" text-anchor="middle" fill="#555577" font-size="13">1. Creates</text>
+  <text x="80" y="104" text-anchor="middle" fill="#555577" font-size="13">purchase order</text>
+  <text x="80" y="120" text-anchor="middle" fill="#555577" font-size="13">2. Sends via</text>
+  <text x="80" y="134" text-anchor="middle" fill="#555577" font-size="13">B2B portal/EDI</text>
   <!-- Arrow right -->
   <path d="M152 85 L218 85" stroke="#6c63ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#a1)"/>
-  <text x="185" y="78" text-anchor="middle" fill="#6c63ff" font-size="20">Purchase</text>
-  <text x="185" y="91" text-anchor="middle" fill="#6c63ff" font-size="20">Order</text>
+  <text x="185" y="78" text-anchor="middle" fill="#6c63ff" font-size="13">Purchase</text>
+  <text x="185" y="91" text-anchor="middle" fill="#6c63ff" font-size="13">Order</text>
   <!-- B2B Portal -->
   <rect x="220" y="10" width="180" height="150" rx="10" fill="#13131a" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="310" y="38" text-anchor="middle" fill="#00d4aa" font-size="22" font-weight="700">B2B PORTAL / EDI</text>
-  <text x="310" y="60" text-anchor="middle" fill="#555577" font-size="20">Internet / Extranet</text>
-  <text x="310" y="82" text-anchor="middle" fill="#8888aa" font-size="20">→ Order processed</text>
-  <text x="310" y="98" text-anchor="middle" fill="#8888aa" font-size="20">→ Auto invoice generated</text>
-  <text x="310" y="114" text-anchor="middle" fill="#8888aa" font-size="20">→ Payment transferred</text>
-  <text x="310" y="130" text-anchor="middle" fill="#8888aa" font-size="20">→ Delivery confirmed</text>
+  <text x="310" y="38" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">B2B PORTAL / EDI</text>
+  <text x="310" y="60" text-anchor="middle" fill="#555577" font-size="13">Internet / Extranet</text>
+  <text x="310" y="82" text-anchor="middle" fill="#8888aa" font-size="13">→ Order processed</text>
+  <text x="310" y="98" text-anchor="middle" fill="#8888aa" font-size="13">→ Auto invoice generated</text>
+  <text x="310" y="114" text-anchor="middle" fill="#8888aa" font-size="13">→ Payment transferred</text>
+  <text x="310" y="130" text-anchor="middle" fill="#8888aa" font-size="13">→ Delivery confirmed</text>
   <!-- Arrow right -->
   <path d="M402 85 L468 85" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#a2)"/>
-  <text x="435" y="78" text-anchor="middle" fill="#00d4aa" font-size="20">Ships</text>
-  <text x="435" y="91" text-anchor="middle" fill="#00d4aa" font-size="20">Goods</text>
+  <text x="435" y="78" text-anchor="middle" fill="#00d4aa" font-size="13">Ships</text>
+  <text x="435" y="91" text-anchor="middle" fill="#00d4aa" font-size="13">Goods</text>
   <!-- Seller company -->
   <rect x="470" y="20" width="140" height="130" rx="10" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="540" y="48" text-anchor="middle" fill="#ffd166" font-size="22" font-weight="700">SELLER CO.</text>
-  <text x="540" y="66" text-anchor="middle" fill="#8888aa" font-size="20">Supplier / Maker</text>
-  <text x="540" y="90" text-anchor="middle" fill="#555577" font-size="20">3. Receives order</text>
-  <text x="540" y="104" text-anchor="middle" fill="#555577" font-size="20">4. Packs goods</text>
-  <text x="540" y="120" text-anchor="middle" fill="#555577" font-size="20">5. Ships to buyer</text>
-  <text x="540" y="134" text-anchor="middle" fill="#555577" font-size="20">6. Gets payment</text>
+  <text x="540" y="48" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">SELLER CO.</text>
+  <text x="540" y="66" text-anchor="middle" fill="#8888aa" font-size="13">Supplier / Maker</text>
+  <text x="540" y="90" text-anchor="middle" fill="#555577" font-size="13">3. Receives order</text>
+  <text x="540" y="104" text-anchor="middle" fill="#555577" font-size="13">4. Packs goods</text>
+  <text x="540" y="120" text-anchor="middle" fill="#555577" font-size="13">5. Ships to buyer</text>
+  <text x="540" y="134" text-anchor="middle" fill="#555577" font-size="13">6. Gets payment</text>
 </svg>
 <div class="diagram-label">B2B e-commerce working principle</div>
 </div>`},
@@ -1014,24 +1025,24 @@ q:'What are the different layers in e-commerce architecture? Briefly describe ea
 body:`<div class="diagram-wrap">
 <svg viewBox="0 0 560 275" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans, sans-serif">
   <rect x="10" y="10" width="540" height="45" rx="8" fill="rgba(108,99,255,0.2)" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="280" y="30" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">Layer 5 — Presentation / UI Layer</text>
-  <text x="280" y="47" text-anchor="middle" fill="#8888aa" font-size="21">Website pages · Mobile app screens · What you see and click</text>
+  <text x="280" y="30" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">Layer 5 — Presentation / UI Layer</text>
+  <text x="280" y="47" text-anchor="middle" fill="#8888aa" font-size="13">Website pages · Mobile app screens · What you see and click</text>
 
   <rect x="10" y="63" width="540" height="45" rx="8" fill="rgba(0,212,170,0.1)" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="280" y="83" text-anchor="middle" fill="#00d4aa" font-size="22" font-weight="700">Layer 4 — Application / Business Logic Layer</text>
-  <text x="280" y="100" text-anchor="middle" fill="#8888aa" font-size="21">Calculates prices · Applies discounts · Processes orders · Runs rules</text>
+  <text x="280" y="83" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">Layer 4 — Application / Business Logic Layer</text>
+  <text x="280" y="100" text-anchor="middle" fill="#8888aa" font-size="13">Calculates prices · Applies discounts · Processes orders · Runs rules</text>
 
   <rect x="10" y="116" width="540" height="45" rx="8" fill="rgba(255,209,102,0.08)" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="280" y="136" text-anchor="middle" fill="#ffd166" font-size="22" font-weight="700">Layer 3 — Middleware / Service Layer</text>
-  <text x="280" y="153" text-anchor="middle" fill="#8888aa" font-size="21">Payment gateway · Security · Notifications · Web server</text>
+  <text x="280" y="136" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">Layer 3 — Middleware / Service Layer</text>
+  <text x="280" y="153" text-anchor="middle" fill="#8888aa" font-size="13">Payment gateway · Security · Notifications · Web server</text>
 
   <rect x="10" y="169" width="540" height="45" rx="8" fill="rgba(253,121,168,0.08)" stroke="#fd79a8" stroke-width="1.5"/>
-  <text x="280" y="189" text-anchor="middle" fill="#fd79a8" font-size="22" font-weight="700">Layer 2 — Data Layer</text>
-  <text x="280" y="206" text-anchor="middle" fill="#8888aa" font-size="21">Customer info · Product data · Orders · Inventory in databases</text>
+  <text x="280" y="189" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="700">Layer 2 — Data Layer</text>
+  <text x="280" y="206" text-anchor="middle" fill="#8888aa" font-size="13">Customer info · Product data · Orders · Inventory in databases</text>
 
   <rect x="10" y="222" width="540" height="45" rx="8" fill="rgba(255,107,107,0.08)" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="280" y="242" text-anchor="middle" fill="#ff8e8e" font-size="22" font-weight="700">Layer 1 — Network Infrastructure</text>
-  <text x="280" y="259" text-anchor="middle" fill="#8888aa" font-size="21">Internet · Servers · Hardware · Physical data carriers</text>
+  <text x="280" y="242" text-anchor="middle" fill="#ff8e8e" font-size="13" font-weight="700">Layer 1 — Network Infrastructure</text>
+  <text x="280" y="259" text-anchor="middle" fill="#8888aa" font-size="13">Internet · Servers · Hardware · Physical data carriers</text>
 </svg>
 <div class="diagram-label">Five-layer e-commerce architecture (bottom = foundation)</div>
 </div>`},
@@ -1063,27 +1074,27 @@ body:`<div class="diagram-wrap">
   </defs>
   <!-- B2B row -->
   <rect x="10" y="15" width="130" height="55" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="75" y="38" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">Business A</text>
-  <text x="75" y="54" text-anchor="middle" fill="#8888aa" font-size="20">Garments factory</text>
+  <text x="75" y="38" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">Business A</text>
+  <text x="75" y="54" text-anchor="middle" fill="#8888aa" font-size="13">Garments factory</text>
   <path d="M142 43 L220 43" stroke="#00d4aa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#bb1)"/>
-  <text x="181" y="37" text-anchor="middle" fill="#00d4aa" font-size="20">orders fabric</text>
-  <text x="181" y="53" text-anchor="middle" fill="#555577" font-size="19">Alibaba/EDI</text>
+  <text x="181" y="37" text-anchor="middle" fill="#00d4aa" font-size="13">orders fabric</text>
+  <text x="181" y="53" text-anchor="middle" fill="#555577" font-size="13">Alibaba/EDI</text>
   <rect x="222" y="15" width="130" height="55" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="287" y="38" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">Business B</text>
-  <text x="287" y="54" text-anchor="middle" fill="#8888aa" font-size="20">Textile supplier</text>
-  <text x="400" y="43" fill="#5555aa" font-size="34" font-weight="700">B2B</text>
+  <text x="287" y="38" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">Business B</text>
+  <text x="287" y="54" text-anchor="middle" fill="#8888aa" font-size="13">Textile supplier</text>
+  <text x="400" y="43" fill="#5555aa" font-size="13" font-weight="700">B2B</text>
 
   <!-- B2C row -->
   <rect x="10" y="90" width="130" height="55" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="75" y="113" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">Business</text>
-  <text x="75" y="129" text-anchor="middle" fill="#8888aa" font-size="20">Daraz.com.bd</text>
+  <text x="75" y="113" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">Business</text>
+  <text x="75" y="129" text-anchor="middle" fill="#8888aa" font-size="13">Daraz.com.bd</text>
   <path d="M142 118 L220 118" stroke="#6c63ff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#bc1)"/>
-  <text x="181" y="112" text-anchor="middle" fill="#6c63ff" font-size="20">sells shirt</text>
-  <text x="181" y="128" text-anchor="middle" fill="#555577" font-size="19">via website</text>
+  <text x="181" y="112" text-anchor="middle" fill="#6c63ff" font-size="13">sells shirt</text>
+  <text x="181" y="128" text-anchor="middle" fill="#555577" font-size="13">via website</text>
   <rect x="222" y="90" width="130" height="55" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="287" y="113" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">Consumer</text>
-  <text x="287" y="129" text-anchor="middle" fill="#8888aa" font-size="20">You (individual)</text>
-  <text x="400" y="120" fill="#5555aa" font-size="34" font-weight="700">B2C</text>
+  <text x="287" y="113" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">Consumer</text>
+  <text x="287" y="129" text-anchor="middle" fill="#8888aa" font-size="13">You (individual)</text>
+  <text x="400" y="120" fill="#5555aa" font-size="13" font-weight="700">B2C</text>
 </svg>
 <div class="diagram-label">B2B vs B2C comparison</div>
 </div>
@@ -1121,42 +1132,42 @@ body:`<div class="diagram-wrap">
   <!-- Steps arranged in a circle -->
   <!-- Center label -->
   <circle cx="280" cy="150" r="55" fill="rgba(108,99,255,0.08)" stroke="#6c63ff" stroke-width="1" stroke-dasharray="5,4"/>
-  <text x="280" y="146" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">E-Commerce</text>
-  <text x="280" y="162" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">Cycle</text>
+  <text x="280" y="146" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">E-Commerce</text>
+  <text x="280" y="162" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">Cycle</text>
 
   <!-- Step boxes around circle (9 steps) -->
   <!-- 1 Browse - top -->
   <rect x="225" y="10" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.2"/>
-  <text x="280" y="28" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">1. Browse</text>
-  <text x="280" y="44" text-anchor="middle" fill="#8888aa" font-size="20">Visit website</text>
+  <text x="280" y="28" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">1. Browse</text>
+  <text x="280" y="44" text-anchor="middle" fill="#8888aa" font-size="13">Visit website</text>
   <!-- 2 Select - top right -->
   <rect x="400" y="40" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.2"/>
-  <text x="455" y="58" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">2. Select</text>
-  <text x="455" y="74" text-anchor="middle" fill="#8888aa" font-size="20">Add to cart</text>
+  <text x="455" y="58" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">2. Select</text>
+  <text x="455" y="74" text-anchor="middle" fill="#8888aa" font-size="13">Add to cart</text>
   <!-- 3 Order - right -->
   <rect x="440" y="120" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.2"/>
-  <text x="495" y="138" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">3. Order</text>
-  <text x="495" y="154" text-anchor="middle" fill="#8888aa" font-size="20">Fill details</text>
+  <text x="495" y="138" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">3. Order</text>
+  <text x="495" y="154" text-anchor="middle" fill="#8888aa" font-size="13">Fill details</text>
   <!-- 4 Pay - bottom right -->
   <rect x="400" y="205" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.2"/>
-  <text x="455" y="223" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="600">4. Pay</text>
-  <text x="455" y="239" text-anchor="middle" fill="#8888aa" font-size="20">Online payment</text>
+  <text x="455" y="223" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="600">4. Pay</text>
+  <text x="455" y="239" text-anchor="middle" fill="#8888aa" font-size="13">Online payment</text>
   <!-- 5 Confirm - bottom -->
   <rect x="225" y="248" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.2"/>
-  <text x="280" y="266" text-anchor="middle" fill="#81ecec" font-size="21" font-weight="600">5. Confirm</text>
-  <text x="280" y="282" text-anchor="middle" fill="#8888aa" font-size="20">Invoice / SMS</text>
+  <text x="280" y="266" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="600">5. Confirm</text>
+  <text x="280" y="282" text-anchor="middle" fill="#8888aa" font-size="13">Invoice / SMS</text>
   <!-- 6 Pack - bottom left -->
   <rect x="50" y="205" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.2"/>
-  <text x="105" y="223" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">6. Pack</text>
-  <text x="105" y="239" text-anchor="middle" fill="#8888aa" font-size="20">Warehouse packs</text>
+  <text x="105" y="223" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">6. Pack</text>
+  <text x="105" y="239" text-anchor="middle" fill="#8888aa" font-size="13">Warehouse packs</text>
   <!-- 7 Ship - left -->
   <rect x="10" y="120" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.2"/>
-  <text x="65" y="138" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">7. Ship</text>
-  <text x="65" y="154" text-anchor="middle" fill="#8888aa" font-size="20">Courier picks up</text>
+  <text x="65" y="138" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">7. Ship</text>
+  <text x="65" y="154" text-anchor="middle" fill="#8888aa" font-size="13">Courier picks up</text>
   <!-- 8 Deliver - top left -->
   <rect x="50" y="40" width="110" height="42" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.2"/>
-  <text x="105" y="58" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">8. Deliver</text>
-  <text x="105" y="74" text-anchor="middle" fill="#8888aa" font-size="20">Customer gets it</text>
+  <text x="105" y="58" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">8. Deliver</text>
+  <text x="105" y="74" text-anchor="middle" fill="#8888aa" font-size="13">Customer gets it</text>
   <!-- 9 Review - same as Browse area, shown as loop -->
   <!-- Arrows (clockwise arc suggestions) -->
   <path d="M280 52 Q360 30 402 58" stroke="#6c63ff" stroke-width="1" fill="none" stroke-dasharray="3,3" marker-end="url(#aCyc)"/>
@@ -1190,22 +1201,22 @@ body:`<p><strong>Digital Government:</strong> When the government uses digital t
   </defs>
   <!-- Center Gov hub -->
   <rect x="195" y="70" width="170" height="60" rx="12" fill="rgba(129,236,236,0.1)" stroke="#81ecec" stroke-width="1.5"/>
-  <text x="280" y="97" text-anchor="middle" fill="#81ecec" font-size="23" font-weight="700">GOVERNMENT</text>
-  <text x="280" y="115" text-anchor="middle" fill="#8888aa" font-size="21">Digital Services Hub</text>
+  <text x="280" y="97" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="700">GOVERNMENT</text>
+  <text x="280" y="115" text-anchor="middle" fill="#8888aa" font-size="13">Digital Services Hub</text>
   <!-- G2C -->
   <rect x="10" y="30" width="140" height="55" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.2"/>
-  <text x="80" y="53" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="600">G2C — Citizens</text>
-  <text x="80" y="69" text-anchor="middle" fill="#8888aa" font-size="20">e-passport, NID, tax</text>
+  <text x="80" y="53" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="600">G2C — Citizens</text>
+  <text x="80" y="69" text-anchor="middle" fill="#8888aa" font-size="13">e-passport, NID, tax</text>
   <path d="M150 57 L197 97" stroke="#81ecec" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#gArr)"/>
   <!-- G2B -->
   <rect x="410" y="30" width="140" height="55" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.2"/>
-  <text x="480" y="53" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="600">G2B — Business</text>
-  <text x="480" y="69" text-anchor="middle" fill="#8888aa" font-size="20">Trade license, tenders</text>
+  <text x="480" y="53" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="600">G2B — Business</text>
+  <text x="480" y="69" text-anchor="middle" fill="#8888aa" font-size="13">Trade license, tenders</text>
   <path d="M410 57 L363 97" stroke="#81ecec" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#gArr)"/>
   <!-- G2G -->
   <rect x="210" y="155" width="140" height="40" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.2"/>
-  <text x="280" y="172" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="600">G2G — Agencies</text>
-  <text x="280" y="188" text-anchor="middle" fill="#8888aa" font-size="20">Inter-dept data sharing</text>
+  <text x="280" y="172" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="600">G2G — Agencies</text>
+  <text x="280" y="188" text-anchor="middle" fill="#8888aa" font-size="13">Inter-dept data sharing</text>
   <path d="M280 155 L280 130" stroke="#81ecec" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#gArr)"/>
 </svg>
 <div class="diagram-label">E-Governance service delivery model</div>
@@ -1247,33 +1258,33 @@ body:`<p><strong>Vision of E-Governance in Bangladesh:</strong> Linked to "Digit
   </defs>
   <!-- 5 steps -->
   <rect x="10" y="20" width="95" height="60" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="57" y="45" text-anchor="middle" fill="#a09aff" font-size="22" font-weight="700">1. Target</text>
-  <text x="57" y="63" text-anchor="middle" fill="#8888aa" font-size="20">Who is the</text>
-  <text x="57" y="75" text-anchor="middle" fill="#8888aa" font-size="20">customer?</text>
+  <text x="57" y="45" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">1. Target</text>
+  <text x="57" y="63" text-anchor="middle" fill="#8888aa" font-size="13">Who is the</text>
+  <text x="57" y="75" text-anchor="middle" fill="#8888aa" font-size="13">customer?</text>
   <path d="M107 50 L120 50" stroke="#6c63ff" stroke-width="1" marker-end="url(#mArr)"/>
 
   <rect x="122" y="20" width="95" height="60" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="169" y="45" text-anchor="middle" fill="#00d4aa" font-size="22" font-weight="700">2. Goals</text>
-  <text x="169" y="63" text-anchor="middle" fill="#8888aa" font-size="20">What do</text>
-  <text x="169" y="75" text-anchor="middle" fill="#8888aa" font-size="20">you want?</text>
+  <text x="169" y="45" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">2. Goals</text>
+  <text x="169" y="63" text-anchor="middle" fill="#8888aa" font-size="13">What do</text>
+  <text x="169" y="75" text-anchor="middle" fill="#8888aa" font-size="13">you want?</text>
   <path d="M219 50 L232 50" stroke="#6c63ff" stroke-width="1" marker-end="url(#mArr)"/>
 
   <rect x="234" y="20" width="95" height="60" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="281" y="45" text-anchor="middle" fill="#ffd166" font-size="22" font-weight="700">3. Strategy</text>
-  <text x="281" y="63" text-anchor="middle" fill="#8888aa" font-size="20">SEO, ads,</text>
-  <text x="281" y="75" text-anchor="middle" fill="#8888aa" font-size="20">social media</text>
+  <text x="281" y="45" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">3. Strategy</text>
+  <text x="281" y="63" text-anchor="middle" fill="#8888aa" font-size="13">SEO, ads,</text>
+  <text x="281" y="75" text-anchor="middle" fill="#8888aa" font-size="13">social media</text>
   <path d="M331 50 L344 50" stroke="#6c63ff" stroke-width="1" marker-end="url(#mArr)"/>
 
   <rect x="346" y="20" width="95" height="60" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.5"/>
-  <text x="393" y="45" text-anchor="middle" fill="#fd79a8" font-size="22" font-weight="700">4. Budget</text>
-  <text x="393" y="63" text-anchor="middle" fill="#8888aa" font-size="20">How much</text>
-  <text x="393" y="75" text-anchor="middle" fill="#8888aa" font-size="20">to spend?</text>
+  <text x="393" y="45" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="700">4. Budget</text>
+  <text x="393" y="63" text-anchor="middle" fill="#8888aa" font-size="13">How much</text>
+  <text x="393" y="75" text-anchor="middle" fill="#8888aa" font-size="13">to spend?</text>
   <path d="M443 50 L456 50" stroke="#6c63ff" stroke-width="1" marker-end="url(#mArr)"/>
 
   <rect x="458" y="20" width="110" height="60" rx="8" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.5"/>
-  <text x="513" y="45" text-anchor="middle" fill="#81ecec" font-size="22" font-weight="700">5. Measure</text>
-  <text x="513" y="63" text-anchor="middle" fill="#8888aa" font-size="20">Track sales</text>
-  <text x="513" y="75" text-anchor="middle" fill="#8888aa" font-size="20">&amp; results</text>
+  <text x="513" y="45" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="700">5. Measure</text>
+  <text x="513" y="63" text-anchor="middle" fill="#8888aa" font-size="13">Track sales</text>
+  <text x="513" y="75" text-anchor="middle" fill="#8888aa" font-size="13">&amp; results</text>
 </svg>
 <div class="diagram-label">Five steps to document an e-commerce marketing plan</div>
 </div>`},
@@ -1329,22 +1340,22 @@ body:`<p><strong>Encryption</strong> is the process of converting plain (readabl
     </marker>
   </defs>
   <rect x="10" y="25" width="110" height="50" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="65" y="48" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="700">Plain Text</text>
-  <text x="65" y="64" text-anchor="middle" fill="#8888aa" font-size="20">HELLO</text>
+  <text x="65" y="48" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">Plain Text</text>
+  <text x="65" y="64" text-anchor="middle" fill="#8888aa" font-size="13">HELLO</text>
   <path d="M122 50 L168 50" stroke="#6c63ff" stroke-width="1.5" marker-end="url(#encArr)"/>
-  <text x="145" y="43" text-anchor="middle" fill="#6c63ff" font-size="19">+ Key</text>
+  <text x="145" y="43" text-anchor="middle" fill="#6c63ff" font-size="13">+ Key</text>
   <rect x="170" y="15" width="130" height="70" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="235" y="46" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="700">Encryption</text>
-  <text x="235" y="62" text-anchor="middle" fill="#8888aa" font-size="20">Algorithm + Key</text>
+  <text x="235" y="46" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">Encryption</text>
+  <text x="235" y="62" text-anchor="middle" fill="#8888aa" font-size="13">Algorithm + Key</text>
   <path d="M302 50 L348 50" stroke="#ffd166" stroke-width="1.5" marker-end="url(#encArr)"/>
   <rect x="350" y="25" width="110" height="50" rx="8" fill="#1c1c2e" stroke="#ff6b6b" stroke-width="1.5"/>
-  <text x="405" y="48" text-anchor="middle" fill="#ff6b6b" font-size="21" font-weight="700">Cipher Text</text>
-  <text x="405" y="64" text-anchor="middle" fill="#8888aa" font-size="20">XZ@#12</text>
+  <text x="405" y="48" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="700">Cipher Text</text>
+  <text x="405" y="64" text-anchor="middle" fill="#8888aa" font-size="13">XZ@#12</text>
   <path d="M462 50 L490 50" stroke="#00d4aa" stroke-width="1.5" marker-end="url(#decArr)"/>
-  <text x="500" y="43" text-anchor="middle" fill="#00d4aa" font-size="19">Decrypt</text>
+  <text x="500" y="43" text-anchor="middle" fill="#00d4aa" font-size="13">Decrypt</text>
   <rect x="492" y="25" width="100" height="50" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="542" y="48" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="700">Original</text>
-  <text x="542" y="64" text-anchor="middle" fill="#8888aa" font-size="20">HELLO</text>
+  <text x="542" y="48" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">Original</text>
+  <text x="542" y="64" text-anchor="middle" fill="#8888aa" font-size="13">HELLO</text>
 </svg>
 <div class="diagram-label">Basic encryption and decryption process</div>
 </div>`},
@@ -1367,25 +1378,25 @@ body:`<p>A <strong>digital signature</strong> is an electronic method used to ve
     </marker>
   </defs>
   <rect x="10" y="40" width="90" height="50" rx="8" fill="#1c1c2e" stroke="#6c63ff" stroke-width="1.5"/>
-  <text x="55" y="62" text-anchor="middle" fill="#a09aff" font-size="21" font-weight="700">Message</text>
+  <text x="55" y="62" text-anchor="middle" fill="#a09aff" font-size="13" font-weight="700">Message</text>
   <path d="M102 65 L130 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
   <rect x="132" y="40" width="80" height="50" rx="8" fill="#1c1c2e" stroke="#ffd166" stroke-width="1.5"/>
-  <text x="172" y="62" text-anchor="middle" fill="#ffd166" font-size="21" font-weight="700">Hash</text>
-  <text x="172" y="78" text-anchor="middle" fill="#8888aa" font-size="19">fingerprint</text>
+  <text x="172" y="62" text-anchor="middle" fill="#ffd166" font-size="13" font-weight="700">Hash</text>
+  <text x="172" y="78" text-anchor="middle" fill="#8888aa" font-size="13">fingerprint</text>
   <path d="M214 65 L242 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
   <rect x="244" y="25" width="110" height="80" rx="8" fill="#1c1c2e" stroke="#fd79a8" stroke-width="1.5"/>
-  <text x="299" y="55" text-anchor="middle" fill="#fd79a8" font-size="21" font-weight="700">Encrypt</text>
-  <text x="299" y="71" text-anchor="middle" fill="#8888aa" font-size="19">Private Key</text>
-  <text x="299" y="87" text-anchor="middle" fill="#fd79a8" font-size="20">→ Signature</text>
+  <text x="299" y="55" text-anchor="middle" fill="#fd79a8" font-size="13" font-weight="700">Encrypt</text>
+  <text x="299" y="71" text-anchor="middle" fill="#8888aa" font-size="13">Private Key</text>
+  <text x="299" y="87" text-anchor="middle" fill="#fd79a8" font-size="13">→ Signature</text>
   <path d="M356 65 L384 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
   <rect x="386" y="25" width="110" height="80" rx="8" fill="#1c1c2e" stroke="#00d4aa" stroke-width="1.5"/>
-  <text x="441" y="55" text-anchor="middle" fill="#00d4aa" font-size="21" font-weight="700">Decrypt</text>
-  <text x="441" y="71" text-anchor="middle" fill="#8888aa" font-size="19">Public Key</text>
-  <text x="441" y="87" text-anchor="middle" fill="#00d4aa" font-size="20">→ Verify Hash</text>
+  <text x="441" y="55" text-anchor="middle" fill="#00d4aa" font-size="13" font-weight="700">Decrypt</text>
+  <text x="441" y="71" text-anchor="middle" fill="#8888aa" font-size="13">Public Key</text>
+  <text x="441" y="87" text-anchor="middle" fill="#00d4aa" font-size="13">→ Verify Hash</text>
   <path d="M498 65 L526 65" stroke="#6c63ff" stroke-width="1.2" marker-end="url(#dsArr)"/>
   <rect x="528" y="40" width="62" height="50" rx="8" fill="#1c1c2e" stroke="#81ecec" stroke-width="1.5"/>
-  <text x="559" y="62" text-anchor="middle" fill="#81ecec" font-size="21" font-weight="700">✓ Auth</text>
-  <text x="559" y="78" text-anchor="middle" fill="#8888aa" font-size="19">verified</text>
+  <text x="559" y="62" text-anchor="middle" fill="#81ecec" font-size="13" font-weight="700">✓ Auth</text>
+  <text x="559" y="78" text-anchor="middle" fill="#8888aa" font-size="13">verified</text>
 </svg>
 <div class="diagram-label">Digital signature: Message → Hash → Encrypt (Private Key) → Decrypt (Public Key) → Verify</div>
 </div>
@@ -1625,7 +1636,7 @@ function render() {
         <button class="bm-btn${isBM?' bookmarked':''}" onclick="toggleBookmark('${item.id}',event)" title="${isBM?'Remove bookmark':'Bookmark'}">🔖</button>
         <div class="q-chevron">▾</div>
       </div>
-      <div class="qa-body">${safeBody}</div>
+      <div class="qa-body"><div class="qa-body-inner">${safeBody}</div></div>
     </div>`;
   });
   list.innerHTML = html;
