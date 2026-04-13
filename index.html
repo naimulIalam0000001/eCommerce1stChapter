@@ -212,32 +212,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .filter-chip:hover { border-color:var(--accent); color:var(--accent); }
 .filter-chip.active { background:var(--accent); border-color:var(--accent); color:#fff; }
 
-/* Q&A PANEL */
-.qa-section { margin-bottom:2rem; }
-.qa-chapter-header { font-family:var(--serif); font-size:1rem; font-weight:600; color:var(--text); padding:0.6rem 0.9rem; background:var(--bg2); border:1px solid var(--border); border-radius:var(--r-sm); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem; }
-.qa-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); margin-bottom:0.6rem; overflow:hidden; transition:border-color .2s, box-shadow .2s; }
-.qa-card:hover { border-color:var(--border2); box-shadow:var(--shadow); }
-.qa-card.open { border-color:var(--accent); }
-.qa-header { display:flex; align-items:flex-start; gap:0.75rem; padding:1rem 1.1rem; cursor:pointer; user-select:none; }
-.qa-badge { flex-shrink:0; min-width:38px; height:38px; border-radius:8px; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:0.72rem; color:var(--muted); transition:all .2s; }
-.qa-card.open .qa-badge { background:var(--accent-s); border-color:var(--accent); color:var(--accent); }
-.qa-q-text { flex:1; font-weight:600; font-size:0.93rem; line-height:1.4; color:var(--text); }
-.qa-year { font-size:0.7rem; color:var(--muted); font-family:var(--mono); margin-top:0.25rem; }
-.qa-chevron { flex-shrink:0; font-size:0.9rem; color:var(--muted); margin-top:0.1rem; transition:transform .25s; }
-.qa-card.open .qa-chevron { transform:rotate(180deg); color:var(--accent); }
-.qa-body { max-height:0; overflow:hidden; transition:max-height .4s ease, opacity .3s; opacity:0; border-top:1px solid transparent; }
-.qa-card.open .qa-body { max-height:4000px; opacity:1; border-top-color:var(--border); }
-.qa-body-inner { padding:1rem 1.1rem 1.25rem; font-size:0.9rem; line-height:1.75; color:var(--text2); }
-.qa-body-inner p { margin-bottom:0.6rem; }
-.qa-body-inner strong { color:var(--text); }
-.qa-body-inner table { border-collapse:collapse; width:100%; margin:0.75rem 0; }
-.qa-body-inner th { background:var(--bg2); padding:8px 12px; text-align:left; font-size:0.82rem; font-weight:700; color:var(--text2); border:1px solid var(--border); }
-.qa-body-inner td { padding:8px 12px; border:1px solid var(--border); font-size:0.87rem; vertical-align:top; }
-.qa-body-inner tr:nth-child(even) td { background:var(--bg); }
-.qa-body-inner ul, .qa-body-inner ol { padding-left:1.5rem; margin:0.5rem 0; }
-.qa-body-inner li { margin-bottom:0.2rem; }
-.qa-filter-row { display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; }
-
 /* MOBILE */
 .mobile-menu-btn { display:none; }
 @media (max-width: 700px) {
@@ -252,7 +226,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 </head>
 <body>
 
-<!-- ══ AUTH ══ -->
 <div id="view-auth" class="view active">
   <div class="auth-card">
     <div class="auth-brand">Study<span>Desk</span></div>
@@ -263,7 +236,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <div class="auth-tab" onclick="switchAuthTab('recover')">Recover</div>
     </div>
 
-    <!-- LOGIN -->
     <div id="auth-login">
       <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <div class="field"><label>Password</label><input type="password" id="login-pw" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -272,7 +244,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <div style="margin-top:0.75rem"><span class="auth-link" onclick="switchAuthTab('recover')">Forgot password?</span></div>
     </div>
 
-    <!-- SIGNUP -->
     <div id="auth-signup" style="display:none">
       <div class="field"><label>Username</label><input type="text" id="signup-name" placeholder="Your name"></div>
       <div class="field"><label>Email</label><input type="email" id="signup-email" placeholder="you@example.com"></div>
@@ -291,7 +262,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <div class="auth-err" id="signup-err"></div>
     </div>
 
-    <!-- RECOVER -->
     <div id="auth-recover" style="display:none">
       <div id="recover-step1">
         <p style="font-size:0.88rem;color:var(--text2);margin-bottom:1rem;">Enter your email to look up your account.</p>
@@ -314,7 +284,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   </div>
 </div>
 
-<!-- ══ APP ══ -->
 <div id="view-app" class="view">
   <div class="mobile-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
   <nav class="sidebar" id="sidebar">
@@ -327,7 +296,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <button class="nav-btn active" id="nav-dashboard" onclick="gotoPanel('dashboard')"><span class="nav-icon">🏠</span> Dashboard</button>
       <button class="nav-btn" id="nav-notes" onclick="gotoPanel('all-notes')"><span class="nav-icon">📝</span> All Notes</button>
       <button class="nav-btn" id="nav-subjects" onclick="gotoPanel('subjects')"><span class="nav-icon">📚</span> Subjects</button>
-      <button class="nav-btn" id="nav-qa" onclick="gotoPanel('qa')"><span class="nav-icon">❓</span> E-Commerce Q&amp;A</button>
       <button class="nav-btn" id="nav-new-note" onclick="openNoteEditor(null)"><span class="nav-icon">✏️</span> New Note</button>
     </div>
     <div class="sidebar-subjects" id="sidebar-subjects">
@@ -349,7 +317,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     </div>
     <div class="content">
 
-      <!-- DASHBOARD -->
       <div class="panel active" id="panel-dashboard">
         <div class="dash-greeting">Good day, <span id="dash-name">there</span>!</div>
         <div class="dash-sub">Here's a summary of your study notes.</div>
@@ -360,14 +327,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         </div>
         <div class="section-title">Recent Notes <a onclick="gotoPanel('all-notes')">See all →</a></div>
         <div class="notes-grid" id="dash-recent-notes"></div>
-        <div class="section-title" style="margin-top:1rem">Quick Access <a onclick="gotoPanel('qa')">E-Commerce Q&amp;A →</a></div>
-        <div style="background:var(--accent-s);border:1px solid var(--accent);border-radius:var(--r);padding:1rem 1.25rem;cursor:pointer;" onclick="gotoPanel('qa')">
-          <div style="font-family:var(--serif);font-weight:600;margin-bottom:0.3rem;">📖 E-Commerce Q&amp;A Guide</div>
-          <div style="font-size:0.85rem;color:var(--muted);">35 exam questions with full answers — Ch.1 E-Commerce + Ch.2 Web Security</div>
-        </div>
       </div>
 
-      <!-- ALL NOTES -->
       <div class="panel" id="panel-all-notes">
         <div class="section-title" style="margin-bottom:1rem">All Notes</div>
         <div class="search-bar-wrap">
@@ -378,7 +339,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         <div class="notes-grid" id="all-notes-grid"></div>
       </div>
 
-      <!-- SUBJECTS -->
       <div class="panel" id="panel-subjects">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
           <div class="section-title" style="margin-bottom:0">Subjects</div>
@@ -387,30 +347,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         <div class="subject-grid" id="subjects-grid"></div>
       </div>
 
-      <!-- E-COMMERCE Q&A -->
-      <div class="panel" id="panel-qa">
-        <div style="margin-bottom:1.25rem">
-          <div style="font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:0.25rem">📖 E-Commerce Q&amp;A Guide</div>
-          <div style="font-size:0.875rem;color:var(--muted)">35 exam questions — Ch.1 E-Commerce (2010–2023) + Ch.2 Web Security (2024)</div>
-        </div>
-        <div class="search-bar-wrap">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input class="search-bar" id="qa-search" placeholder="Search questions…" oninput="renderQA()">
-        </div>
-        <div class="qa-filter-row" id="qa-filter-row">
-          <button class="filter-chip active" data-f="all" onclick="setQAFilter('all',this)">All</button>
-          <button class="filter-chip" data-f="ch1" onclick="setQAFilter('ch1',this)">Ch.1 E-Commerce</button>
-          <button class="filter-chip" data-f="ch2" onclick="setQAFilter('ch2',this)">Ch.2 Web Security</button>
-          <button class="filter-chip" data-f="definition" onclick="setQAFilter('definition',this)">Definitions</button>
-          <button class="filter-chip" data-f="models" onclick="setQAFilter('models',this)">Models</button>
-          <button class="filter-chip" data-f="security" onclick="setQAFilter('security',this)">Security</button>
-          <button class="filter-chip" data-f="marketing" onclick="setQAFilter('marketing',this)">Marketing</button>
-          <button class="filter-chip" data-f="governance" onclick="setQAFilter('governance',this)">Governance</button>
-        </div>
-        <div id="qa-list"></div>
-      </div>
-
-      <!-- EDITOR -->
       <div class="panel" id="panel-editor">
         <div class="breadcrumb" id="editor-breadcrumb"></div>
         <div class="editor-header">
@@ -419,61 +355,52 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
             <select id="editor-subject"><option value="">— Subject —</option></select>
             <input type="text" id="editor-chapter" placeholder="Chapter (optional)">
             <input type="text" id="editor-question" placeholder="Question / Topic (optional)">
+            <input type="text" id="editor-tags" placeholder="Tags (comma separated)">
+          </div>
+          <div class="editor-toolbar">
+            <button class="tb-btn" onclick="exec('bold')">B</button>
+            <button class="tb-btn" style="font-style:italic" onclick="exec('italic')">I</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" onclick="exec('formatBlock','H2')">H1</button>
+            <button class="tb-btn" onclick="exec('formatBlock','H3')">H2</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" onclick="exec('insertUnorderedList')">• List</button>
+            <button class="tb-btn" onclick="exec('insertOrderedList')">1. List</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" onclick="openTableModal()">Table</button>
+            <button class="tb-btn" onclick="toggleDrawPanel()">Draw</button>
           </div>
         </div>
-        <div class="editor-toolbar">
-          <button class="tb-btn" onclick="fmt('bold')"><b>B</b></button>
-          <button class="tb-btn" onclick="fmt('italic')"><i>I</i></button>
-          <button class="tb-btn" onclick="fmt('underline')"><u>U</u></button>
-          <div class="tb-sep"></div>
-          <button class="tb-btn" onclick="fmtBlock('h2')">H2</button>
-          <button class="tb-btn" onclick="fmtBlock('h3')">H3</button>
-          <button class="tb-btn" onclick="fmt('insertUnorderedList')">• List</button>
-          <button class="tb-btn" onclick="fmt('insertOrderedList')">1. List</button>
-          <div class="tb-sep"></div>
-          <button class="tb-btn" onclick="insertTable()">⊞ Table</button>
-          <button class="tb-btn" onclick="insertCode()">{ } Code</button>
-          <button class="tb-btn" onclick="insertQuote()">❝ Quote</button>
-          <button class="tb-btn" onclick="fmt('insertHorizontalRule')">─ Line</button>
-          <div class="tb-sep"></div>
-          <button class="tb-btn" id="draw-toggle-btn" onclick="toggleDraw()">✏ Draw</button>
-        </div>
-        <div class="note-editor-body" id="editor-body" contenteditable="true"></div>
         <div class="draw-panel" id="draw-panel">
           <div class="draw-toolbar">
-            <button class="draw-tool-btn active" id="dt-pen" onclick="setDrawTool('pen')">Pen</button>
-            <button class="draw-tool-btn" id="dt-line" onclick="setDrawTool('line')">Line</button>
-            <button class="draw-tool-btn" id="dt-rect" onclick="setDrawTool('rect')">Rect</button>
-            <button class="draw-tool-btn" id="dt-circle" onclick="setDrawTool('circle')">Circle</button>
-            <button class="draw-tool-btn" id="dt-eraser" onclick="setDrawTool('eraser')">Eraser</button>
-            <div class="tb-sep"></div>
-            <label>Color</label><input type="color" id="draw-color" value="#c8522a">
-            <label>Size</label><input type="range" id="draw-size" min="1" max="20" value="3">
-            <div style="flex:1"></div>
-            <button class="draw-tool-btn" onclick="clearCanvas()">Clear</button>
-            <button class="draw-tool-btn" onclick="insertDrawingToNote()" style="background:var(--green);color:#fff;border-color:var(--green)">Insert into Note</button>
+            <label>Color</label>
+            <input type="color" id="draw-color" value="#c8522a">
+            <label>Size</label>
+            <input type="range" id="draw-size" min="1" max="20" value="3">
+            <button class="draw-tool-btn" id="tool-pen" onclick="setDrawTool('pen')">Pen</button>
+            <button class="draw-tool-btn" id="tool-eraser" onclick="setDrawTool('eraser')">Eraser</button>
+            <button class="draw-tool-btn" style="margin-left:auto" onclick="clearCanvas()">Clear</button>
           </div>
-          <canvas id="draw-canvas" height="350"></canvas>
+          <canvas id="draw-canvas"></canvas>
         </div>
-        <div style="display:flex;gap:0.6rem;margin-top:1rem">
-          <button class="btn-sm accent" onclick="saveNote()">Save Note</button>
-          <button class="btn-sm" onclick="gotoPanel('all-notes')">Cancel</button>
-          <button class="btn-sm" id="editor-delete-btn" onclick="deleteCurrentNote()" style="display:none;margin-left:auto;border-color:#dc3545;color:#dc3545">Delete</button>
+        <div class="note-editor-body" id="editor-body" contenteditable="true"></div>
+        <div class="modal-actions" style="margin-top:1.5rem">
+          <button class="btn-ghost" id="btn-cancel-note" onclick="cancelEditor()">Cancel</button>
+          <button class="btn-primary" style="width:auto;padding:0.6rem 2rem" onclick="saveNote()">Save Note</button>
         </div>
       </div>
 
-      <!-- NOTE VIEW -->
       <div class="panel" id="panel-note-view">
         <div class="breadcrumb" id="view-breadcrumb"></div>
         <div class="note-view-header">
           <div class="note-view-subject" id="view-subject"></div>
-          <div class="note-view-title" id="view-title"></div>
+          <h1 class="note-view-title" id="view-title"></h1>
           <div class="note-view-meta" id="view-meta"></div>
         </div>
         <div class="note-view-body" id="view-body"></div>
-        <div style="margin-top:1.5rem;display:flex;gap:0.6rem">
-          <button class="btn-sm accent" onclick="editCurrentNote()">✏ Edit</button>
-          <button class="btn-sm" onclick="gotoPanel('all-notes')">← Back</button>
+        <div class="modal-actions" style="margin-top:2.5rem;border-top:1px solid var(--border);padding-top:1.5rem">
+          <button class="btn-ghost" onclick="deleteCurrentNote()" style="color:#dc3545;border-color:rgba(220,53,69,0.2)">Delete</button>
+          <button class="btn-sm accent" id="btn-edit-note">Edit Note</button>
         </div>
       </div>
 
@@ -481,923 +408,372 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   </div>
 </div>
 
-<!-- MODALS -->
-<div class="modal-overlay" id="subject-modal">
-  <div class="modal">
-    <div class="modal-title" id="subject-modal-title">Add Subject</div>
-    <div class="field"><label>Subject Name</label><input type="text" id="subject-name-input" placeholder="e.g. Mathematics"></div>
-    <div class="field"><label>Icon (emoji)</label><input type="text" id="subject-icon-input" placeholder="📘" maxlength="4"></div>
-    <div class="modal-actions">
-      <button class="btn-ghost" onclick="closeModal('subject-modal')">Cancel</button>
-      <button class="btn-sm accent" onclick="saveSubject()">Save</button>
-    </div>
-  </div>
-</div>
-<div class="modal-overlay" id="table-modal">
+<div class="modal-overlay" id="modal-table">
   <div class="modal">
     <div class="modal-title">Insert Table</div>
     <div class="table-inputs">
-      <div class="field"><label>Rows</label><input type="number" id="tbl-rows" value="3" min="1" max="20"></div>
-      <div class="field"><label>Columns</label><input type="number" id="tbl-cols" value="3" min="1" max="10"></div>
+      <div class="field"><label>Rows</label><input type="number" id="tbl-rows" value="3"></div>
+      <div class="field"><label>Cols</label><input type="number" id="tbl-cols" value="2"></div>
     </div>
     <div class="modal-actions">
-      <button class="btn-ghost" onclick="closeModal('table-modal')">Cancel</button>
-      <button class="btn-sm accent" onclick="doInsertTable()">Insert</button>
+      <button class="btn-ghost" onclick="closeModal('modal-table')">Cancel</button>
+      <button class="btn-primary" style="width:auto" onclick="insertTable()">Insert</button>
     </div>
   </div>
 </div>
-<div class="modal-overlay" id="confirm-modal">
+
+<div class="modal-overlay" id="modal-subject">
   <div class="modal">
-    <div class="modal-title">Delete Note</div>
-    <div class="modal-body">Are you sure you want to delete this note? This action cannot be undone.</div>
+    <div class="modal-title" id="sub-modal-title">Add New Subject</div>
+    <div class="field"><label>Subject Name</label><input type="text" id="sub-name" placeholder="e.g. Mathematics"></div>
+    <div class="field"><label>Icon (Emoji)</label><input type="text" id="sub-icon" placeholder="e.g. 📐"></div>
     <div class="modal-actions">
-      <button class="btn-ghost" onclick="closeModal('confirm-modal')">Cancel</button>
-      <button class="btn-danger" onclick="confirmDeleteNote()">Delete</button>
+      <button class="btn-ghost" onclick="closeModal('modal-subject')">Cancel</button>
+      <button class="btn-primary" style="width:auto" id="sub-modal-btn" onclick="saveSubject()">Add Subject</button>
     </div>
   </div>
 </div>
+
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal">
+    <div class="modal-title">Are you sure?</div>
+    <div class="modal-body" id="confirm-msg">This action cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn-danger" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
 /* ══ DATA ══ */
-const DB = {
-  get: k => { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
-  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
-  del: k => localStorage.removeItem(k)
-};
 let currentUser = null;
-function getAllUsers() { return DB.get('sd_users') || {}; }
-function saveUsers(u) { DB.set('sd_users', u); }
-function getSession() { return DB.get('sd_session'); }
-function saveSession(u) { DB.set('sd_session', u); }
-function clearSession() { DB.del('sd_session'); }
-function getUserNotes() { return DB.get('sd_notes_' + currentUser.email) || []; }
-function saveNotes(notes) { DB.set('sd_notes_' + currentUser.email, notes); }
-function getUserSubjects() { return DB.get('sd_subjects_' + currentUser.email) || []; }
-function saveSubjects(s) { DB.set('sd_subjects_' + currentUser.email, s); }
-function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+let subjects = [];
+let notes = [];
+let currentNoteId = null;
+let currentSubId = null;
+let qaOpenSet = new Set();
+let qaFilter = 'all';
 
-/* ══ AUTH TABS ══ */
-const SQ_MAP = { pet:'What was your first pet\'s name?', school:'What primary school did you attend?', city:'What city were you born in?', mother:'What is your mother\'s maiden name?' };
+// Mock E-Commerce Initial Data
+const initialEcommerceNotes = [
+  { id: 'ec1', title: 'What is E-Commerce?', body: '<p>E-commerce is the buying and selling of goods and services over the internet.</p>', subject: 'E-Commerce', chapter: 'Chapter 1', tags: ['Definition'], date: new Date().toISOString() },
+  { id: 'ec2', title: 'Web Security Basics', body: '<p>Security measures like SSL and Encryption are vital for online transactions.</p>', subject: 'E-Commerce', chapter: 'Chapter 2', tags: ['Security'], date: new Date().toISOString() }
+];
 
+/* ══ AUTH LOGIC ══ */
 function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', ['login','signup','recover'][i] === tab));
-  document.getElementById('auth-login').style.display = tab === 'login' ? '' : 'none';
-  document.getElementById('auth-signup').style.display = tab === 'signup' ? '' : 'none';
-  document.getElementById('auth-recover').style.display = tab === 'recover' ? '' : 'none';
-  // Reset recover steps
-  if (tab === 'recover') {
-    document.getElementById('recover-step1').style.display='';
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.auth-tab[onclick*="${tab}"]`).classList.add('active');
+  ['login','signup','recover'].forEach(id => document.getElementById(`auth-${id}`).style.display = (id===tab?'block':'none'));
+  if(tab==='recover') {
+    document.getElementById('recover-step1').style.display='block';
     document.getElementById('recover-step2').style.display='none';
     document.getElementById('recover-step3').style.display='none';
-    document.getElementById('recover-err').textContent='';
+  }
+}
+
+function doLogin() {
+  const email = document.getElementById('login-email').value;
+  const pw = document.getElementById('login-pw').value;
+  if(!email || !pw) { document.getElementById('login-err').innerText = 'Please enter credentials.'; return; }
+
+  const user = JSON.parse(localStorage.getItem(`user_${email}`));
+  if(user && user.pw === pw) {
+    currentUser = user;
+    initApp();
+  } else {
+    document.getElementById('login-err').innerText = 'Invalid email or password.';
   }
 }
 
 function doSignup() {
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim().toLowerCase();
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
   const pw = document.getElementById('signup-pw').value;
   const sq = document.getElementById('signup-sq').value;
-  const sa = document.getElementById('signup-sa').value.trim().toLowerCase();
+  const sa = document.getElementById('signup-sa').value;
   const err = document.getElementById('signup-err');
-  if (!name) { err.textContent='Username required.'; return; }
-  if (!email.includes('@')) { err.textContent='Valid email required.'; return; }
-  if (pw.length < 6) { err.textContent='Password must be at least 6 characters.'; return; }
-  if (!sq) { err.textContent='Please choose a security question.'; return; }
-  if (!sa) { err.textContent='Security answer required.'; return; }
-  const users = getAllUsers();
-  if (users[email]) { err.textContent='Email already registered.'; return; }
-  users[email] = { name, email, pw, sq, sa };
-  saveUsers(users);
-  err.textContent='';
-  showToast('Account created! Sign in now.');
-  switchAuthTab('login');
-  document.getElementById('login-email').value = email;
+
+  if(!name || !email || !pw || !sq || !sa) { err.innerText='All fields required.'; return; }
+  if(pw.length < 6) { err.innerText='Password min 6 characters.'; return; }
+  if(localStorage.getItem(`user_${email}`)) { err.innerText='Email already registered.'; return; }
+
+  const user = { name, email, pw, sq, sa: sa.toLowerCase() };
+  localStorage.setItem(`user_${email}`, JSON.stringify(user));
+  currentUser = user;
+  
+  // Initialize default subjects for new user
+  const defaultSubs = [
+    { id: 's1', name: 'Software Engineering', icon: '💻' },
+    { id: 's2', name: 'Database Systems', icon: '🗄️' },
+    { id: 's3', name: 'E-Commerce', icon: '🛒' }
+  ];
+  localStorage.setItem(`subs_${email}`, JSON.stringify(defaultSubs));
+  localStorage.setItem(`notes_${email}`, JSON.stringify(initialEcommerceNotes));
+  
+  initApp();
 }
 
-function doLogin() {
-  const email = document.getElementById('login-email').value.trim().toLowerCase();
-  const pw = document.getElementById('login-pw').value;
-  const err = document.getElementById('login-err');
-  const users = getAllUsers();
-  if (!users[email] || users[email].pw !== pw) { err.textContent='Invalid email or password.'; return; }
-  err.textContent='';
-  currentUser = users[email];
-  saveSession(currentUser);
-  loadApp();
-}
-
-/* ══ RECOVERY ══ */
-let recoverEmail = '';
 function recoverStep1() {
-  const email = document.getElementById('recover-email').value.trim().toLowerCase();
-  const err = document.getElementById('recover-err');
-  const users = getAllUsers();
-  if (!users[email]) { err.textContent='No account found with that email.'; return; }
-  if (!users[email].sq) { err.textContent='This account has no security question set. Contact support.'; return; }
-  recoverEmail = email;
-  err.textContent='';
-  document.getElementById('recover-sq-label').textContent = SQ_MAP[users[email].sq] || users[email].sq;
+  const email = document.getElementById('recover-email').value;
+  const user = JSON.parse(localStorage.getItem(`user_${email}`));
+  if(!user) { document.getElementById('recover-err').innerText='Email not found.'; return; }
+  
+  const sqMap = { pet: "What was your first pet's name?", school: "What primary school did you attend?", city: "What city were you born in?", mother: "What is your mother's maiden name?" };
+  document.getElementById('recover-sq-label').innerText = sqMap[user.sq];
   document.getElementById('recover-step1').style.display='none';
-  document.getElementById('recover-step2').style.display='';
+  document.getElementById('recover-step2').style.display='block';
+  window._recoverUser = user;
 }
+
 function recoverStep2() {
-  const answer = document.getElementById('recover-answer').value.trim().toLowerCase();
-  const newpw = document.getElementById('recover-newpw').value;
+  const sa = document.getElementById('recover-answer').value.toLowerCase();
+  const npw = document.getElementById('recover-newpw').value;
   const err = document.getElementById('recover-err2');
-  const users = getAllUsers();
-  const user = users[recoverEmail];
-  if (!user) { err.textContent='Session expired. Please start again.'; return; }
-  if (answer !== user.sa) { err.textContent='Incorrect answer. Please try again.'; return; }
-  if (newpw.length < 6) { err.textContent='New password must be at least 6 characters.'; return; }
-  user.pw = newpw;
-  users[recoverEmail] = user;
-  saveUsers(users);
-  err.textContent='';
+  const user = window._recoverUser;
+
+  if(sa !== user.sa) { err.innerText='Incorrect answer.'; return; }
+  if(npw.length < 6) { err.innerText='Password min 6 characters.'; return; }
+
+  user.pw = npw;
+  localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
   document.getElementById('recover-step2').style.display='none';
-  document.getElementById('recover-step3').style.display='';
+  document.getElementById('recover-step3').style.display='block';
 }
 
-function doLogout() { currentUser = null; clearSession(); location.reload(); }
+function doLogout() {
+  currentUser = null;
+  document.getElementById('view-app').classList.remove('active');
+  document.getElementById('view-auth').classList.add('active');
+}
 
-/* ══ APP LOAD ══ */
-function loadApp() {
+/* ══ APP LOGIC ══ */
+function initApp() {
   document.getElementById('view-auth').classList.remove('active');
   document.getElementById('view-app').classList.add('active');
-  document.getElementById('sb-user').textContent = currentUser.name;
-  document.getElementById('dash-name').textContent = currentUser.name.split(' ')[0];
+  
+  document.getElementById('sb-user').innerText = currentUser.name;
+  document.getElementById('dash-name').innerText = currentUser.name;
+  
+  loadData();
+  gotoPanel('dashboard'); // Direct navigation to Dashboard after login
+}
+
+function loadData() {
+  subjects = JSON.parse(localStorage.getItem(`subs_${currentUser.email}`)) || [];
+  notes = JSON.parse(localStorage.getItem(`notes_${currentUser.email}`)) || [];
+  renderSubjects();
   renderSidebarSubjects();
-  renderDashboard();
-  populateEditorSubjectSelect();
-  initCanvas();
-  gotoPanel('dashboard'); // Always go to dashboard after login
 }
 
-window.addEventListener('load', () => {
-  const sess = getSession();
-  if (sess) { currentUser = sess; loadApp(); }
-});
+function saveData() {
+  localStorage.setItem(`subs_${currentUser.email}`, JSON.stringify(subjects));
+  localStorage.setItem(`notes_${currentUser.email}`, JSON.stringify(notes));
+  updateStats();
+}
 
-/* ══ NAVIGATION ══ */
-const PANELS = ['dashboard','all-notes','subjects','qa','editor','note-view'];
-function gotoPanel(name) {
-  PANELS.forEach(p => {
-    document.getElementById('panel-' + p)?.classList.toggle('active', p === name);
-  });
+function gotoPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${id}`).classList.add('active');
+  
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const navMap = { 'dashboard':'nav-dashboard','all-notes':'nav-notes','subjects':'nav-subjects','qa':'nav-qa' };
-  if (navMap[name]) document.getElementById(navMap[name])?.classList.add('active');
-  const titles = { 'dashboard':'Dashboard','all-notes':'All Notes','subjects':'Subjects','qa':'E-Commerce Q&A','editor':'Note Editor','note-view':'View Note' };
-  document.getElementById('topbar-title').textContent = titles[name] || '';
-  closeSidebar();
-  if (name === 'dashboard') renderDashboard();
-  if (name === 'all-notes') renderAllNotes();
-  if (name === 'subjects') renderSubjects();
-  if (name === 'qa') renderQA();
-}
+  const btn = document.getElementById(`nav-${id}`);
+  if(btn) btn.classList.add('active');
 
-function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('mob-overlay').classList.add('show'); }
-function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mob-overlay').classList.remove('show'); }
+  const titleMap = { dashboard: 'Dashboard', 'all-notes': 'All Notes', subjects: 'Subjects', editor: 'Note Editor' };
+  document.getElementById('topbar-title').innerText = titleMap[id] || 'StudyDesk';
+  
+  if(id==='dashboard') renderDashboard();
+  if(id==='all-notes') renderAllNotes();
+  if(id==='subjects') renderSubjects();
+  closeSidebar();
+}
 
 /* ══ DASHBOARD ══ */
 function renderDashboard() {
-  const notes = getUserNotes(); const subjects = getUserSubjects();
-  const chapters = [...new Set(notes.filter(n=>n.chapter).map(n=>n.chapter))];
-  document.getElementById('stat-notes').textContent = notes.length;
-  document.getElementById('stat-subjects').textContent = subjects.length;
-  document.getElementById('stat-chapters').textContent = chapters.length;
-  const recent = [...notes].sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,6);
-  const el = document.getElementById('dash-recent-notes');
-  if (!recent.length) { el.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📭</div><p>No notes yet. Create your first one!</p></div>'; return; }
-  el.innerHTML = recent.map(n=>noteCardHTML(n)).join('');
+  updateStats();
+  const recent = [...notes].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 4);
+  const grid = document.getElementById('dash-recent-notes');
+  if(!recent.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📝</div><p>No notes yet. Create your first one!</p></div>';
+    return;
+  }
+  grid.innerHTML = recent.map(n => renderNoteCard(n)).join('');
 }
 
-/* ══ ALL NOTES ══ */
-function renderAllNotes() {
-  const notes = getUserNotes(); const subjects = getUserSubjects();
-  const q = (document.getElementById('notes-search')?.value||'').toLowerCase();
-  const filterRow = document.getElementById('notes-filter-row');
-  const activeChip = filterRow.querySelector('.filter-chip.active')?.dataset.subject || 'all';
-  filterRow.innerHTML = `<button class="filter-chip ${activeChip==='all'?'active':''}" data-subject="all" onclick="setNotesFilter('all',this)">All</button>`
-    + subjects.map(s=>`<button class="filter-chip ${activeChip===s.id?'active':''}" data-subject="${s.id}" onclick="setNotesFilter('${s.id}',this)">${s.icon} ${s.name}</button>`).join('');
-  let filtered = notes.filter(n=>{
-    const matchS = activeChip==='all' || n.subjectId===activeChip;
-    const matchQ = !q || n.title.toLowerCase().includes(q) || n.body?.toLowerCase().includes(q);
-    return matchS && matchQ;
-  }).sort((a,b)=>b.updatedAt-a.updatedAt);
-  const grid = document.getElementById('all-notes-grid');
-  if (!filtered.length) { grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📭</div><p>No notes found.</p></div>'; return; }
-  grid.innerHTML = filtered.map(n=>noteCardHTML(n)).join('');
+function updateStats() {
+  document.getElementById('stat-notes').innerText = notes.length;
+  document.getElementById('stat-subjects').innerText = subjects.length;
+  const chaps = new Set(notes.map(n => n.chapter).filter(c => c));
+  document.getElementById('stat-chapters').innerText = chaps.size;
 }
-function setNotesFilter(id, btn) {
-  document.querySelectorAll('#notes-filter-row .filter-chip').forEach(c=>c.classList.remove('active'));
-  btn.classList.add('active'); renderAllNotes();
-}
-function noteCardHTML(note) {
-  const subjects = getUserSubjects(); const subj = subjects.find(s=>s.id===note.subjectId);
-  const preview = (note.body||'').replace(/<[^>]+>/g,'').slice(0,90);
-  const date = new Date(note.updatedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-  return `<div class="note-card" onclick="viewNote('${note.id}')">
-    <div class="note-card-subject">${subj?subj.icon+' '+subj.name:'Uncategorised'}</div>
-    <div class="note-card-title">${escHtml(note.title||'Untitled')}</div>
-    <div class="note-card-preview">${escHtml(preview)}</div>
-    <div class="note-card-meta">
-      ${note.chapter?`<span class="note-tag chapter">Ch: ${escHtml(note.chapter)}</span>`:''}
-      ${note.question?`<span class="note-tag question">Q: ${escHtml(note.question)}</span>`:''}
-      <span class="note-date">${date}</span>
+
+/* ══ NOTES ══ */
+function renderNoteCard(n) {
+  const bodyTxt = n.body.replace(/<[^>]*>/g, ' ').substring(0, 100);
+  return `
+    <div class="note-card" onclick="viewNote('${n.id}')">
+      <div class="note-card-subject">${escHtml(n.subject)}</div>
+      <div class="note-card-title">${escHtml(n.title)}</div>
+      <div class="note-card-preview">${bodyTxt}...</div>
+      <div class="note-card-meta">
+        ${n.chapter ? `<span class="note-tag chapter">Ch. ${escHtml(n.chapter)}</span>` : ''}
+        ${n.tags.map(t => `<span class="note-tag">${escHtml(t)}</span>`).join('')}
+        <div class="note-date">${new Date(n.date).toLocaleDateString()}</div>
+      </div>
     </div>
-  </div>`;
+  `;
+}
+
+function renderAllNotes() {
+  const query = document.getElementById('notes-search').value.toLowerCase();
+  const filtered = notes.filter(n => 
+    n.title.toLowerCase().includes(query) || 
+    n.body.toLowerCase().includes(query) || 
+    n.subject.toLowerCase().includes(query)
+  );
+  const grid = document.getElementById('all-notes-grid');
+  grid.innerHTML = filtered.map(n => renderNoteCard(n)).join('');
 }
 
 /* ══ SUBJECTS ══ */
 function renderSubjects() {
-  const subjects = getUserSubjects(); const notes = getUserNotes();
   const grid = document.getElementById('subjects-grid');
-  if (!subjects.length) { grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📚</div><p>No subjects yet.</p></div>'; return; }
-  grid.innerHTML = subjects.map(s=>{
-    const count = notes.filter(n=>n.subjectId===s.id).length;
-    return `<div class="subject-card">
-      <div class="subject-card-icon">${s.icon||'📘'}</div>
-      <div class="subject-card-name">${escHtml(s.name)}</div>
-      <div class="subject-card-count">${count} note${count!==1?'s':''}</div>
-      <div class="subject-card-actions">
-        <button class="btn-sm" onclick="filterBySubject('${s.id}')">View Notes</button>
-        <button class="btn-sm" onclick="openEditSubjectModal('${s.id}')">Edit</button>
-        <button class="btn-sm" style="border-color:#dc3545;color:#dc3545" onclick="deleteSubject('${s.id}')">Delete</button>
+  grid.innerHTML = subjects.map(s => {
+    const count = notes.filter(n => n.subject === s.name).length;
+    return `
+      <div class="subject-card" onclick="viewSubjectNotes('${s.name}')">
+        <div class="subject-card-icon">${s.icon}</div>
+        <div class="subject-card-name">${escHtml(s.name)}</div>
+        <div class="subject-card-count">${count} Notes</div>
+        <div class="subject-card-actions">
+           <button class="btn-sm" onclick="event.stopPropagation(); openEditSubjectModal('${s.id}')">Edit</button>
+        </div>
       </div>
-    </div>`;
+    `;
   }).join('');
 }
+
 function renderSidebarSubjects() {
-  const subjects = getUserSubjects(); const notes = getUserNotes();
-  const el = document.getElementById('sb-subject-list');
-  el.innerHTML = subjects.map(s=>{
-    const count = notes.filter(n=>n.subjectId===s.id).length;
-    return `<div class="subject-item" onclick="filterBySubject('${s.id}')">
-      <span class="subject-name">${s.icon} ${escHtml(s.name)}</span>
-      <span class="subject-count">${count}</span>
-    </div>`;
+  const list = document.getElementById('sb-subject-list');
+  list.innerHTML = subjects.map(s => {
+    const count = notes.filter(n => n.subject === s.name).length;
+    return `
+      <div class="subject-item" onclick="viewSubjectNotes('${s.name}')">
+        <div class="subject-name">${s.icon} ${escHtml(s.name)}</div>
+        <div class="subject-count">${count}</div>
+      </div>
+    `;
   }).join('');
 }
-function filterBySubject(id) {
+
+function viewSubjectNotes(subName) {
   gotoPanel('all-notes');
-  setTimeout(()=>{ const btn=document.querySelector(`#notes-filter-row [data-subject="${id}"]`); if(btn) setNotesFilter(id,btn); },50);
-}
-let editingSubjectId = null;
-function openAddSubjectModal() {
-  editingSubjectId=null;
-  document.getElementById('subject-modal-title').textContent='Add Subject';
-  document.getElementById('subject-name-input').value='';
-  document.getElementById('subject-icon-input').value='📘';
-  document.getElementById('subject-modal').classList.add('show');
-}
-function openEditSubjectModal(id) {
-  const subjects=getUserSubjects(); const s=subjects.find(x=>x.id===id); if(!s) return;
-  editingSubjectId=id;
-  document.getElementById('subject-modal-title').textContent='Edit Subject';
-  document.getElementById('subject-name-input').value=s.name;
-  document.getElementById('subject-icon-input').value=s.icon||'📘';
-  document.getElementById('subject-modal').classList.add('show');
-}
-function saveSubject() {
-  const name=document.getElementById('subject-name-input').value.trim();
-  const icon=document.getElementById('subject-icon-input').value.trim()||'📘';
-  if(!name){ showToast('Subject name required'); return; }
-  let subjects=getUserSubjects();
-  if(editingSubjectId) subjects=subjects.map(s=>s.id===editingSubjectId?{...s,name,icon}:s);
-  else subjects.push({id:genId(),name,icon});
-  saveSubjects(subjects); closeModal('subject-modal'); renderSubjects(); renderSidebarSubjects(); populateEditorSubjectSelect();
-  showToast(editingSubjectId?'Subject updated':'Subject added');
-}
-function deleteSubject(id) {
-  if(!confirm('Delete this subject? Notes will be uncategorised.')) return;
-  saveSubjects(getUserSubjects().filter(s=>s.id!==id));
-  saveNotes(getUserNotes().map(n=>n.subjectId===id?{...n,subjectId:''}:n));
-  renderSubjects(); renderSidebarSubjects(); showToast('Subject deleted');
+  document.getElementById('notes-search').value = subName;
+  renderAllNotes();
 }
 
-/* ══ NOTE EDITOR ══ */
-let editingNoteId = null;
-function openNoteEditor(noteId) {
-  editingNoteId=noteId;
-  const body=document.getElementById('editor-body');
-  const deleteBtn=document.getElementById('editor-delete-btn');
-  populateEditorSubjectSelect();
-  if(noteId) {
-    const note=getUserNotes().find(n=>n.id===noteId); if(!note) return;
-    document.getElementById('editor-title').value=note.title||'';
-    document.getElementById('editor-subject').value=note.subjectId||'';
-    document.getElementById('editor-chapter').value=note.chapter||'';
-    document.getElementById('editor-question').value=note.question||'';
-    body.innerHTML=note.body||'';
-    deleteBtn.style.display='';
-    document.getElementById('editor-breadcrumb').innerHTML=breadcrumbHTML(note);
-    document.getElementById('topbar-title').textContent='Edit Note';
-  } else {
-    document.getElementById('editor-title').value='';
-    document.getElementById('editor-subject').value='';
-    document.getElementById('editor-chapter').value='';
-    document.getElementById('editor-question').value='';
-    body.innerHTML=''; deleteBtn.style.display='none';
-    document.getElementById('editor-breadcrumb').innerHTML=breadcrumbHTML(null);
-    document.getElementById('topbar-title').textContent='New Note';
-  }
+/* ══ EDITOR ══ */
+function openNoteEditor(noteId = null) {
+  currentNoteId = noteId;
   gotoPanel('editor');
-}
-function breadcrumbHTML(note) {
-  const subj=note?.subjectId?getUserSubjects().find(s=>s.id===note.subjectId):null;
-  let parts=[`<a onclick="gotoPanel('dashboard')">Home</a>`];
-  if(subj) parts.push(`<span>›</span><a onclick="filterBySubject('${subj.id}')">${subj.name}</a>`);
-  if(note?.chapter) parts.push(`<span>›</span><span>${escHtml(note.chapter)}</span>`);
-  parts.push(`<span>›</span><span>${note?'Edit':'New Note'}</span>`);
-  return parts.join(' ');
-}
-function populateEditorSubjectSelect() {
-  const sel=document.getElementById('editor-subject'); const subjects=getUserSubjects(); const cur=sel.value;
-  sel.innerHTML='<option value="">— Subject —</option>'+subjects.map(s=>`<option value="${s.id}">${s.icon} ${escHtml(s.name)}</option>`).join('');
-  if(cur) sel.value=cur;
-}
-function saveNote() {
-  const title=document.getElementById('editor-title').value.trim();
-  const body=document.getElementById('editor-body').innerHTML;
-  const subjectId=document.getElementById('editor-subject').value;
-  const chapter=document.getElementById('editor-chapter').value.trim();
-  const question=document.getElementById('editor-question').value.trim();
-  if(!title){ showToast('Please enter a title'); return; }
-  let notes=getUserNotes();
-  if(editingNoteId) {
-    notes=notes.map(n=>n.id===editingNoteId?{...n,title,body,subjectId,chapter,question,updatedAt:Date.now()}:n);
-    showToast('Note updated!');
+  
+  const subSelect = document.getElementById('editor-subject');
+  subSelect.innerHTML = '<option value="">— Subject —</option>' + subjects.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+
+  if(noteId) {
+    const n = notes.find(x => x.id === noteId);
+    document.getElementById('editor-title').value = n.title;
+    document.getElementById('editor-subject').value = n.subject;
+    document.getElementById('editor-chapter').value = n.chapter || '';
+    document.getElementById('editor-tags').value = n.tags.join(', ');
+    document.getElementById('editor-body').innerHTML = n.body;
   } else {
-    const newNote={id:genId(),title,body,subjectId,chapter,question,createdAt:Date.now(),updatedAt:Date.now()};
-    notes.unshift(newNote); editingNoteId=newNote.id;
-    document.getElementById('editor-delete-btn').style.display='';
-    showToast('Note saved!');
+    document.getElementById('editor-title').value = '';
+    document.getElementById('editor-subject').value = '';
+    document.getElementById('editor-chapter').value = '';
+    document.getElementById('editor-tags').value = '';
+    document.getElementById('editor-body').innerHTML = '';
   }
-  saveNotes(notes); renderSidebarSubjects();
-}
-let pendingDeleteId=null;
-function deleteCurrentNote() { pendingDeleteId=editingNoteId; document.getElementById('confirm-modal').classList.add('show'); }
-function confirmDeleteNote() {
-  if(!pendingDeleteId) return;
-  saveNotes(getUserNotes().filter(n=>n.id!==pendingDeleteId));
-  closeModal('confirm-modal'); pendingDeleteId=null; renderSidebarSubjects(); showToast('Note deleted'); gotoPanel('all-notes');
 }
 
-/* ══ NOTE VIEW ══ */
-let viewingNoteId=null;
+function saveNote() {
+  const title = document.getElementById('editor-title').value;
+  const subject = document.getElementById('editor-subject').value;
+  const body = document.getElementById('editor-body').innerHTML;
+  
+  if(!title || !subject) { showToast('Title and Subject are required.'); return; }
+
+  const noteData = {
+    id: currentNoteId || 'n' + Date.now(),
+    title,
+    subject,
+    chapter: document.getElementById('editor-chapter').value,
+    tags: document.getElementById('editor-tags').value.split(',').map(t => t.trim()).filter(t => t),
+    body,
+    date: new Date().toISOString()
+  };
+
+  if(currentNoteId) {
+    const idx = notes.findIndex(n => n.id === currentNoteId);
+    notes[idx] = noteData;
+  } else {
+    notes.push(noteData);
+  }
+
+  saveData();
+  showToast('Note saved successfully.');
+  viewNote(noteData.id);
+}
+
 function viewNote(id) {
-  const note=getUserNotes().find(n=>n.id===id); if(!note) return;
-  viewingNoteId=id;
-  const subj=getUserSubjects().find(s=>s.id===note.subjectId);
-  document.getElementById('view-subject').textContent=subj?subj.icon+' '+subj.name:'';
-  document.getElementById('view-title').textContent=note.title||'Untitled';
-  let meta='';
-  if(note.chapter) meta+=`<span class="note-tag chapter">Ch: ${escHtml(note.chapter)}</span>`;
-  if(note.question) meta+=`<span class="note-tag question">Q: ${escHtml(note.question)}</span>`;
-  meta+=`<span class="note-date">${new Date(note.updatedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>`;
-  document.getElementById('view-meta').innerHTML=meta;
-  document.getElementById('view-body').innerHTML=note.body||'<em style="color:var(--muted)">No content.</em>';
-  document.getElementById('view-breadcrumb').innerHTML=breadcrumbHTML(note);
+  const n = notes.find(x => x.id === id);
+  if(!n) return;
+  currentNoteId = id;
   gotoPanel('note-view');
+  
+  document.getElementById('view-subject').innerText = n.subject;
+  document.getElementById('view-title').innerText = n.title;
+  document.getElementById('view-body').innerHTML = n.body;
+  document.getElementById('btn-edit-note').onclick = () => openNoteEditor(n.id);
+  
+  let meta = `<span>📅 ${new Date(n.date).toLocaleDateString()}</span>`;
+  if(n.chapter) meta += `<span class="note-tag chapter">Chapter: ${n.chapter}</span>`;
+  n.tags.forEach(t => meta += `<span class="note-tag">${t}</span>`);
+  document.getElementById('view-meta').innerHTML = meta;
 }
-function editCurrentNote() { if(viewingNoteId) openNoteEditor(viewingNoteId); }
-
-/* ══ RICH TEXT ══ */
-function fmt(cmd,val) { document.getElementById('editor-body').focus(); document.execCommand(cmd,false,val||null); }
-function fmtBlock(tag) { document.getElementById('editor-body').focus(); document.execCommand('formatBlock',false,tag); }
-function insertCode() { document.getElementById('editor-body').focus(); document.execCommand('insertHTML',false,'<code>code here</code>'); }
-function insertQuote() { document.getElementById('editor-body').focus(); document.execCommand('formatBlock',false,'blockquote'); }
-function insertTable() { document.getElementById('table-modal').classList.add('show'); }
-function doInsertTable() {
-  const rows=parseInt(document.getElementById('tbl-rows').value)||3;
-  const cols=parseInt(document.getElementById('tbl-cols').value)||3;
-  let html='<table><tr>'+Array(cols).fill(0).map((_,i)=>`<th>Header ${i+1}</th>`).join('')+'</tr>';
-  for(let r=0;r<rows;r++) html+='<tr>'+Array(cols).fill(0).map(()=>'<td>&nbsp;</td>').join('')+'</tr>';
-  html+='</table><p></p>';
-  document.getElementById('editor-body').focus(); document.execCommand('insertHTML',false,html); closeModal('table-modal');
-}
-
-/* ══ DRAWING ══ */
-let drawTool='pen',isDrawing=false,startX=0,startY=0,snapshot=null;
-function initCanvas() {
-  const canvas=document.getElementById('draw-canvas');
-  canvas.addEventListener('mousedown',startDraw); canvas.addEventListener('mousemove',draw);
-  canvas.addEventListener('mouseup',endDraw); canvas.addEventListener('mouseleave',endDraw);
-  canvas.addEventListener('touchstart',e=>{e.preventDefault();startDraw(e.touches[0]);},{passive:false});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault();draw(e.touches[0]);},{passive:false});
-  canvas.addEventListener('touchend',endDraw);
-  resizeCanvas(); window.addEventListener('resize',resizeCanvas);
-}
-function resizeCanvas() { const c=document.getElementById('draw-canvas'); c.width=c.parentElement.clientWidth||600; }
-function getPos(e) { const c=document.getElementById('draw-canvas'); const r=c.getBoundingClientRect(); return{x:e.clientX-r.left,y:e.clientY-r.top}; }
-function startDraw(e) {
-  isDrawing=true; const {x,y}=getPos(e); startX=x; startY=y;
-  const c=document.getElementById('draw-canvas'); snapshot=c.getContext('2d').getImageData(0,0,c.width,c.height);
-  if(drawTool==='pen'||drawTool==='eraser'){const ctx=c.getContext('2d');ctx.beginPath();ctx.moveTo(x,y);}
-}
-function draw(e) {
-  if(!isDrawing) return; const c=document.getElementById('draw-canvas'); const ctx=c.getContext('2d');
-  const {x,y}=getPos(e); const color=document.getElementById('draw-color').value; const size=parseInt(document.getElementById('draw-size').value);
-  ctx.strokeStyle=drawTool==='eraser'?'#ffffff':color; ctx.fillStyle=color;
-  ctx.lineWidth=drawTool==='eraser'?size*4:size; ctx.lineJoin='round'; ctx.lineCap='round';
-  if(drawTool==='pen'||drawTool==='eraser'){ctx.lineTo(x,y);ctx.stroke();}
-  else{ctx.putImageData(snapshot,0,0);ctx.beginPath();
-    if(drawTool==='line'){ctx.moveTo(startX,startY);ctx.lineTo(x,y);ctx.stroke();}
-    else if(drawTool==='rect'){ctx.strokeRect(startX,startY,x-startX,y-startY);}
-    else if(drawTool==='circle'){const r=Math.sqrt((x-startX)**2+(y-startY)**2);ctx.arc(startX,startY,r,0,Math.PI*2);ctx.stroke();}
-  }
-}
-function endDraw(){isDrawing=false;}
-function setDrawTool(t){drawTool=t;document.querySelectorAll('.draw-tool-btn').forEach(b=>b.classList.remove('active'));document.getElementById('dt-'+t)?.classList.add('active');}
-function clearCanvas(){const c=document.getElementById('draw-canvas');c.getContext('2d').clearRect(0,0,c.width,c.height);}
-function toggleDraw(){const p=document.getElementById('draw-panel');p.classList.toggle('show');document.getElementById('draw-toggle-btn').classList.toggle('active',p.classList.contains('show'));if(p.classList.contains('show'))setTimeout(resizeCanvas,50);}
-function insertDrawingToNote(){const c=document.getElementById('draw-canvas');const img=c.toDataURL('image/png');document.getElementById('editor-body').focus();document.execCommand('insertHTML',false,`<img src="${img}" class="note-view-drawing" alt="Drawing">`);toggleDraw();showToast('Drawing inserted!');}
 
 /* ══ HELPERS ══ */
-function closeModal(id){document.getElementById(id).classList.remove('show');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');}));
-
-/* ══════════════════════════════════════════
-   E-COMMERCE Q&A DATA
-══════════════════════════════════════════ */
-const QA_DATA = [
-{id:'01',chapter:'ch1',years:'2010–2023',tags:['definition'],
-q:'What is E-Commerce?',
-body:`<p><strong>E-Commerce</strong> means buying and selling things using the internet. Instead of going to a physical shop, you visit a website (like Amazon or Daraz), choose a product, pay online, and get it delivered to your home.</p>
-<p><strong>Full definition:</strong> Electronic Commerce is the process of conducting business transactions — buying, selling, and exchanging goods, services, or information — through electronic networks, primarily the internet.</p>`},
-
-{id:'01b',chapter:'ch1',years:'2022–2023',tags:['models'],
-q:'Discuss the major six popular e-commerce business models.',
-body:`<p>A business model describes <strong>who sells to whom</strong>. The six main models are:</p>
-<table><tr><th>Model</th><th>Full Name</th><th>Description</th><th>Example</th></tr>
-<tr><td><strong>B2C</strong></td><td>Business to Consumer</td><td>Company sells to a regular customer</td><td>Amazon, Daraz</td></tr>
-<tr><td><strong>B2B</strong></td><td>Business to Business</td><td>One company sells to another company</td><td>Alibaba</td></tr>
-<tr><td><strong>C2C</strong></td><td>Consumer to Consumer</td><td>Person sells to another person</td><td>eBay, OLX</td></tr>
-<tr><td><strong>C2B</strong></td><td>Consumer to Business</td><td>Person offers services to a company</td><td>Fiverr</td></tr>
-<tr><td><strong>B2G</strong></td><td>Business to Government</td><td>Company sells to the government</td><td>e-procurement</td></tr>
-<tr><td><strong>G2C</strong></td><td>Government to Citizen</td><td>Government delivers services to citizens</td><td>NID, tax portals</td></tr>
-</table>`},
-
-{id:'02',chapter:'ch1',years:'2015',tags:['definition'],
-q:'Define M-Commerce and I-Commerce.',
-body:`<p><strong>M-Commerce (Mobile Commerce):</strong> Conducting business using mobile phones or tablets. You don't need a computer — just a smartphone and internet. Example: ordering food on Pathao Food app.</p>
-<p><strong>I-Commerce (Internet Commerce):</strong> Doing business through the internet using any device. It is essentially the same as e-commerce but emphasises internet-based transactions. Example: buying a book online using a laptop.</p>`},
-
-{id:'03',chapter:'ch1',years:'2014',tags:['definition'],
-q:'Write down the advantages of e-commerce.',
-body:`<table><tr><th>Advantage</th><th>Explanation</th></tr>
-<tr><td><strong>Open 24/7</strong></td><td>Shop at any time — midnight, holidays, weekends. No closing hours.</td></tr>
-<tr><td><strong>Global reach</strong></td><td>A seller in Dhaka can easily sell to a customer in London.</td></tr>
-<tr><td><strong>Lower cost</strong></td><td>No physical shop or large staff needed. Prices can be cheaper for buyers too.</td></tr>
-<tr><td><strong>Convenience</strong></td><td>Buy from home — no traffic, no queues, no parking issues.</td></tr>
-<tr><td><strong>Easy comparison</strong></td><td>Compare prices and reviews from many sellers in seconds.</td></tr>
-<tr><td><strong>Wider variety</strong></td><td>Millions of products available from around the world.</td></tr>
-</table>`},
-
-{id:'04',chapter:'ch1',years:'2012',tags:['definition'],
-q:'List some major disadvantages of e-commerce.',
-body:`<table><tr><th>Disadvantage</th><th>Explanation</th></tr>
-<tr><td><strong>Security risk</strong></td><td>Hackers can steal your credit card information or personal data.</td></tr>
-<tr><td><strong>Cannot touch/try</strong></td><td>You cannot feel the product before buying. Colours may differ from photos.</td></tr>
-<tr><td><strong>Delivery delay</strong></td><td>You must wait for the product. It may arrive damaged or late.</td></tr>
-<tr><td><strong>Needs internet</strong></td><td>Without internet or electricity, you cannot access the site.</td></tr>
-<tr><td><strong>Fraud</strong></td><td>Fake sellers, counterfeit products, and scam websites are common.</td></tr>
-<tr><td><strong>No personal touch</strong></td><td>No face-to-face help. Customer service can be slow or unhelpful.</td></tr>
-</table>`},
-
-{id:'05',chapter:'ch1',years:'2011, 2012, 2023',tags:['definition'],
-q:'What are the benefits of using e-commerce? / Discuss the e-commerce success factors.',
-body:`<p>The <strong>success factors</strong> that make an e-commerce business successful:</p>
-<table><tr><th>Factor</th><th>Explanation</th></tr>
-<tr><td><strong>Easy Design</strong></td><td>Simple, clear UI so customers can find and buy products quickly.</td></tr>
-<tr><td><strong>Safe Payment</strong></td><td>SSL encryption, bKash, card payments — customers must trust the payment system.</td></tr>
-<tr><td><strong>Good Products</strong></td><td>Quality products with accurate descriptions and photos.</td></tr>
-<tr><td><strong>Fast Delivery</strong></td><td>Strong logistics and courier partnerships for timely delivery.</td></tr>
-<tr><td><strong>Customer Support</strong></td><td>Easy returns, responsive help, and after-sales service.</td></tr>
-</table>`},
-
-{id:'06',chapter:'ch1',years:'2010, 2013',tags:['definition'],
-q:'How does E-Commerce differ from E-Business?',
-body:`<p>Simple way to remember: <strong>E-Commerce</strong> is just the "buying and selling" part online. <strong>E-Business</strong> is everything a company does electronically — including internal operations, HR, supply chain, and e-commerce too. E-Commerce is a subset of E-Business.</p>
-<table><tr><th>Feature</th><th>E-Commerce</th><th>E-Business</th></tr>
-<tr><td>Scope</td><td>Only buying and selling online</td><td>All digital business activities</td></tr>
-<tr><td>Includes</td><td>Transactions, payments, orders</td><td>HR, ERP, CRM, supply chain + e-commerce</td></tr>
-<tr><td>Focus</td><td>External (customers)</td><td>Both internal and external</td></tr>
-<tr><td>Example</td><td>Daraz.com.bd</td><td>Entire company's digital operations</td></tr>
-</table>`},
-
-{id:'07',chapter:'ch1',years:'2010, 2014, 2023',tags:['models'],
-q:'What are the different types of e-commerce? / What are e-commerce marketplaces?',
-body:`<p>An <strong>e-commerce marketplace</strong> is a platform where multiple buyers and sellers meet to conduct transactions.</p>
-<table><tr><th>Type</th><th>Meaning</th><th>Example</th></tr>
-<tr><td><strong>B2C</strong></td><td>Business sells to a regular customer</td><td>Daraz, Chaldal</td></tr>
-<tr><td><strong>B2B</strong></td><td>One business sells to another</td><td>Alibaba</td></tr>
-<tr><td><strong>C2C</strong></td><td>Person sells to another person</td><td>eBay, OLX, Bikroy.com</td></tr>
-<tr><td><strong>C2B</strong></td><td>Person offers service to a business</td><td>Fiverr, Freelancer</td></tr>
-<tr><td><strong>B2G</strong></td><td>Business sells to government</td><td>e-procurement systems</td></tr>
-<tr><td><strong>G2C</strong></td><td>Government serves citizens</td><td>e-passport, birth certificate</td></tr>
-<tr><td><strong>B2E</strong></td><td>Business serves its own employees</td><td>Internal payroll portal</td></tr>
-</table>`},
-
-{id:'08',chapter:'ch1',years:'2011',tags:['models'],
-q:'What are the four types of consumer-oriented applications of e-commerce?',
-body:`<table><tr><th>Application</th><th>Example</th></tr>
-<tr><td><strong>Online Retail</strong></td><td>Buy products on Daraz, Amazon</td></tr>
-<tr><td><strong>Online Banking</strong></td><td>Send money, pay bills via bKash, Nagad</td></tr>
-<tr><td><strong>Online Ticketing</strong></td><td>Book transport tickets via Shohoz, BD Trains</td></tr>
-<tr><td><strong>Digital Content</strong></td><td>Stream music, movies on Netflix, Spotify</td></tr>
-</table>`},
-
-{id:'09',chapter:'ch1',years:'2010, 2020',tags:['definition'],
-q:'State some significant problems of e-commerce over traditional commerce.',
-body:`<table><tr><th>Problem</th><th>Detail</th></tr>
-<tr><td><strong>No physical check</strong></td><td>In a shop you can touch and try the product before buying. Online you cannot.</td></tr>
-<tr><td><strong>Trust issues</strong></td><td>You do not know if the seller is genuine until the product arrives.</td></tr>
-<tr><td><strong>Hacking risk</strong></td><td>Your payment details can be stolen online — physical shops do not face this.</td></tr>
-<tr><td><strong>Delivery wait</strong></td><td>In a shop you take the product home immediately. Online you must wait days.</td></tr>
-<tr><td><strong>Internet needed</strong></td><td>No internet means no shopping. Rural areas with poor connectivity suffer.</td></tr>
-<tr><td><strong>Return hassle</strong></td><td>Returning a wrong item is more complicated online than walking back to a shop.</td></tr>
-</table>`},
-
-{id:'10',chapter:'ch1',years:'2010, 2020',tags:['security'],
-q:'List the major security concerns in internet-based e-commerce.',
-body:`<table><tr><th>Security Threat</th><th>Description</th></tr>
-<tr><td><strong>Hacking</strong></td><td>Unauthorized access to server to steal data.</td></tr>
-<tr><td><strong>Phishing</strong></td><td>Fake login websites trick users into giving passwords.</td></tr>
-<tr><td><strong>Identity Theft</strong></td><td>Personal data stolen and misused.</td></tr>
-<tr><td><strong>Virus / Malware</strong></td><td>Malicious software installed to compromise the device.</td></tr>
-<tr><td><strong>DoS Attack</strong></td><td>Website made unavailable by flooding with traffic.</td></tr>
-<tr><td><strong>Payment Fraud</strong></td><td>Stolen credit card details used for purchases.</td></tr>
-</table>`},
-
-{id:'11',chapter:'ch1',years:'2011',tags:['definition'],
-q:'Describe the generic framework for electronic commerce.',
-body:`<p>A framework shows how e-commerce is built in layers — like floors of a building. The bottom floor is infrastructure; the top floor is what users see.</p>
-<table><tr><th>Layer</th><th>Description</th></tr>
-<tr><td><strong>Layer 4 — Applications</strong></td><td>Online store, banking portal, ticket booking — what users see.</td></tr>
-<tr><td><strong>Layer 3 — Business Services</strong></td><td>SSL security, payment gateway, authentication, catalogue management.</td></tr>
-<tr><td><strong>Layer 2 — Middleware</strong></td><td>Web server, database, messaging system, transaction processing.</td></tr>
-<tr><td><strong>Layer 1 — Network Infrastructure</strong></td><td>Internet, mobile network, cable, satellite — how data travels.</td></tr>
-</table>`},
-
-{id:'12',chapter:'ch1',years:'2012, 2014, 2021',tags:['models'],
-q:'Explain the working principle of B2B e-commerce.',
-body:`<p>In B2B, one company buys from another online. A garments factory in Bangladesh orders fabric from a textile supplier using a B2B portal or EDI system — entirely electronically.</p>
-<p><strong>Process:</strong></p>
-<ol style="padding-left:1.5rem;margin:0.5rem 0">
-<li>Buyer company creates a purchase order online.</li>
-<li>Order is sent through B2B portal or EDI system.</li>
-<li>Seller receives and confirms the order automatically.</li>
-<li>Invoice is generated electronically.</li>
-<li>Payment is transferred via bank or digital means.</li>
-<li>Seller ships goods; delivery is tracked online.</li>
-</ol>`},
-
-{id:'13',chapter:'ch1',years:'2012',tags:['models'],
-q:'What are the essential requirements for B2B e-commerce?',
-body:`<table><tr><th>Requirement</th><th>Explanation</th></tr>
-<tr><td><strong>Electronic catalogue</strong></td><td>An online list of all products with price, description, and images.</td></tr>
-<tr><td><strong>EDI system</strong></td><td>Electronic Data Interchange — computers exchange documents automatically.</td></tr>
-<tr><td><strong>Secure payment</strong></td><td>Safe methods to transfer large sums — bank transfers, letters of credit.</td></tr>
-<tr><td><strong>Supply chain integration</strong></td><td>Ordering system connects to warehouse, delivery, and inventory automatically.</td></tr>
-<tr><td><strong>Digital authentication</strong></td><td>Digital certificates or signatures to prove identity of buyer and seller.</td></tr>
-<tr><td><strong>Legal agreement</strong></td><td>Clear digital contracts defining terms and conditions.</td></tr>
-</table>`},
-
-{id:'14',chapter:'ch1',years:'2012–2020',tags:['definition'],
-q:'Mention some major applications of e-commerce.',
-body:`<table><tr><th>Application</th><th>Example</th></tr>
-<tr><td><strong>Online shopping</strong></td><td>Buy clothes, electronics, groceries from Daraz, Chaldal, Amazon</td></tr>
-<tr><td><strong>Online banking</strong></td><td>Transfer money, pay bills, check balance via bKash or Nagad</td></tr>
-<tr><td><strong>Online travel</strong></td><td>Book flights, hotels, bus tickets via Shohoz, Booking.com</td></tr>
-<tr><td><strong>Online education</strong></td><td>Pay tuition, access e-books, take courses via 10 Minute School, Coursera</td></tr>
-<tr><td><strong>Online healthcare</strong></td><td>Book doctor appointments, buy medicine via Praava, Sheba.xyz</td></tr>
-<tr><td><strong>Online auctions</strong></td><td>Buy and sell items through bidding on eBay</td></tr>
-<tr><td><strong>Digital downloads</strong></td><td>Buy and download music, games, or software instantly</td></tr>
-</table>`},
-
-{id:'15',chapter:'ch1',years:'2012',tags:['definition'],
-q:'What are the different layers in e-commerce architecture? Briefly describe each.',
-body:`<table><tr><th>Layer</th><th>Description</th></tr>
-<tr><td><strong>Presentation / UI Layer</strong></td><td>Website pages, mobile app screens — what you see and click.</td></tr>
-<tr><td><strong>Application / Business Logic Layer</strong></td><td>Calculates prices, applies discounts, processes orders, runs rules.</td></tr>
-<tr><td><strong>Middleware / Service Layer</strong></td><td>Payment gateway, security, notifications, web server.</td></tr>
-<tr><td><strong>Data Layer</strong></td><td>Customer info, product data, orders, inventory in databases.</td></tr>
-<tr><td><strong>Network Infrastructure</strong></td><td>Internet, servers, hardware, physical data carriers.</td></tr>
-</table>`},
-
-{id:'16',chapter:'ch1',years:'2013, 2020',tags:['definition'],
-q:'Describe briefly the major components of e-commerce.',
-body:`<table><tr><th>Component</th><th>Role</th></tr>
-<tr><td><strong>Website / App</strong></td><td>The online shop where customers browse and buy products</td></tr>
-<tr><td><strong>Product catalogue</strong></td><td>List of all products with details, photos, and prices</td></tr>
-<tr><td><strong>Shopping cart</strong></td><td>Lets customers collect items before paying</td></tr>
-<tr><td><strong>Payment system</strong></td><td>Accepts cards, mobile banking, or bank transfer</td></tr>
-<tr><td><strong>Order management</strong></td><td>Tracks each order from placement to delivery</td></tr>
-<tr><td><strong>Database</strong></td><td>Stores customer data, product info, and transaction records</td></tr>
-<tr><td><strong>Security system</strong></td><td>SSL encryption and login verification to keep data safe</td></tr>
-<tr><td><strong>Delivery / Logistics</strong></td><td>Handles shipping and parcel tracking</td></tr>
-</table>`},
-
-{id:'17',chapter:'ch1',years:'2013, 2016',tags:['models'],
-q:'Describe B2B and B2C e-commerce with examples.',
-body:`<table><tr><th>Feature</th><th>B2B</th><th>B2C</th></tr>
-<tr><td>Who buys</td><td>A company</td><td>An individual</td></tr>
-<tr><td>Order size</td><td>Large and bulk</td><td>Small, personal</td></tr>
-<tr><td>Pricing</td><td>Negotiated</td><td>Fixed listed price</td></tr>
-<tr><td>Relationship</td><td>Long-term contract</td><td>One-time or repeat purchase</td></tr>
-<tr><td>Example</td><td>Alibaba.com — factory orders raw material</td><td>Daraz.com.bd — you buy a phone</td></tr>
-</table>`},
-
-{id:'18',chapter:'ch1',years:'2015',tags:['definition'],
-q:'Differentiate between traditional commerce and e-commerce.',
-body:`<table><tr><th>Feature</th><th>Traditional Commerce</th><th>E-Commerce</th></tr>
-<tr><td>Location</td><td>Physical shop</td><td>Online website or app</td></tr>
-<tr><td>Timing</td><td>Fixed hours (9am–6pm)</td><td>Open 24 hours, 7 days</td></tr>
-<tr><td>Reach</td><td>Local only</td><td>Anywhere in the world</td></tr>
-<tr><td>Payment</td><td>Cash, cheque</td><td>bKash, card, net banking</td></tr>
-<tr><td>Operating cost</td><td>High (rent, staff, utilities)</td><td>Lower — no physical shop</td></tr>
-<tr><td>Speed</td><td>Get product immediately</td><td>Wait for delivery</td></tr>
-<tr><td>Product check</td><td>Can touch and try</td><td>Only see photos</td></tr>
-<tr><td>Customer service</td><td>Face-to-face</td><td>Chat, email, or phone</td></tr>
-</table>`},
-
-{id:'19',chapter:'ch1',years:'2015',tags:['models'],
-q:'Write what you know about B2B, B2C, and B2G.',
-body:`<p><strong>B2B (Business to Business):</strong> Companies buying from other companies online. Large volumes, formal contracts, negotiated prices. Example: A Dhaka restaurant chain ordering vegetables in bulk from a farm through an online platform.</p>
-<p><strong>B2C (Business to Consumer):</strong> A company selling directly to a regular person. The most common type of e-commerce. Focus is on ease of use and customer experience. Example: You ordering pizza on Foodpanda.</p>
-<p><strong>B2G (Business to Government):</strong> Companies selling products or services to the government. Usually involves tenders and official procedures. Example: A software company building the national e-passport system for the Bangladesh government.</p>`},
-
-{id:'20',chapter:'ch1',years:'2015',tags:['definition'],
-q:'Describe the cycle of e-commerce.',
-body:`<p>The e-commerce transaction cycle consists of the following steps:</p>
-<ol style="padding-left:1.5rem;margin:0.5rem 0">
-<li><strong>Browse</strong> — Customer visits the website and explores products.</li>
-<li><strong>Select</strong> — Adds desired items to the shopping cart.</li>
-<li><strong>Order</strong> — Fills in delivery details and confirms the order.</li>
-<li><strong>Pay</strong> — Completes payment online (card, bKash, bank).</li>
-<li><strong>Confirm</strong> — Receives order confirmation via SMS or email.</li>
-<li><strong>Pack</strong> — Warehouse packs the ordered items.</li>
-<li><strong>Ship</strong> — Courier picks up and transports the package.</li>
-<li><strong>Deliver</strong> — Customer receives the product at the door.</li>
-<li><strong>Review</strong> — Customer leaves feedback and the cycle may repeat.</li>
-</ol>`},
-
-{id:'21',chapter:'ch1',years:'2021',tags:['governance'],
-q:'Define Digital Government and E-Governance.',
-body:`<p><strong>Digital Government:</strong> When the government uses digital technology to run operations and deliver services online. Citizens can do everything without visiting a physical office.</p>
-<p><strong>E-Governance:</strong> Using ICT to improve how government works — communicating with citizens, managing public services, and sharing information electronically.</p>
-<table><tr><th>Model</th><th>Meaning</th><th>Example</th></tr>
-<tr><td><strong>G2C</strong></td><td>Government to Citizens</td><td>e-passport, NID, tax filing</td></tr>
-<tr><td><strong>G2B</strong></td><td>Government to Business</td><td>Trade license, tenders online</td></tr>
-<tr><td><strong>G2G</strong></td><td>Government to Government</td><td>Inter-department data sharing</td></tr>
-</table>
-<p><strong>Bangladesh example:</strong> Renew your passport online, get a birth certificate from a Union Digital Centre, or pay income tax through iBAS++.</p>`},
-
-{id:'22',chapter:'ch1',years:'2022',tags:['models'],
-q:'What is an e-commerce business model? Discuss the major six popular models.',
-body:`<p>A <strong>business model</strong> is the plan of how a company makes money online. It defines who you sell to, what you sell, and how you earn revenue.</p>
-<table><tr><th>Model</th><th>Revenue source</th><th>Scale</th></tr>
-<tr><td><strong>B2C</strong></td><td>Retail margin on each product sale</td><td>High volume, low value per order</td></tr>
-<tr><td><strong>B2B</strong></td><td>Bulk order contracts, negotiated prices</td><td>Low volume, high value per order</td></tr>
-<tr><td><strong>C2C</strong></td><td>Platform takes a commission per sale</td><td>Medium, person to person</td></tr>
-<tr><td><strong>C2B</strong></td><td>Freelancer sets price, platform takes cut</td><td>Variable, project-based</td></tr>
-<tr><td><strong>B2G</strong></td><td>Government contract / tender award</td><td>Very high value, formal</td></tr>
-<tr><td><strong>G2C</strong></td><td>Government fee (tax, license, fine)</td><td>Mass scale, all citizens</td></tr>
-</table>`},
-
-{id:'23',chapter:'ch1',years:'2022',tags:['marketing'],
-q:'What are e-commerce marketing strategies for beginners?',
-body:`<table><tr><th>Strategy</th><th>How it works</th></tr>
-<tr><td><strong>SEO</strong></td><td>Make your website appear at the top of Google search by using the right keywords in product descriptions and page titles.</td></tr>
-<tr><td><strong>Social media</strong></td><td>Post product photos and ads on Facebook, Instagram, and TikTok to reach potential customers where they spend time.</td></tr>
-<tr><td><strong>Email marketing</strong></td><td>Send discount codes and updates to customers who gave their email at checkout.</td></tr>
-<tr><td><strong>Paid ads</strong></td><td>Pay Google or Facebook to show your ads to specifically targeted customers.</td></tr>
-<tr><td><strong>Content marketing</strong></td><td>Write helpful blogs and make videos so customers find and trust your brand.</td></tr>
-<tr><td><strong>Discounts / offers</strong></td><td>Flash sales, coupons, and free delivery to attract first-time buyers.</td></tr>
-</table>`},
-
-{id:'24',chapter:'ch1',years:'2023',tags:['governance','marketing'],
-q:'What is the vision of e-governance in Bangladesh? Describe the five steps to document an e-commerce marketing plan.',
-body:`<p><strong>Vision of E-Governance in Bangladesh:</strong> Linked to "Digital Bangladesh" and now "Smart Bangladesh", the goal is to deliver all government services online by 2041 — citizens can get any government service from anywhere without visiting a physical office. Examples: online land records, e-passport, tax filing, birth certificates through Union Digital Centres.</p>
-<p><strong>Five Steps to Document an E-Commerce Marketing Plan:</strong></p>
-<table><tr><th>Step</th><th>Detail</th></tr>
-<tr><td><strong>1. Target</strong></td><td>Identify who the customer is — age, location, interests, buying behaviour.</td></tr>
-<tr><td><strong>2. Goals</strong></td><td>Set measurable goals e.g. increase monthly sales by 20%.</td></tr>
-<tr><td><strong>3. Strategy</strong></td><td>Choose channels: SEO, social media ads, email marketing.</td></tr>
-<tr><td><strong>4. Budget</strong></td><td>Allocate spending per channel and set a total monthly marketing budget.</td></tr>
-<tr><td><strong>5. Measure</strong></td><td>Track KPIs (clicks, conversions, revenue) and adjust what is not working.</td></tr>
-</table>`},
-
-{id:'25',chapter:'ch1',years:'2022',tags:['marketing'],
-q:'What is e-commerce marketing? Describe the five steps to document an e-commerce marketing plan.',
-body:`<p><strong>E-Commerce marketing</strong> is the process of promoting your online store to attract visitors and convert them into paying customers. It includes social media posts, Google ads, email campaigns, discount offers, and more.</p>
-<table><tr><th>Step</th><th>Detail</th></tr>
-<tr><td><strong>1. Identify target customers</strong></td><td>Know who you are selling to — age, location, interests, buying behaviour.</td></tr>
-<tr><td><strong>2. Set clear goals</strong></td><td>For example: increase monthly sales by 20%, or get 500 new email subscribers.</td></tr>
-<tr><td><strong>3. Choose marketing channels</strong></td><td>Facebook ads, Google SEO, email newsletters, influencer posts, or content blogs.</td></tr>
-<tr><td><strong>4. Set a budget</strong></td><td>Allocate spending per channel and set a total monthly marketing budget.</td></tr>
-<tr><td><strong>5. Measure and improve</strong></td><td>Track KPIs (clicks, conversions, revenue) and adjust what is not working.</td></tr>
-</table>`},
-
-{id:'26',chapter:'ch1',years:'2023',tags:['security','definition'],
-q:'What are the key challenges of web store requirements in e-commerce?',
-body:`<table><tr><th>Challenge</th><th>Explanation</th></tr>
-<tr><td><strong>Security</strong></td><td>Protecting customer payment data from hackers requires SSL certificates and firewalls.</td></tr>
-<tr><td><strong>Performance</strong></td><td>Website must load fast — slow pages lose customers. Every second of delay costs sales.</td></tr>
-<tr><td><strong>Mobile-friendly design</strong></td><td>Must work perfectly on smartphones since most users shop on mobile.</td></tr>
-<tr><td><strong>Payment integration</strong></td><td>Must accept bKash, Nagad, cards, and COD — integrating all these is technically complex.</td></tr>
-<tr><td><strong>Inventory sync</strong></td><td>Website stock must match actual warehouse stock in real time to avoid overselling.</td></tr>
-<tr><td><strong>Customer trust</strong></td><td>Showing reviews, return policies, and contact info convinces buyers the store is genuine.</td></tr>
-<tr><td><strong>SEO and visibility</strong></td><td>Getting the store to appear on Google so people can find it organically.</td></tr>
-<tr><td><strong>Logistics</strong></td><td>Connecting with delivery partners, tracking orders, and handling returns smoothly.</td></tr>
-</table>`},
-
-// ── CHAPTER 2 ──
-{id:'27',chapter:'ch2',years:'2024',tags:['security','definition'],
-q:'Define Cryptography. What does it ensure?',
-body:`<p><strong>Cryptography</strong> is the technique of protecting information by converting it into a secret code so that only authorized users can read it.</p>
-<p>It ensures three core security properties:</p>
-<table><tr><th>Property</th><th>Meaning</th></tr>
-<tr><td><strong>Confidentiality</strong></td><td>Only the intended recipient can read the data.</td></tr>
-<tr><td><strong>Integrity</strong></td><td>Data has not been altered or tampered with during transmission.</td></tr>
-<tr><td><strong>Authentication</strong></td><td>The identity of the sender or receiver is verified.</td></tr>
-</table>`},
-
-{id:'28',chapter:'ch2',years:'2024',tags:['security'],
-q:'How does Public Key Cryptography solve the problems of Private Key (Symmetric) cryptography?',
-body:`<p><strong>Problem of Private Key (Symmetric) Cryptography:</strong></p>
-<table><tr><th>Issue</th><th>Explanation</th></tr>
-<tr><td>Same key for both sides</td><td>The same key is used for both encryption and decryption.</td></tr>
-<tr><td>Insecure key sharing</td><td>If you share the key with someone, it could be intercepted — exposing all messages.</td></tr>
-</table>
-<p><strong>Solution — Public Key (Asymmetric) Cryptography:</strong></p>
-<table><tr><th>Key</th><th>Who has it</th><th>Purpose</th></tr>
-<tr><td><strong>Public Key</strong></td><td>Shared openly with anyone</td><td>Used to encrypt the message</td></tr>
-<tr><td><strong>Private Key</strong></td><td>Kept secret by the owner</td><td>Used to decrypt the message</td></tr>
-</table>
-<p>Since the private key never leaves the owner, there is no need to share a secret key over the network — making the system far more secure.</p>`},
-
-{id:'29',chapter:'ch2',years:'2024',tags:['security','definition'],
-q:'What is Encryption? Explain the basic concept.',
-body:`<p><strong>Encryption</strong> is the process of converting plain (readable) text into unreadable text called <strong>cipher text</strong>, so that only an authorized party with the correct key can decode it.</p>
-<p><strong>Example:</strong> HELLO → (encrypted with key) → XZ@#12 → (decrypted with key) → HELLO</p>
-<table><tr><th>Step</th><th>Description</th></tr>
-<tr><td><strong>Plain Text</strong></td><td>Original readable message e.g. "HELLO"</td></tr>
-<tr><td><strong>Encryption</strong></td><td>Algorithm + Key converts it to cipher text</td></tr>
-<tr><td><strong>Cipher Text</strong></td><td>Unreadable scrambled message e.g. "XZ@#12"</td></tr>
-<tr><td><strong>Decryption</strong></td><td>Correct key converts cipher text back to plain text</td></tr>
-</table>`},
-
-{id:'30',chapter:'ch2',years:'2024',tags:['security','definition'],
-q:'What is a Digital Signature? How does it work and how does it differ from a Digital Certificate?',
-body:`<p>A <strong>digital signature</strong> is an electronic method used to verify the identity of the sender and ensure the message has not been tampered with.</p>
-<p><strong>How it works:</strong></p>
-<table><tr><th>Step</th><th>Action</th></tr>
-<tr><td>1</td><td>Sender creates a <strong>hash</strong> (unique fingerprint) of the message.</td></tr>
-<tr><td>2</td><td>The hash is <strong>encrypted using the sender's private key</strong> — this creates the signature.</td></tr>
-<tr><td>3</td><td>Receiver <strong>decrypts the signature using the sender's public key</strong>.</td></tr>
-<tr><td>4</td><td>Receiver computes their own hash of the received message and <strong>compares both hashes</strong> — if they match, the message is authentic.</td></tr>
-</table>
-<p><strong>Difference between Digital Signature and Digital Certificate:</strong></p>
-<table><tr><th>Digital Signature</th><th>Digital Certificate</th></tr>
-<tr><td>Verifies the <strong>sender</strong> of a message</td><td>Verifies the <strong>identity</strong> of a person or website</td></tr>
-<tr><td>Created using the sender's <strong>private key</strong></td><td>Issued by a trusted <strong>Certificate Authority (CA)</strong></td></tr>
-<tr><td>Ensures message integrity</td><td>Ensures the public key truly belongs to a person/entity</td></tr>
-</table>`},
-
-{id:'31',chapter:'ch2',years:'2024',tags:['security'],
-q:'What is Public Key and Private Key Encryption? What are the advantages and disadvantages of Public Key Cryptography?',
-body:`<p>Public key cryptography uses a <strong>pair of mathematically linked keys</strong>:</p>
-<table><tr><th>Key</th><th>Role</th><th>Shared?</th></tr>
-<tr><td><strong>Public Key</strong></td><td>Used to <strong>encrypt</strong> the message</td><td>Yes — given to anyone</td></tr>
-<tr><td><strong>Private Key</strong></td><td>Used to <strong>decrypt</strong> the message</td><td>No — kept secret by owner</td></tr>
-</table>
-<p><strong>Advantages:</strong></p>
-<table><tr><th>Advantage</th><th>Detail</th></tr>
-<tr><td>Secure key exchange</td><td>No need to send a secret key over the network — the public key can travel freely.</td></tr>
-<tr><td>No shared secret</td><td>Eliminates the risk of the secret key being stolen during transmission.</td></tr>
-<tr><td>Digital signatures</td><td>Supports signing and verifying messages to prove authenticity.</td></tr>
-</table>
-<p><strong>Disadvantages:</strong></p>
-<table><tr><th>Disadvantage</th><th>Detail</th></tr>
-<tr><td>Slower speed</td><td>Asymmetric encryption is computationally heavier than symmetric encryption.</td></tr>
-<tr><td>More complex</td><td>Key management, certificate authorities, and infrastructure add complexity.</td></tr>
-</table>`},
-
-{id:'32',chapter:'ch2',years:'2024',tags:['security','definition'],
-q:'What is a Firewall? Why is it important for e-commerce?',
-body:`<p>A <strong>firewall</strong> is a security system — either hardware, software, or both — that monitors and controls incoming and outgoing network traffic based on pre-defined security rules. Think of it as a security guard that checks every packet of data trying to enter or leave your network.</p>
-<table><tr><th>Importance</th><th>Explanation</th></tr>
-<tr><td><strong>Prevents unauthorized access</strong></td><td>Blocks unknown users or IP addresses from reaching internal systems.</td></tr>
-<tr><td><strong>Protects customer data</strong></td><td>Stops attackers from stealing payment details, addresses, and personal information.</td></tr>
-<tr><td><strong>Blocks hackers and malware</strong></td><td>Filters malicious traffic before it reaches the web server.</td></tr>
-<tr><td><strong>Ensures availability</strong></td><td>Helps defend against DDoS attacks that try to crash the site.</td></tr>
-</table>`},
-
-{id:'33',chapter:'ch2',years:'2024',tags:['security'],
-q:'Compare Symmetric and Asymmetric Cryptography.',
-body:`<table><tr><th>Feature</th><th>Symmetric</th><th>Asymmetric</th></tr>
-<tr><td><strong>Keys used</strong></td><td>One shared key for both encrypt &amp; decrypt</td><td>Two keys: public (encrypt) + private (decrypt)</td></tr>
-<tr><td><strong>Speed</strong></td><td>Faster — less computation</td><td>Slower — more computation</td></tr>
-<tr><td><strong>Security</strong></td><td>Less secure — key must be shared</td><td>More secure — private key never shared</td></tr>
-<tr><td><strong>Key distribution</strong></td><td>Difficult — sharing secret key is risky</td><td>Easy — public key can be shared freely</td></tr>
-<tr><td><strong>Example algorithms</strong></td><td>AES, DES</td><td>RSA, ECC</td></tr>
-<tr><td><strong>Use case</strong></td><td>Encrypting large data quickly</td><td>Secure key exchange, digital signatures</td></tr>
-</table>`},
-
-{id:'34',chapter:'ch2',years:'2024',tags:['security'],
-q:'What is the RSA Algorithm? What are the security threats in e-commerce?',
-body:`<p><strong>RSA Algorithm:</strong> RSA (Rivest–Shamir–Adleman) is a widely used public key encryption method. It relies on the mathematical difficulty of factoring the product of two very large prime numbers.</p>
-<table><tr><th>Step</th><th>What happens</th></tr>
-<tr><td><strong>Key Generation</strong></td><td>Two large prime numbers are multiplied to form the key base. A public and private key pair is generated from these numbers.</td></tr>
-<tr><td><strong>Encryption</strong></td><td>The message is encrypted using the recipient's <strong>public key</strong>.</td></tr>
-<tr><td><strong>Decryption</strong></td><td>Only the recipient's <strong>private key</strong> can decrypt the message.</td></tr>
-</table>
-<p>RSA is used in HTTPS, email security, and digital signatures.</p>
-<p><strong>Security Threats in E-Commerce:</strong></p>
-<table><tr><th>Threat</th><th>Description</th></tr>
-<tr><td><strong>Hacking</strong></td><td>Unauthorized access to the website or database to steal data.</td></tr>
-<tr><td><strong>Phishing</strong></td><td>Fake websites or emails trick users into revealing passwords or card details.</td></tr>
-<tr><td><strong>Malware</strong></td><td>Malicious software installed on a user's device to steal information.</td></tr>
-<tr><td><strong>Data theft</strong></td><td>Interception of customer data during transmission.</td></tr>
-<tr><td><strong>Identity theft</strong></td><td>Fraudsters steal personal information to make purchases or open accounts.</td></tr>
-</table>`},
-
-{id:'35',chapter:'ch2',years:'2024',tags:['security'],
-q:'What technologies are used for e-commerce security? What are the challenges of web security?',
-body:`<p><strong>Technologies for E-Commerce Security:</strong></p>
-<table><tr><th>Technology</th><th>Purpose</th></tr>
-<tr><td><strong>SSL/TLS</strong></td><td>Encrypts data between the browser and the server (the "HTTPS" padlock).</td></tr>
-<tr><td><strong>Encryption</strong></td><td>Converts sensitive data (like card numbers) into unreadable cipher text.</td></tr>
-<tr><td><strong>Firewalls</strong></td><td>Filter malicious traffic and block unauthorized access attempts.</td></tr>
-<tr><td><strong>Digital Signatures</strong></td><td>Verify the authenticity of transactions and communications.</td></tr>
-<tr><td><strong>Authentication Systems</strong></td><td>Two-factor authentication (2FA) and CAPTCHA prevent unauthorized logins.</td></tr>
-</table>
-<p><strong>Challenges of Web Security:</strong></p>
-<table><tr><th>Challenge</th><th>Explanation</th></tr>
-<tr><td><strong>Increasing cyber attacks</strong></td><td>Attacks are growing in volume and sophistication every year.</td></tr>
-<tr><td><strong>Weak passwords</strong></td><td>Users often choose easy passwords that are simple for hackers to guess.</td></tr>
-<tr><td><strong>Lack of awareness</strong></td><td>Many users and small businesses do not know how to protect themselves.</td></tr>
-<tr><td><strong>System vulnerabilities</strong></td><td>Outdated software and unpatched systems are easy targets for attackers.</td></tr>
-</table>`},
-];
-
-/* ══ Q&A RENDER ══ */
-let qaFilter = 'all';
-let qaOpenSet = new Set();
-
-function setQAFilter(f, btn) {
-  qaFilter = f;
-  document.querySelectorAll('#qa-filter-row .filter-chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderQA();
+function escHtml(str) {
+  const p = document.createElement('p');
+  p.textContent = str;
+  return p.innerHTML;
 }
 
-function renderQA() {
-  const q = (document.getElementById('qa-search')?.value||'').toLowerCase();
-  let filtered = QA_DATA.filter(item => {
-    const mf = qaFilter==='all' || item.chapter===qaFilter || item.tags.includes(qaFilter);
-    const ms = !q || item.q.toLowerCase().includes(q) || item.body.toLowerCase().includes(q) || item.years.includes(q);
-    return mf && ms;
-  });
-
-  const list = document.getElementById('qa-list');
-  if(!filtered.length) { list.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>No questions found.</p></div>'; return; }
-
-  let html='';
-  let lastCh='';
-  filtered.forEach(item=>{
-    if(item.chapter !== lastCh) {
-      const label = item.chapter==='ch1'?'📘 Chapter 1 — E-Commerce':'🔐 Chapter 2 — Web Security';
-      html+=`<div style="font-family:var(--serif);font-size:0.95rem;font-weight:600;color:var(--text);padding:0.5rem 0.8rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);margin:1.25rem 0 0.6rem;display:flex;align-items:center;gap:0.5rem">${label}</div>`;
-      lastCh=item.chapter;
-    }
-    const isOpen = qaOpenSet.has(item.id);
-    html+=`<div class="qa-card${isOpen?' open':''}" id="qacard-${item.id}">
-      <div class="qa-header" onclick="toggleQA('${item.id}')">
-        <div class="qa-badge">Q${item.id}</div>
-        <div style="flex:1">
-          <div class="qa-q-text">${escHtml(item.q)}</div>
-          <div class="qa-year">${item.years} · ${item.tags.join(', ')}</div>
-        </div>
-        <div class="qa-chevron">▾</div>
-      </div>
-      <div class="qa-body"><div class="qa-body-inner">${item.body}</div></div>
-    </div>`;
-  });
-  list.innerHTML = html;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function toggleQA(id) {
-  if(qaOpenSet.has(id)) qaOpenSet.delete(id); else qaOpenSet.add(id);
-  const card=document.getElementById('qacard-'+id);
-  if(card) card.classList.toggle('open', qaOpenSet.has(id));
+function gotoPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(`panel-${id}`);
+  if(target) target.classList.add('active');
+  
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(`nav-${id}`);
+  if(btn) btn.classList.add('active');
 }
+
+function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('mob-overlay').classList.add('show'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mob-overlay').classList.remove('show'); }
+function exec(cmd, val=null) { document.execCommand(cmd, false, val); }
 </script>
+
 </body>
 </html>
