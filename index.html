@@ -321,22 +321,65 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .draw-panel { display: none; border: 1px solid var(--border); border-radius: var(--r-sm); overflow: hidden; margin-top: 0.75rem; }
 .draw-panel.show { display: block; }
 .draw-toolbar {
-  display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.75rem;
+  display: flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.6rem;
   background: var(--bg2); border-bottom: 1px solid var(--border); flex-wrap: wrap;
 }
-.draw-toolbar label { font-size: 0.75rem; color: var(--text2); font-weight: 700; }
-.draw-toolbar input[type="color"] { width: 28px; height: 26px; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; padding: 1px; }
-.draw-toolbar input[type="range"] { width: 70px; cursor: pointer; accent-color: var(--accent); }
-.draw-toolbar input[type="text"] { padding: 0.25rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-family: var(--sans); font-size: 0.78rem; width: 120px; background: var(--surface); outline: none; }
+.draw-toolbar label { font-size: 0.72rem; color: var(--text2); font-weight: 700; }
+.draw-toolbar input[type="color"] { width: 26px; height: 24px; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; padding: 1px; }
+.draw-toolbar input[type="range"] { width: 65px; cursor: pointer; accent-color: var(--accent); }
+.draw-toolbar input[type="text"] { padding: 0.22rem 0.45rem; border: 1px solid var(--border); border-radius: 4px; font-family: var(--sans); font-size: 0.78rem; width: 110px; background: var(--surface); outline: none; }
 .draw-toolbar input[type="text"]:focus { border-color: var(--accent); }
-#draw-canvas { display: block; background: #fff; cursor: crosshair; width: 100%; }
+.draw-canvas-wrap { position: relative; }
+#draw-canvas { display: block; background: #fff; width: 100%; }
 .draw-tool-btn {
-  padding: 0.25rem 0.6rem; border-radius: 4px; border: 1px solid var(--border);
-  background: none; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  padding: 0.22rem 0.55rem; border-radius: 4px; border: 1px solid var(--border);
+  background: none; font-size: 0.73rem; font-weight: 700; cursor: pointer;
   color: var(--text2); transition: all .15s; white-space: nowrap;
 }
-.draw-tool-btn:hover, .draw-tool-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.draw-tool-btn:hover { background: var(--bg3); }
+.draw-tool-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 .draw-tool-btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+.draw-toolbar .tb-sep { width: 1px; align-self: stretch; background: var(--border2); margin: 1px 2px; }
+
+/* Text box overlay on canvas */
+.canvas-textbox {
+  position: absolute;
+  border: 2px dashed var(--accent);
+  background: rgba(255,255,255,0.92);
+  border-radius: 3px;
+  padding: 4px 7px;
+  font-family: var(--sans);
+  min-width: 60px; min-height: 26px;
+  cursor: move;
+  box-sizing: border-box;
+  user-select: none;
+}
+.canvas-textbox.editing { cursor: text; border-style: solid; }
+.canvas-textbox-inner {
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+  cursor: text;
+  min-width: 40px; min-height: 18px;
+}
+.canvas-textbox .tb-resize-se {
+  position: absolute; right: -5px; bottom: -5px;
+  width: 12px; height: 12px; background: var(--accent);
+  border-radius: 50%; cursor: se-resize;
+}
+.canvas-textbox .tb-delete {
+  position: absolute; top: -10px; right: -10px;
+  width: 18px; height: 18px; background: #dc3545; color: #fff;
+  border-radius: 50%; border: none; font-size: 10px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+/* Selection handles on canvas */
+.sel-handle {
+  position: absolute; width: 10px; height: 10px;
+  background: var(--accent); border: 2px solid #fff;
+  border-radius: 2px; pointer-events: none;
+}
 
 /* ── NOTE VIEW ── */
 .note-view-header { margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
@@ -403,17 +446,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   .mobile-menu-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1.5px solid var(--border); border-radius: var(--r-sm); background: var(--surface); cursor: pointer; font-size: 1.2rem; }
 }
 
-/* ── DRAW TEXT INPUT ── */
-.draw-text-overlay {
-  display: none; position: absolute; z-index: 20;
-}
-.draw-text-overlay.show { display: block; }
-.draw-text-input-el {
-  border: 2px dashed var(--accent); background: rgba(255,255,255,0.9);
-  outline: none; font-family: var(--sans); font-size: 14px;
-  padding: 4px 8px; min-width: 80px; min-height: 28px;
-  border-radius: 4px; cursor: text; resize: both; overflow: auto;
-}
+
 </style>
 </head>
 <body>
@@ -595,10 +628,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         <!-- DRAWING PANEL -->
         <div class="draw-panel" id="draw-panel">
           <div class="draw-toolbar">
-            <!-- Tools -->
+            <button class="draw-tool-btn" id="dt-select" onclick="setDrawTool('select')" title="Select & move objects">⬚ Select</button>
+            <div class="tb-sep"></div>
             <button class="draw-tool-btn active" id="dt-pen" onclick="setDrawTool('pen')">✏ Pen</button>
-            <button class="draw-tool-btn" id="dt-eraser" onclick="setDrawTool('eraser')">◻ Eraser</button>
-            <button class="draw-tool-btn" id="dt-line" onclick="setDrawTool('line')">/ Line</button>
+            <button class="draw-tool-btn" id="dt-eraser" onclick="setDrawTool('eraser')">◻ Erase</button>
+            <div class="tb-sep"></div>
+            <button class="draw-tool-btn" id="dt-line" onclick="setDrawTool('line')">/  Line</button>
             <button class="draw-tool-btn" id="dt-arrow" onclick="setDrawTool('arrow')">→ Arrow</button>
             <button class="draw-tool-btn" id="dt-rect" onclick="setDrawTool('rect')">▭ Rect</button>
             <button class="draw-tool-btn" id="dt-rounded-rect" onclick="setDrawTool('rounded-rect')">▢ Rounded</button>
@@ -606,23 +641,28 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
             <button class="draw-tool-btn" id="dt-diamond" onclick="setDrawTool('diamond')">◇ Diamond</button>
             <button class="draw-tool-btn" id="dt-triangle" onclick="setDrawTool('triangle')">△ Triangle</button>
             <button class="draw-tool-btn" id="dt-star" onclick="setDrawTool('star')">★ Star</button>
+            <div class="tb-sep"></div>
             <button class="draw-tool-btn" id="dt-text" onclick="setDrawTool('text')">T Text</button>
             <div class="tb-sep"></div>
-            <label>Color</label>
+            <label>Stroke</label>
             <input type="color" id="draw-color" value="#c8522a">
             <label>Fill</label>
             <input type="color" id="draw-fill-color" value="#ffffff">
-            <input type="checkbox" id="draw-fill-check" title="Fill shape"> <label for="draw-fill-check" style="margin-left:-4px" title="Fill shape">Fill</label>
+            <input type="checkbox" id="draw-fill-check" title="Fill shape">
+            <label for="draw-fill-check" style="margin-left:-3px">Fill</label>
             <label>Size</label>
             <input type="range" id="draw-size" min="1" max="20" value="2">
-            <label id="text-font-label" style="display:none">Font</label>
-            <input type="text" id="draw-text-value" placeholder="Type text…" style="display:none">
+            <label id="text-font-size-label">Txt px</label>
+            <input type="number" id="draw-text-size" value="16" min="8" max="72" style="width:46px;padding:0.22rem 0.3rem;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;outline:none;">
             <div style="flex:1"></div>
-            <button class="draw-tool-btn" onclick="undoCanvas()">↩ Undo</button>
-            <button class="draw-tool-btn" onclick="clearCanvas()">✕ Clear</button>
-            <button class="draw-tool-btn green" onclick="insertDrawingToNote()">↑ Insert into Note</button>
+            <button class="draw-tool-btn" onclick="undoDraw()">↩ Undo</button>
+            <button class="draw-tool-btn" onclick="clearDraw()">✕ Clear</button>
+            <button class="draw-tool-btn green" onclick="insertDrawingToNote()">↑ Insert</button>
           </div>
-          <canvas id="draw-canvas" height="400" style="cursor:crosshair"></canvas>
+          <div class="draw-canvas-wrap" id="draw-canvas-wrap">
+            <canvas id="draw-canvas" height="440"></canvas>
+            <!-- text boxes are absolutely positioned overlays here -->
+          </div>
         </div>
 
         <div style="display:flex;gap:0.6rem;margin-top:1rem">
@@ -1232,232 +1272,593 @@ function initImageDrop() {
 }
 
 /* ══════════════════════════════════════
-   DRAWING — ENHANCED
+   DRAWING — OBJECT-BASED ENGINE
+   Every element is stored as data and
+   re-rendered each frame, enabling
+   full select / move / resize.
 ══════════════════════════════════════ */
-let drawTool = 'pen', isDrawing = false, startX = 0, startY = 0, snapshot = null;
-let drawHistory = [];
 
+// ── Scene state ──
+let drawObjects = [];       // [{type, x,y,w,h, points, stroke, fill, lineW, text, fontSize, id}]
+let drawHistory = [];       // snapshots of drawObjects for undo
+let selectedId = null;      // id of selected object
+let drawTool = 'pen';
+let isDrawing = false;
+let dragState = null;       // {mode:'move'|'resize', objId, ox,oy, origX,origY,origW,origH, penPoints}
+let previewObj = null;      // shape being drawn (not yet committed)
+let penPoints = [];         // live freehand points
+
+function genDrawId() { return 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+
+// ── Canvas setup ──
 function initCanvas() {
   const canvas = document.getElementById('draw-canvas');
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mouseleave', endDraw);
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0]); }, { passive: false });
-  canvas.addEventListener('touchmove', e => { e.preventDefault(); draw(e.touches[0]); }, { passive: false });
-  canvas.addEventListener('touchend', endDraw);
+  const wrap = document.getElementById('draw-canvas-wrap');
+  wrap.style.position = 'relative';
+  canvas.addEventListener('mousedown', onCanvasDown);
+  canvas.addEventListener('mousemove', onCanvasMove);
+  canvas.addEventListener('mouseup',   onCanvasUp);
+  canvas.addEventListener('mouseleave',onCanvasUp);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); onCanvasDown(e.touches[0]); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); onCanvasMove(e.touches[0]); }, {passive:false});
+  canvas.addEventListener('touchend',   e => { onCanvasUp(e.changedTouches[0]); });
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
+  renderCanvas();
 }
 
 function resizeCanvas() {
   const canvas = document.getElementById('draw-canvas');
-  const w = canvas.parentElement.clientWidth || 700;
-  const old = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+  const wrap = document.getElementById('draw-canvas-wrap');
+  const w = wrap.clientWidth || 700;
   canvas.width = w;
-  if (old) canvas.getContext('2d').putImageData(old, 0, 0);
+  renderCanvas();
 }
 
 function getPos(e) {
   const canvas = document.getElementById('draw-canvas');
   const r = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / r.width;
-  const scaleY = canvas.height / r.height;
-  return { x: (e.clientX - r.left) * scaleX, y: (e.clientY - r.top) * scaleY };
+  return {
+    x: (e.clientX - r.left) * (canvas.width / r.width),
+    y: (e.clientY - r.top)  * (canvas.height / r.height)
+  };
 }
 
-function startDraw(e) {
-  isDrawing = true;
-  const { x, y } = getPos(e);
-  startX = x; startY = y;
-  const canvas = document.getElementById('draw-canvas');
-  const ctx = canvas.getContext('2d');
-  snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  if (drawTool === 'pen' || drawTool === 'eraser') {
-    ctx.beginPath(); ctx.moveTo(x, y);
+// ── Hit testing ──
+function hitTest(obj, x, y) {
+  if (obj.type === 'pen') {
+    // Check proximity to any segment
+    const pts = obj.points;
+    for (let i = 1; i < pts.length; i++) {
+      if (ptSegDist(x,y, pts[i-1][0],pts[i-1][1], pts[i][0],pts[i][1]) < Math.max(8, obj.lineW+4)) return true;
+    }
+    return false;
   }
+  // Bounding box hit for all shapes/text
+  const bx = Math.min(obj.x, obj.x + obj.w);
+  const by = Math.min(obj.y, obj.y + obj.h);
+  const bw = Math.abs(obj.w), bh = Math.abs(obj.h);
+  return x >= bx-4 && x <= bx+bw+4 && y >= by-4 && y <= by+bh+4;
+}
+
+function ptSegDist(px,py, ax,ay, bx,by) {
+  const dx=bx-ax, dy=by-ay, len2=dx*dx+dy*dy;
+  if (len2===0) return Math.hypot(px-ax,py-ay);
+  const t = Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/len2));
+  return Math.hypot(px-(ax+t*dx), py-(ay+t*dy));
+}
+
+function resizeHandleHit(obj, x, y) {
+  if (!obj || obj.type === 'pen' || obj.type === 'textbox') return false;
+  const rx = Math.max(obj.x, obj.x+obj.w) + 6;
+  const ry = Math.max(obj.y, obj.y+obj.h) + 6;
+  return Math.hypot(x-rx, y-ry) < 10;
+}
+
+// ── Mouse handlers ──
+function onCanvasDown(e) {
+  const {x, y} = getPos(e);
+
+  if (drawTool === 'select') {
+    // Check resize handle first
+    const selObj = drawObjects.find(o => o.id === selectedId);
+    if (selObj && resizeHandleHit(selObj, x, y)) {
+      dragState = {mode:'resize', objId:selObj.id, ox:x, oy:y, origX:selObj.x, origY:selObj.y, origW:selObj.w, origH:selObj.h};
+      return;
+    }
+    // Hit test objects (top-most first)
+    let hit = null;
+    for (let i = drawObjects.length-1; i >= 0; i--) {
+      if (hitTest(drawObjects[i], x, y)) { hit = drawObjects[i]; break; }
+    }
+    if (hit) {
+      selectedId = hit.id;
+      dragState = {mode:'move', objId:hit.id, ox:x, oy:y, origX:hit.x||0, origY:hit.y||0};
+      if (hit.type === 'pen') {
+        const minX = Math.min(...hit.points.map(p=>p[0]));
+        const minY = Math.min(...hit.points.map(p=>p[1]));
+        dragState.origPts = hit.points.map(p=>[p[0],p[1]]);
+        dragState.penMinX = minX; dragState.penMinY = minY;
+      }
+    } else {
+      selectedId = null;
+    }
+    renderCanvas();
+    return;
+  }
+
+  // Eraser
+  if (drawTool === 'eraser') {
+    isDrawing = true;
+    eraseAt(x, y);
+    return;
+  }
+
+  // Text tool — create a live text box overlay
   if (drawTool === 'text') {
-    placeTextOnCanvas(x, y);
+    createTextBox(x, y);
+    return;
+  }
+
+  // All drawing tools
+  isDrawing = true;
+  selectedId = null;
+  if (drawTool === 'pen') {
+    penPoints = [[x, y]];
+  } else {
+    previewObj = makeShapeObj(drawTool, x, y, 0, 0);
   }
 }
 
-function draw(e) {
-  if (!isDrawing || drawTool === 'text') return;
+function onCanvasMove(e) {
+  const {x, y} = getPos(e);
+  const canvas = document.getElementById('draw-canvas');
+
+  // Cursor style
+  if (drawTool === 'select') {
+    const selObj = drawObjects.find(o => o.id === selectedId);
+    canvas.style.cursor = (selObj && resizeHandleHit(selObj,x,y)) ? 'se-resize'
+      : drawObjects.some(o => hitTest(o,x,y)) ? 'move' : 'default';
+  } else {
+    canvas.style.cursor = drawTool === 'eraser' ? 'cell' : 'crosshair';
+  }
+
+  // Drag / move
+  if (dragState) {
+    const dx = x - dragState.ox, dy = y - dragState.oy;
+    const obj = drawObjects.find(o => o.id === dragState.objId);
+    if (!obj) return;
+    if (dragState.mode === 'move') {
+      if (obj.type === 'pen') {
+        obj.points = dragState.origPts.map(p => [p[0]+dx, p[1]+dy]);
+      } else {
+        obj.x = dragState.origX + dx;
+        obj.y = dragState.origY + dy;
+        // sync text box overlay
+        if (obj.type === 'textbox') syncTextBoxPos(obj);
+      }
+    } else if (dragState.mode === 'resize') {
+      obj.w = Math.max(20, dragState.origW + dx);
+      obj.h = Math.max(20, dragState.origH + dy);
+    }
+    renderCanvas(); return;
+  }
+
+  if (!isDrawing) return;
+
+  if (drawTool === 'eraser') { eraseAt(x, y); return; }
+  if (drawTool === 'pen') { penPoints.push([x,y]); renderCanvas(); return; }
+  if (previewObj) {
+    previewObj.w = x - previewObj.x;
+    previewObj.h = y - previewObj.y;
+    renderCanvas();
+  }
+}
+
+function onCanvasUp(e) {
+  if (dragState) {
+    saveDrawHistory();
+    dragState = null;
+    return;
+  }
+  if (!isDrawing) return;
+  isDrawing = false;
+
+  if (drawTool === 'pen' && penPoints.length > 1) {
+    const obj = {
+      id: genDrawId(), type:'pen',
+      points: penPoints,
+      stroke: document.getElementById('draw-color').value,
+      lineW: parseInt(document.getElementById('draw-size').value),
+      x:0, y:0, w:0, h:0
+    };
+    drawObjects.push(obj);
+    penPoints = [];
+    saveDrawHistory();
+  } else if (previewObj && (Math.abs(previewObj.w) > 3 || Math.abs(previewObj.h) > 3)) {
+    previewObj.id = genDrawId();
+    drawObjects.push(previewObj);
+    previewObj = null;
+    saveDrawHistory();
+  } else {
+    previewObj = null; penPoints = [];
+  }
+  renderCanvas();
+}
+
+function eraseAt(x, y) {
+  const before = drawObjects.length;
+  drawObjects = drawObjects.filter(o => !hitTest(o, x, y));
+  if (drawObjects.length !== before) renderCanvas();
+  // also remove textbox overlays whose obj was erased
+  syncAllTextBoxOverlays();
+}
+
+// ── Shape factory ──
+function makeShapeObj(type, x, y, w, h) {
+  return {
+    type, x, y, w, h, id: null,
+    stroke: document.getElementById('draw-color').value,
+    fill:   document.getElementById('draw-fill-check').checked ? document.getElementById('draw-fill-color').value : null,
+    lineW:  parseInt(document.getElementById('draw-size').value)
+  };
+}
+
+// ── History ──
+function saveDrawHistory() {
+  drawHistory.push(JSON.parse(JSON.stringify(drawObjects)));
+  if (drawHistory.length > 40) drawHistory.shift();
+}
+
+function undoDraw() {
+  if (!drawHistory.length) return;
+  drawObjects = drawHistory.pop() || [];
+  // restore is the second-to-last; we just popped current
+  if (drawHistory.length) drawObjects = JSON.parse(JSON.stringify(drawHistory[drawHistory.length-1]));
+  else drawObjects = [];
+  syncAllTextBoxOverlays();
+  selectedId = null;
+  renderCanvas();
+}
+
+function clearDraw() {
+  drawObjects = [];
+  drawHistory = [];
+  penPoints = [];
+  previewObj = null;
+  selectedId = null;
+  syncAllTextBoxOverlays();
+  renderCanvas();
+}
+
+// ── Text box overlay system ──
+// Text boxes are HTML overlays positioned over the canvas for real editing.
+// Their position is stored in drawObjects so they render on insert.
+
+function createTextBox(canvasX, canvasY) {
+  const id = genDrawId();
+  const fontSize = parseInt(document.getElementById('draw-text-size').value) || 16;
+  const color = document.getElementById('draw-color').value;
+  const obj = { id, type:'textbox', x:canvasX, y:canvasY, w:140, h:40, text:'', fontSize, color };
+  drawObjects.push(obj);
+  saveDrawHistory();
+  const el = buildTextBoxEl(obj);
+  document.getElementById('draw-canvas-wrap').appendChild(el);
+  const inner = el.querySelector('.canvas-textbox-inner');
+  setTimeout(() => { inner.focus(); selectAll(inner); }, 30);
+  renderCanvas();
+}
+
+function buildTextBoxEl(obj) {
+  const canvas = document.getElementById('draw-canvas');
+  const wrap = document.getElementById('draw-canvas-wrap');
+  const wrapRect = wrap.getBoundingClientRect();
+  const canvasRect = canvas.getBoundingClientRect();
+  const scaleX = canvasRect.width / canvas.width;
+  const scaleY = canvasRect.height / canvas.height;
+
+  const el = document.createElement('div');
+  el.className = 'canvas-textbox';
+  el.dataset.objId = obj.id;
+  el.style.cssText = `
+    left:${obj.x * scaleX}px; top:${obj.y * scaleY}px;
+    width:${obj.w * scaleX}px; min-height:${obj.h * scaleY}px;
+    font-size:${obj.fontSize}px; color:${obj.color};
+  `;
+
+  const inner = document.createElement('div');
+  inner.className = 'canvas-textbox-inner';
+  inner.contentEditable = 'true';
+  inner.textContent = obj.text || '';
+  inner.spellcheck = false;
+  inner.addEventListener('input', () => {
+    obj.text = inner.textContent;
+    // auto-grow height
+    obj.h = Math.max(40, Math.ceil(el.offsetHeight / scaleY));
+    renderCanvas();
+  });
+  inner.addEventListener('keydown', e => { e.stopPropagation(); });
+  inner.addEventListener('mousedown', e => { e.stopPropagation(); });
+  el.appendChild(inner);
+
+  // Delete button
+  const del = document.createElement('button');
+  del.className = 'tb-delete'; del.textContent = '×';
+  del.title = 'Delete text box';
+  del.addEventListener('mousedown', e => { e.stopPropagation(); e.preventDefault(); });
+  del.addEventListener('click', e => {
+    e.stopPropagation();
+    drawObjects = drawObjects.filter(o => o.id !== obj.id);
+    el.remove();
+    saveDrawHistory();
+    renderCanvas();
+  });
+  el.appendChild(del);
+
+  // Resize handle
+  const rh = document.createElement('div');
+  rh.className = 'tb-resize-se';
+  let resizing = false, rsX, rsY, rsW, rsH;
+  rh.addEventListener('mousedown', e => {
+    e.stopPropagation(); e.preventDefault();
+    resizing = true; rsX = e.clientX; rsY = e.clientY;
+    rsW = obj.w; rsH = obj.h;
+    const onMove = ev => {
+      obj.w = Math.max(60, rsW + (ev.clientX - rsX) / scaleX);
+      obj.h = Math.max(30, rsH + (ev.clientY - rsY) / scaleY);
+      el.style.width = (obj.w * scaleX) + 'px';
+      el.style.minHeight = (obj.h * scaleY) + 'px';
+      renderCanvas();
+    };
+    const onUp = () => { resizing = false; saveDrawHistory(); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+  el.appendChild(rh);
+
+  // Drag to move
+  let dragging = false, dox, doy, dobjX, dobjY;
+  el.addEventListener('mousedown', e => {
+    if (e.target === inner || e.target === del || e.target === rh) return;
+    dragging = true; dox = e.clientX; doy = e.clientY;
+    dobjX = obj.x; dobjY = obj.y;
+    e.preventDefault();
+    const onMove = ev => {
+      obj.x = dobjX + (ev.clientX - dox) / scaleX;
+      obj.y = dobjY + (ev.clientY - doy) / scaleY;
+      el.style.left = (obj.x * scaleX) + 'px';
+      el.style.top  = (obj.y * scaleY) + 'px';
+      renderCanvas();
+    };
+    const onUp = () => { dragging = false; saveDrawHistory(); document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  return el;
+}
+
+function syncTextBoxPos(obj) {
+  const canvas = document.getElementById('draw-canvas');
+  const wrap = document.getElementById('draw-canvas-wrap');
+  const scaleX = canvas.getBoundingClientRect().width / canvas.width;
+  const scaleY = canvas.getBoundingClientRect().height / canvas.height;
+  const el = wrap.querySelector(`[data-obj-id="${obj.id}"]`);
+  if (el) { el.style.left = (obj.x*scaleX)+'px'; el.style.top = (obj.y*scaleY)+'px'; }
+}
+
+function syncAllTextBoxOverlays() {
+  const wrap = document.getElementById('draw-canvas-wrap');
+  if (!wrap) return;
+  // Remove overlays for objects that no longer exist
+  wrap.querySelectorAll('.canvas-textbox').forEach(el => {
+    const id = el.dataset.objId;
+    if (!drawObjects.find(o => o.id === id)) el.remove();
+  });
+  // Restore overlays for textbox objects that have no overlay (e.g. after undo)
+  drawObjects.filter(o => o.type === 'textbox').forEach(obj => {
+    if (!wrap.querySelector(`[data-obj-id="${obj.id}"]`)) {
+      const el = buildTextBoxEl(obj);
+      const inner = el.querySelector('.canvas-textbox-inner');
+      inner.textContent = obj.text || '';
+      wrap.appendChild(el);
+    }
+  });
+}
+
+function selectAll(el) {
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges(); sel.addRange(range);
+}
+
+// ── Render loop ──
+function renderCanvas() {
   const canvas = document.getElementById('draw-canvas');
   const ctx = canvas.getContext('2d');
-  const { x, y } = getPos(e);
-  const color = document.getElementById('draw-color').value;
-  const size = parseInt(document.getElementById('draw-size').value);
-  const fillCheck = document.getElementById('draw-fill-check').checked;
-  const fillColor = document.getElementById('draw-fill-color').value;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.strokeStyle = drawTool === 'eraser' ? '#ffffff' : color;
-  ctx.fillStyle = fillColor;
-  ctx.lineWidth = drawTool === 'eraser' ? size * 4 : size;
+  // Draw all committed objects
+  for (const obj of drawObjects) {
+    if (obj.type === 'textbox') continue; // rendered as HTML overlay
+    drawObj(ctx, obj, obj.id === selectedId);
+  }
+
+  // Draw freehand preview
+  if (drawTool === 'pen' && penPoints.length > 1) {
+    ctx.beginPath();
+    ctx.strokeStyle = document.getElementById('draw-color').value;
+    ctx.lineWidth   = parseInt(document.getElementById('draw-size').value);
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.moveTo(penPoints[0][0], penPoints[0][1]);
+    for (let i=1; i<penPoints.length; i++) ctx.lineTo(penPoints[i][0], penPoints[i][1]);
+    ctx.stroke();
+  }
+
+  // Draw shape preview
+  if (previewObj) drawObj(ctx, previewObj, false);
+}
+
+function drawObj(ctx, obj, selected) {
+  const stroke = obj.stroke || '#000';
+  const fill   = obj.fill || null;
+  const lw     = obj.lineW || 2;
+  ctx.save();
+  ctx.strokeStyle = stroke;
+  ctx.fillStyle = fill || 'transparent';
+  ctx.lineWidth = lw;
   ctx.lineJoin = 'round'; ctx.lineCap = 'round';
 
-  if (drawTool === 'pen') { ctx.lineTo(x, y); ctx.stroke(); return; }
-  if (drawTool === 'eraser') { ctx.lineTo(x, y); ctx.stroke(); return; }
-
-  // Restore and redraw shape preview
-  ctx.putImageData(snapshot, 0, 0);
-  ctx.beginPath();
-
-  switch (drawTool) {
+  switch (obj.type) {
+    case 'pen':
+      if (!obj.points || obj.points.length < 2) break;
+      ctx.beginPath();
+      ctx.moveTo(obj.points[0][0], obj.points[0][1]);
+      for (let i=1; i<obj.points.length; i++) ctx.lineTo(obj.points[i][0], obj.points[i][1]);
+      ctx.stroke();
+      break;
     case 'line':
-      ctx.moveTo(startX, startY); ctx.lineTo(x, y); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(obj.x, obj.y); ctx.lineTo(obj.x+obj.w, obj.y+obj.h);
+      ctx.stroke();
       break;
     case 'arrow':
-      drawArrow(ctx, startX, startY, x, y, color, size);
+      drawArrowShape(ctx, obj.x, obj.y, obj.x+obj.w, obj.y+obj.h, stroke, lw);
       break;
     case 'rect':
-      if (fillCheck) ctx.fillRect(startX, startY, x-startX, y-startY);
-      ctx.strokeRect(startX, startY, x-startX, y-startY);
+      ctx.beginPath();
+      ctx.rect(obj.x, obj.y, obj.w, obj.h);
+      if (fill) ctx.fill(); ctx.stroke();
       break;
     case 'rounded-rect':
-      roundedRect(ctx, startX, startY, x-startX, y-startY, 12, fillCheck);
+      drawRoundedRect(ctx, obj.x, obj.y, obj.w, obj.h, 12, !!fill);
       break;
     case 'circle': {
-      const rx = Math.abs(x-startX)/2, ry = Math.abs(y-startY)/2;
-      const cx = startX + (x-startX)/2, cy = startY + (y-startY)/2;
+      const rx = Math.abs(obj.w)/2, ry = Math.abs(obj.h)/2;
+      const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
+      ctx.beginPath();
       ctx.ellipse(cx, cy, rx||1, ry||1, 0, 0, Math.PI*2);
-      if (fillCheck) ctx.fill(); ctx.stroke();
+      if (fill) ctx.fill(); ctx.stroke();
       break;
     }
     case 'diamond':
-      drawDiamond(ctx, startX, startY, x, y, fillCheck);
+      drawDiamondShape(ctx, obj.x, obj.y, obj.x+obj.w, obj.y+obj.h, !!fill);
       break;
     case 'triangle':
-      drawTriangle(ctx, startX, startY, x, y, fillCheck);
+      drawTriangleShape(ctx, obj.x, obj.y, obj.x+obj.w, obj.y+obj.h, !!fill);
       break;
     case 'star':
-      drawStar(ctx, (startX+x)/2, (startY+y)/2, Math.abs(x-startX)/2, 5, fillCheck);
+      drawStarShape(ctx, obj.x+obj.w/2, obj.y+obj.h/2, Math.abs(obj.w)/2, 5, !!fill);
       break;
   }
+
+  // Selection indicator
+  if (selected && obj.type !== 'pen') {
+    const bx = Math.min(obj.x, obj.x+obj.w)-4;
+    const by = Math.min(obj.y, obj.y+obj.h)-4;
+    const bw = Math.abs(obj.w)+8, bh = Math.abs(obj.h)+8;
+    ctx.save();
+    ctx.strokeStyle = '#4a90e2';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeRect(bx, by, bw, bh);
+    ctx.restore();
+    // Resize handle dot
+    ctx.save();
+    ctx.fillStyle = '#c8522a';
+    ctx.beginPath();
+    ctx.arc(bx+bw, by+bh, 6, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+  if (selected && obj.type === 'pen') {
+    // Highlight pen strokes
+    ctx.save();
+    ctx.strokeStyle = 'rgba(74,144,226,0.4)';
+    ctx.lineWidth = (lw||2) + 6;
+    ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(obj.points[0][0], obj.points[0][1]);
+    for (let i=1; i<obj.points.length; i++) ctx.lineTo(obj.points[i][0], obj.points[i][1]);
+    ctx.stroke();
+    ctx.restore();
+    // then redraw on top
+    ctx.beginPath();
+    ctx.strokeStyle = obj.stroke;
+    ctx.lineWidth = lw;
+    ctx.moveTo(obj.points[0][0], obj.points[0][1]);
+    for (let i=1; i<obj.points.length; i++) ctx.lineTo(obj.points[i][0], obj.points[i][1]);
+    ctx.stroke();
+  }
+  ctx.restore();
 }
 
-function endDraw() {
-  if (!isDrawing) return;
-  isDrawing = false;
-  const canvas = document.getElementById('draw-canvas');
-  drawHistory.push(canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height));
-  if (drawHistory.length > 30) drawHistory.shift();
-}
-
-function drawArrow(ctx, x1, y1, x2, y2, color, size) {
-  const headLen = Math.max(10, size * 4);
-  const angle = Math.atan2(y2-y1, x2-x1);
-  ctx.strokeStyle = color; ctx.fillStyle = color;
-  ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+// ── Shape primitives ──
+function drawArrowShape(ctx, x1,y1,x2,y2,color,size) {
+  const headLen = Math.max(12, size*4);
+  const angle = Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.save();
+  ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - headLen*Math.cos(angle-Math.PI/6), y2 - headLen*Math.sin(angle-Math.PI/6));
-  ctx.lineTo(x2 - headLen*Math.cos(angle+Math.PI/6), y2 - headLen*Math.sin(angle+Math.PI/6));
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-headLen*Math.cos(angle-Math.PI/6), y2-headLen*Math.sin(angle-Math.PI/6));
+  ctx.lineTo(x2-headLen*Math.cos(angle+Math.PI/6), y2-headLen*Math.sin(angle+Math.PI/6));
   ctx.closePath(); ctx.fill();
+  ctx.restore();
 }
 
-function roundedRect(ctx, x, y, w, h, r, fill) {
+function drawRoundedRect(ctx, x,y,w,h,r,fill) {
   const absR = Math.min(r, Math.abs(w)/2, Math.abs(h)/2);
   ctx.beginPath();
-  ctx.moveTo(x + absR, y);
-  ctx.lineTo(x + w - absR, y); ctx.arcTo(x+w, y, x+w, y+absR, absR);
-  ctx.lineTo(x+w, y+h-absR); ctx.arcTo(x+w, y+h, x+w-absR, y+h, absR);
-  ctx.lineTo(x+absR, y+h); ctx.arcTo(x, y+h, x, y+h-absR, absR);
-  ctx.lineTo(x, y+absR); ctx.arcTo(x, y, x+absR, y, absR);
+  ctx.moveTo(x+absR,y);
+  ctx.lineTo(x+w-absR,y); ctx.arcTo(x+w,y,x+w,y+absR,absR);
+  ctx.lineTo(x+w,y+h-absR); ctx.arcTo(x+w,y+h,x+w-absR,y+h,absR);
+  ctx.lineTo(x+absR,y+h); ctx.arcTo(x,y+h,x,y+h-absR,absR);
+  ctx.lineTo(x,y+absR); ctx.arcTo(x,y,x+absR,y,absR);
   ctx.closePath();
   if (fill) ctx.fill(); ctx.stroke();
 }
 
-function drawDiamond(ctx, x1, y1, x2, y2, fill) {
-  const cx = (x1+x2)/2, cy = (y1+y2)/2;
+function drawDiamondShape(ctx,x1,y1,x2,y2,fill) {
+  const cx=(x1+x2)/2, cy=(y1+y2)/2;
   ctx.beginPath();
-  ctx.moveTo(cx, y1); ctx.lineTo(x2, cy); ctx.lineTo(cx, y2); ctx.lineTo(x1, cy);
+  ctx.moveTo(cx,y1); ctx.lineTo(x2,cy); ctx.lineTo(cx,y2); ctx.lineTo(x1,cy);
   ctx.closePath();
   if (fill) ctx.fill(); ctx.stroke();
 }
 
-function drawTriangle(ctx, x1, y1, x2, y2, fill) {
+function drawTriangleShape(ctx,x1,y1,x2,y2,fill) {
   ctx.beginPath();
-  ctx.moveTo((x1+x2)/2, y1); ctx.lineTo(x2, y2); ctx.lineTo(x1, y2);
+  ctx.moveTo((x1+x2)/2,y1); ctx.lineTo(x2,y2); ctx.lineTo(x1,y2);
   ctx.closePath();
   if (fill) ctx.fill(); ctx.stroke();
 }
 
-function drawStar(ctx, cx, cy, outerR, points, fill) {
-  const innerR = outerR * 0.4;
+function drawStarShape(ctx,cx,cy,outerR,points,fill) {
+  const innerR = outerR*0.4;
   ctx.beginPath();
-  for (let i = 0; i < points * 2; i++) {
-    const angle = (i * Math.PI / points) - Math.PI/2;
-    const r = i % 2 === 0 ? outerR : innerR;
-    i === 0 ? ctx.moveTo(cx + r*Math.cos(angle), cy + r*Math.sin(angle)) : ctx.lineTo(cx + r*Math.cos(angle), cy + r*Math.sin(angle));
+  for (let i=0; i<points*2; i++) {
+    const angle = (i*Math.PI/points)-Math.PI/2;
+    const r = i%2===0 ? outerR : innerR;
+    const px = cx+r*Math.cos(angle), py = cy+r*Math.sin(angle);
+    i===0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
   }
   ctx.closePath();
   if (fill) ctx.fill(); ctx.stroke();
 }
 
-function placeTextOnCanvas(x, y) {
-  isDrawing = false;
-  const canvas = document.getElementById('draw-canvas');
-  const container = canvas.parentElement;
-  const r = canvas.getBoundingClientRect();
-  const pr = container.getBoundingClientRect();
-  const scaleX = r.width / canvas.width;
-  const scaleY = r.height / canvas.height;
-  // Create textarea overlay
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `position:absolute;left:${r.left - pr.left + x*scaleX}px;top:${r.top - pr.top + y*scaleY}px;z-index:20;`;
-  const ta = document.createElement('div');
-  ta.contentEditable = 'true';
-  ta.className = 'draw-text-input-el';
-  ta.style.cssText = `min-width:80px;min-height:28px;border:2px dashed var(--accent);background:rgba(255,255,255,0.9);outline:none;font-family:var(--sans);font-size:14px;padding:4px 8px;border-radius:4px;cursor:text;`;
-  ta.textContent = document.getElementById('draw-text-value').value || 'Text';
-  overlay.appendChild(ta);
-  container.style.position = 'relative';
-  container.appendChild(overlay);
-  ta.focus();
-  const commit = () => {
-    if (!overlay.parentNode) return;
-    const text = ta.textContent.trim();
-    if (text) {
-      const ctx = canvas.getContext('2d');
-      const color = document.getElementById('draw-color').value;
-      const size = parseInt(document.getElementById('draw-size').value);
-      ctx.fillStyle = color;
-      ctx.font = `${Math.max(12, size * 4)}px ${getComputedStyle(document.body).getPropertyValue('--sans') || 'Nunito, sans-serif'}`;
-      ctx.fillText(text, x, y + Math.max(12, size * 4));
-      drawHistory.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-    }
-    overlay.remove();
-  };
-  ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commit(); } if (e.key === 'Escape') overlay.remove(); });
-  ta.addEventListener('blur', () => setTimeout(commit, 150));
-}
-
+// ── Tool switching ──
 function setDrawTool(t) {
   drawTool = t;
   document.querySelectorAll('.draw-tool-btn[id^="dt-"]').forEach(b => b.classList.remove('active'));
   document.getElementById('dt-' + t)?.classList.add('active');
-  const textInput = document.getElementById('draw-text-value');
-  const textLabel = document.getElementById('text-font-label');
-  if (t === 'text') { textInput.style.display = ''; textLabel.style.display = ''; }
-  else { textInput.style.display = 'none'; textLabel.style.display = 'none'; }
+  if (t !== 'select') selectedId = null;
+  renderCanvas();
 }
 
-function undoCanvas() {
-  if (drawHistory.length === 0) return;
-  drawHistory.pop();
-  const canvas = document.getElementById('draw-canvas');
-  const ctx = canvas.getContext('2d');
-  if (drawHistory.length > 0) ctx.putImageData(drawHistory[drawHistory.length - 1], 0, 0);
-  else ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function clearCanvas() {
-  const c = document.getElementById('draw-canvas');
-  c.getContext('2d').clearRect(0, 0, c.width, c.height);
-  drawHistory = [];
-}
-
+// ── Toggle panel ──
 function toggleDraw() {
   const panel = document.getElementById('draw-panel');
   panel.classList.toggle('show');
@@ -1465,25 +1866,44 @@ function toggleDraw() {
   if (panel.classList.contains('show')) setTimeout(resizeCanvas, 50);
 }
 
+// ── Flatten & insert into note ──
 function insertDrawingToNote() {
+  // Flatten textboxes onto canvas first
   const canvas = document.getElementById('draw-canvas');
+  const ctx = canvas.getContext('2d');
+  const wrap = document.getElementById('draw-canvas-wrap');
+  // Draw text overlays onto canvas
+  drawObjects.filter(o => o.type === 'textbox').forEach(obj => {
+    const el = wrap.querySelector(`[data-obj-id="${obj.id}"]`);
+    const text = el ? el.querySelector('.canvas-textbox-inner').textContent : (obj.text || '');
+    ctx.save();
+    ctx.font = `${obj.fontSize||16}px Nunito, sans-serif`;
+    ctx.fillStyle = obj.color || '#1a1916';
+    // Word-wrap simple
+    const lines = text.split('\n');
+    lines.forEach((line, li) => {
+      ctx.fillText(line, obj.x, obj.y + (obj.fontSize||16)*(li+1));
+    });
+    ctx.restore();
+  });
+
   const img = canvas.toDataURL('image/png');
   const body = document.getElementById('editor-body');
-  const wrap = document.createElement('span');
-  wrap.className = 'float-img-wrap inline';
-  wrap.contentEditable = 'false';
-  wrap.innerHTML = `
+  const imgWrap = document.createElement('span');
+  imgWrap.className = 'float-img-wrap inline';
+  imgWrap.contentEditable = 'false';
+  imgWrap.innerHTML = `
     <div class="img-controls">
       <button class="img-ctrl-btn" onclick="showImgFloat(this)">⊞ Position</button>
       <button class="img-ctrl-btn" onclick="this.closest('.float-img-wrap').remove()">✕ Remove</button>
     </div>
-    <img src="${img}" style="width:500px;max-width:100%;border:1px solid var(--border);border-radius:var(--r-sm);" alt="Drawing">
+    <img src="${img}" style="width:600px;max-width:100%;border:1px solid var(--border);border-radius:var(--r-sm);" alt="Drawing">
     <div class="resize-handle"></div>
   `;
   body.focus();
-  if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); savedRange.insertNode(wrap); }
-  else body.appendChild(wrap);
-  attachResizeHandle(wrap);
+  if (savedRange) { const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); savedRange.insertNode(imgWrap); }
+  else body.appendChild(imgWrap);
+  attachResizeHandle(imgWrap);
   toggleDraw();
   showToast('Drawing inserted into note!');
 }
